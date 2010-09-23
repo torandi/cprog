@@ -1,5 +1,7 @@
 CFLAGS=-O2 -pg -g
 
+all: vector_test
+
 Vector.o: Vector.cpp Vector.h
 	g++ -c Vector.cpp $(CFLAGS) -o Vector.o
 
