@@ -8,7 +8,7 @@ class Vector {
 
 public:
 	explicit Vector(size_t size);
-	explicit Vector(const Vector &vector);
+	Vector(const Vector &vector);
 	~Vector();
 	Vector& operator=(const Vector &vector);
 	unsigned int& operator[](unsigned int index) const;
