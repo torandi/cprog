@@ -8,9 +8,11 @@ class Vector {
 	T** _data;
 	size_t _size;
 	size_t _elements;
+
 	
 public:
-	explicit Vector(size_t size=DEFAULT_SIZE);
+	Vector();
+	explicit Vector(size_t size);
 	Vector(const Vector<T> &vector);
 	~Vector();
 	Vector<T>& operator=(const Vector<T> &vector);

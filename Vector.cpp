@@ -6,6 +6,7 @@
 template<class T>
 Vector<T>::Vector(size_t size) : _size(size)  {
 	INIT_DATA(_data,size);
+	_elements=0;
 	memset(_data,0,sizeof(T*)*size);
 }
 
@@ -39,4 +40,5 @@ T& Vector<T>::operator[](unsigned int index) const {
 	else
 		throw std::out_of_range("index");
 }
+
 
