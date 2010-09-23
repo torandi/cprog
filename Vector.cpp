@@ -8,7 +8,7 @@ Vector::Vector(size_t size) : _size(size)  {
 }
 
 Vector::Vector(const Vector &vector) : _size(vector._size) {
-	INIT_DATA(size);
+	INIT_DATA(vector._size);
    memcpy(_data, vector._data, sizeof(unsigned int)*_size);
 }
 
@@ -17,8 +17,8 @@ Vector::~Vector() {
 }
 
 Vector& Vector::operator=(const Vector &vector) {
-    delete[] _data;
-    _data = new unsigned int[vector._size];
-    memcpy(_data, vector._data, sizeof(unsigned int)*vector._size);
-    _size = vector._size;
+	delete[] _data;
+	INIT_DATA(vector._size);
+	memcpy(_data, vector._data, sizeof(unsigned int)*vector._size);
+	_size = vector._size;
 }
