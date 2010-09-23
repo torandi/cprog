@@ -10,6 +10,7 @@ public:
 	Vector(size_t size);
 	Vector(const Vector &vector);
 	~Vector();
+	Vector& operator=(const Vector &vector);
 };
 
 #endif

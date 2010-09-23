@@ -5,4 +5,5 @@ int main() {
     Vector vector0(0);
     
     Vector vectorCopy(vector10);
+    vector0 = vector10;
 }
