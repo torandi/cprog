@@ -15,3 +15,10 @@ Vector::Vector(const Vector &vector) : _size(vector._size) {
 Vector::~Vector() {
 	delete[] _data;
 }
+
+Vector& Vector::operator=(const Vector &vector) {
+    delete[] _data;
+    _data = new unsigned int[vector._size];
+    memcpy(_data, vector._data, sizeof(unsigned int)*vector._size);
+    _size = vector._size;
+}
