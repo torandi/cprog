@@ -1,4 +1,5 @@
 #include "Vector.h"
+#include <stdexcept>
 
 #define INIT_DATA(size) _data = new unsigned int[size];
 
@@ -9,7 +10,7 @@ Vector::Vector(size_t size) : _size(size)  {
 
 Vector::Vector(const Vector &vector) : _size(vector._size) {
 	INIT_DATA(vector._size);
-   memcpy(_data, vector._data, sizeof(unsigned int)*_size);
+	memcpy(_data, vector._data, sizeof(unsigned int)*_size);
 }
 
 Vector::~Vector() {
@@ -21,4 +22,14 @@ Vector& Vector::operator=(const Vector &vector) {
 	INIT_DATA(vector._size);
 	memcpy(_data, vector._data, sizeof(unsigned int)*vector._size);
 	_size = vector._size;
+	
+	return *this;
 }
+
+unsigned int& Vector::operator[](unsigned int index) const {
+	if (index < _size)
+		return _data[index];
+	else
+		throw std::out_of_range("index");
+}
+

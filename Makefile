@@ -1,4 +1,4 @@
-CFLAGS=-O2 -pg -g
+CFLAGS=-O2 -pg -g -Wall
 
 all: vector_test
 

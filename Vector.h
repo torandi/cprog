@@ -7,10 +7,11 @@ class Vector {
 	size_t _size;
 
 public:
-	Vector(size_t size);
-	Vector(const Vector &vector);
+	explicit Vector(size_t size);
+	explicit Vector(const Vector &vector);
 	~Vector();
 	Vector& operator=(const Vector &vector);
+	unsigned int& operator[](unsigned int index) const;
 };
 
 #endif
