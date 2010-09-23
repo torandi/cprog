@@ -1,6 +1,7 @@
 #ifndef _VECTOR_H_
 #define _VECTOR_H_
 #include <cstring>
+#define DEFAULT_SIZE 100
 
 template <class T>
 class Vector {
@@ -9,7 +10,7 @@ class Vector {
 	size_t _elements;
 	
 public:
-	explicit Vector(size_t size);
+	explicit Vector(size_t size=DEFAULT_SIZE);
 	Vector(const Vector<T> &vector);
 	~Vector();
 	Vector<T>& operator=(const Vector<T> &vector);
