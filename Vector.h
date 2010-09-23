@@ -7,6 +7,7 @@ class Vector {
 
 public:
 	Vector(size_t size);
+	Vector(const Vector &vector);
 	~Vector();
 };
 
