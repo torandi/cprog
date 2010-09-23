@@ -1,26 +1,30 @@
 #include "Vector.h"
 #include <stdexcept>
 
-#define INIT_DATA(data,size) data = new unsigned int[size];
+#define INIT_DATA(data,size) data = new T*[size];
 
-Vector::Vector(size_t size) : _size(size)  {
+template<class T>
+Vector<T>::Vector(size_t size) : _size(size)  {
 	INIT_DATA(_data,size);
-	memset(_data,0,sizeof(unsigned int)*size);
+	memset(_data,0,sizeof(T*)*size);
 }
 
-Vector::Vector(const Vector &vector) : _size(vector._size) {
+template<class T>
+Vector<T>::Vector(const Vector<T> &vector) : _size(vector._size) {
 	INIT_DATA(_data,vector._size);
-	memcpy(_data, vector._data, sizeof(unsigned int)*_size);
+	memcpy(_data, vector._data, sizeof(T*)*_size);
 }
 
-Vector::~Vector() {
+template<class T>
+Vector<T>::~Vector() {
 	delete[] _data;
 }
 
-Vector& Vector::operator=(const Vector &vector) {
-	unsigned int * tmp;
+template<class T>
+Vector<T>& Vector<T>::operator=(const Vector<T> &vector) {
+	T** tmp;
 	INIT_DATA(tmp,vector._size);
-	memcpy(_data, vector._data, sizeof(unsigned int)*vector._size);
+	memcpy(_data, vector._data, sizeof(T*)*vector._size);
 	delete[] _data;
 	_data=tmp;
 	_size = vector._size;
@@ -28,7 +32,8 @@ Vector& Vector::operator=(const Vector &vector) {
 	return *this;
 }
 
-unsigned int& Vector::operator[](unsigned int index) const {
+template<class T>
+T& Vector<T>::operator[](unsigned int index) const {
 	if (index < _size)
 		return _data[index];
 	else

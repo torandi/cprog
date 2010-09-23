@@ -2,16 +2,17 @@
 #define _VECTOR_H_
 #include <cstring>
 
+template <class T>
 class Vector {
-	unsigned int * _data;
+	T** _data;
 	size_t _size;
 
 public:
 	explicit Vector(size_t size);
-	Vector(const Vector &vector);
+	Vector(const Vector<T> &vector);
 	~Vector();
-	Vector& operator=(const Vector &vector);
-	unsigned int& operator[](unsigned int index) const;
+	Vector<T>& operator=(const Vector<T> &vector);
+	T& operator[](unsigned int index) const;
 };
 
 #endif

@@ -8,8 +8,8 @@ Vector.o: Vector.cpp Vector.h
 test.o: test.cpp
 	g++ -c test.cpp $(CFLAGS) -o test.o
 
-test_vec.o: test_vec.cpp
-	g++ -c test_vec.cpp $(CFLAGS) -o test_vec.o
+test_vec.o: test_template_vec.cpp
+	g++ -c test_template_vec.cpp $(CFLAGS) -o test_vec.o
 
 vector_test: Vector.o test_vec.o
 	g++ Vector.o test_vec.o $(CFLAGS) -o vector_test
