@@ -42,6 +42,11 @@ T& Vector<T>::operator[](unsigned int index) const {
 }
 
 template<class T>
+size_t Vector<T>::size() const {
+	return _elements;
+}
+
+template<class T>
 void Vector<T>::push_back(const T &t) {
 	if (_elements >= _size) {
 		resize();
@@ -59,4 +64,21 @@ void Vector<T>::resize() {
 	delete[] _data;
 	_data = tmp;
 	return;
+}
+
+template<class T>
+const T& Vector<T>::erase(size_t i) {
+	T** tmp;
+	INIT_DATA(tmp,(_size - 1));
+	T t = _data[i]; // Element to be removed.
+	// Copy values from 0 to (i-1);
+	memcpy(tmp,_data,sizeof(T*)*i);
+	// Should be size - (i-1) elements remaining.
+	memcpy(tmp,_data,sizeof(T*)*(_size-(i-1)));
+	// Delete old data.
+	delete[] _data;
+	_data = tmp;
+	_size--;
+	_elements--;
+	return t;
 }
