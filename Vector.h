@@ -2,6 +2,7 @@
 #define _VECTOR_MIKTOR_H_
 #include <cstring>
 #include <stdexcept>
+#include <iostream>
 
 #define DEFAULT_SIZE 100
 
@@ -133,7 +134,7 @@ void Vector<T>::insert(size_t index,const T& t) {
 		if(_elements>=_size) {
 			resize();
 		}
-		for(size_t i=_elements;i>index;++i) {
+		for(size_t i=_elements;i>index;--i) {
 			_data[i]=_data[i-1];
 		}
 		_data[index]=new T(t);
