@@ -15,6 +15,12 @@ int main()
     assert(v[0] == 2.10 &&      // hamnade de rätt?
 	   v[1] == 3.14);       
     assert(v.size() == 2);      // nu ligger två element i vektorn
+	 v.insert(2,2.3);
+    assert(v[0] == 2.10 &&      // hamnade de rätt?
+	   v[1] == 3.14 && v[2] == 2.3);       
+	 v.erase(2);
+    assert(v[0] == 2.10 &&      // hamnade de rätt?
+	   v[1] == 3.14);       
     v.sort(false);              // sortera i fallande ordning
     assert(v[0] == 3.14 &&      // hamnade de rätt?
 	   v[1] == 2.10);       

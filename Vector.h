@@ -2,6 +2,7 @@
 #define _VECTOR_MIKTOR_H_
 #include <cstring>
 #include <stdexcept>
+#include <iostream>
 
 #define DEFAULT_SIZE 100
 
@@ -22,10 +23,10 @@ public:
 	Vector(const Vector<T> &vector);
 	~Vector();
 	Vector<T>& operator=(const Vector<T> &vector);
-	T& operator[](unsigned int index) const;
+	T& operator[](size_t index) const;
 	void push_back(const T& t);
-	void insert(size_t i, const T& t);
-	void erase(size_t i);
+	void insert(size_t index, const T& t);
+	void erase(size_t index);
 	void clear();
 	size_t size() const;
 	void sort(bool ascending = true);
@@ -79,7 +80,7 @@ Vector<T>& Vector<T>::operator=(const Vector<T> &vector) {
 }
 
 template<class T>
-T& Vector<T>::operator[](unsigned int index) const {
+T& Vector<T>::operator[](size_t index) const {
 	if (index < _elements)
 		return *_data[index];
 	else
@@ -131,14 +132,17 @@ template<class T>
 void Vector<T>::insert(size_t index,const T& t) {
 	if(index==_elements) {
 		push_back(t);
-	} else {
+	} else if(index<_elements){
 		if(_elements>=_size) {
 			resize();
 		}
-		for(size_t i=_elements;i>index;++i) {
+		for(size_t i=_elements;i>index;--i) {
 			_data[i]=_data[i-1];
 		}
 		_data[index]=new T(t);
+		++_elements;
+	} else {
+		throw std::out_of_range("index");
 	}
 }
 
