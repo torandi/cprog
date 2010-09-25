@@ -126,6 +126,26 @@ void Vector<T>::clear() {
 }
 
 template<class T>
+void Vector<T>::insert(size_t index,const T& t) {
+	if(index==_elements) {
+		push_back(t);
+	} else {
+		if(_elements>=_size) {
+			resize();
+		}
+		for(size_t i=_elements;i>index;++i) {
+			_data[i]=_data[i-1];
+		}
+		_data[index]=new T(t);
+	}
+}
+
+template<class T>
+void Vector<T>::sort(bool ascending) {
+	//TODO
+}
+
+template<class T>
 void Vector<T>::delete_data() {
 	for(size_t i=0;i<_elements;++i) {
 		delete _data[i];
