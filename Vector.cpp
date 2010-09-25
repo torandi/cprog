@@ -54,8 +54,8 @@ void Vector<T>::push_back(const T &t) {
 template<class T>
 void Vector<T>::resize() {
 	T** tmp;
-	INIT_DATA(tmp,(vector._size + 100));
-	memcpy(_tmp,_data,sizeof(T*)*_size);
+	INIT_DATA(tmp,(_size + 100));
+	memcpy(tmp,_data,sizeof(T*)*_size);
 	delete[] _data;
 	_data = tmp;
 	return;
