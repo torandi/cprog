@@ -3,20 +3,19 @@
 #include <cstring>
 #include <stdexcept>
 #include <iostream>
+#include <functional>
 
 #define DEFAULT_SIZE 100
 
 template <class T>
 class Vector {
-	T** _data;
+	T * _data;
 	size_t _size;
 	size_t _elements;
 
 	void resize();
 	void delete_data();
-	void swap(T *a, T *b);
-	void quicksort(T** data, int l, int r);
-
+	
 public:
 	Vector();
 	explicit Vector(size_t size);
@@ -30,13 +29,14 @@ public:
 	void clear();
 	size_t size() const;
 	void sort(bool ascending = true);
+	void printVector();
 
 };
 
-#define INIT_DATA(data,size) data = new T*[size];
+#define INIT_DATA(data,size) data = new T[size];
 
 template<class T>
-Vector<T>::Vector() : _size(DEFAULT_SIZE)  {
+Vector<T>::Vector() : _size(DEFAULT_SIZE) {
 	INIT_DATA(_data,DEFAULT_SIZE);
 	_elements=0;
 }
@@ -45,9 +45,6 @@ template<class T>
 Vector<T>::Vector(size_t size) : _size(size)  {
 	INIT_DATA(_data,size);
 	_elements=_size;
-	for(size_t i=0;i<_size;++i) {
-		_data[i]=new T();
-	}
 }
 
 template<class T>
@@ -82,7 +79,7 @@ Vector<T>& Vector<T>::operator=(const Vector<T> &vector) {
 template<class T>
 T& Vector<T>::operator[](size_t index) const {
 	if (index < _elements)
-		return *_data[index];
+		return _data[index];
 	else
 		throw std::out_of_range("index");
 }
@@ -97,12 +94,12 @@ void Vector<T>::push_back(const T &t) {
 	if (_elements >= _size) {
 		resize();
 	}
-	_data[_elements++] = new T(t);
+	_data[_elements++] = t;
 }
 
 template<class T>
 void Vector<T>::resize() {
-	T** tmp;
+	T* tmp;
 	INIT_DATA(tmp,(_size*2));
 	for(size_t i=0;i<_size;++i) {
 		tmp[i]=_data[i];
@@ -113,7 +110,6 @@ void Vector<T>::resize() {
 
 template<class T>
 void Vector<T>::erase(size_t index) {
-	delete _data[index];
 	for(size_t i=index;i<_elements-1;++i) {
 		_data[i]=_data[i+1];
 	}
@@ -122,10 +118,9 @@ void Vector<T>::erase(size_t index) {
 
 template<class T>
 void Vector<T>::clear() {
-	for(size_t i=0;i<_elements;++i) {
-		delete _data[i];
-	}
-	_elements=0;
+	delete _data;
+	INIT_DATA(_data,DEFAULT_SIZE);
+	_elements = 0;
 }
 
 template<class T>
@@ -139,7 +134,7 @@ void Vector<T>::insert(size_t index,const T& t) {
 		for(size_t i=_elements;i>index;--i) {
 			_data[i]=_data[i-1];
 		}
-		_data[index]=new T(t);
+		_data[index]=t;
 		++_elements;
 	} else {
 		throw std::out_of_range("index");
@@ -147,48 +142,29 @@ void Vector<T>::insert(size_t index,const T& t) {
 }
 
 template<class T>
-void Vector<T>::swap(T *a, T *b) {
-	T* foo;
-	foo = a;
-	a = b;
-	b = foo;
-}
-
-template<class T>
-void Vector<T>::quicksort(T** data, int l, int r) {
-	int pivot, i_left, i_right;
-	i_left = l;
-	i_right = r;
-	
-	if (l < r) {
-		pivot = (l+r)/2;
-		while((i_left <= pivot) && (i_right >= pivot)) {
-			while((*data[i_left] < *data[pivot]) && (i_left <= pivot)) {
-				i_left++;
-			}
-			while((*data[i_right] > *data[pivot]) && (i_right >= pivot)) {
-				i_right--;
-			}
-			swap(data[i_left],data[i_right]);
-			
-			quicksort(data, l, i_right-1);
-			quicksort(data, i_right, r);
-		}
-	}
-}
-
-template<class T>
 void Vector<T>::sort(bool ascending) {
 	// For now, only sort ascending.
-	quicksort(_data, 0, _elements);
+	//quicksort(_data, 0, _elements, ascending);
+	std::sort(_data, _data + _elements);
+	if (!ascending) {
+		std::reverse(_data,_data + _elements);
+	}
+
 }
 
 template<class T>
 void Vector<T>::delete_data() {
-	for(size_t i=0;i<_elements;++i) {
-		delete _data[i];
-	}
 	delete[] _data;
+}
+
+template <class T>
+void Vector<T>::printVector() {
+	int i = 0;
+	for(i = 0; i < (int) _elements; ++i) {
+		std::cout << _data[i] << ' ';
+	}
+	
+	std::cout << std::endl;
 }
 
 #endif
