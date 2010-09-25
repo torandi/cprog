@@ -114,6 +114,15 @@ void Vector<T>::erase(size_t index) {
 	for(size_t i=index;i<_elements-1;++i) {
 		_data[i]=_data[i+1];
 	}
+	--_elements;
+}
+
+template<class T>
+void Vector<T>::clear() {
+	for(size_t i=0;i<_elements;++i) {
+		delete _data[i];
+	}
+	_elements=0;
 }
 
 template<class T>
