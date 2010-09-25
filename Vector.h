@@ -1,5 +1,5 @@
-#ifndef _VECTOR_H_
-#define _VECTOR_H_
+#ifndef _VECTOR_MIKTOR_H_
+#define _VECTOR_MIKTOR_H_
 #include <cstring>
 #define DEFAULT_SIZE 100
 
@@ -10,6 +10,7 @@ class Vector {
 	size_t _elements;
 
 	void resize();
+	void delete_data();
 
 public:
 	Vector();
@@ -24,6 +25,7 @@ public:
 	void clear();
 	size_t size() const;
 	void sort(bool ascending = true);
+
 };
 
 #endif
