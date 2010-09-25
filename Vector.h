@@ -23,7 +23,7 @@ public:
 	T& operator[](unsigned int index) const;
 	void push_back(const T& t);
 	void insert(size_t i, const T& t);
-	const T& erase(size_t i);
+	void erase(size_t i);
 	void clear();
 	size_t size() const;
 	void sort(bool ascending = true);
@@ -108,23 +108,14 @@ void Vector<T>::resize() {
 	_data = tmp;
 }
 
+/**
+ * Returns a pointer to the element after the element that was deleted 
+ */
 template<class T>
-const T& Vector<T>::erase(size_t i) {
-	/*
-	T** tmp;
-	INIT_DATA(tmp,(_size - 1));
-	T t = _data[i]; // Element to be removed.
-	// Copy values from 0 to (i-1);
-	memcpy(tmp,_data,sizeof(T*)*i);
-	// Should be size - (i-1) elements remaining.
-	memcpy(tmp,_data,sizeof(T*)*(_size-(i-1)));
-	// Delete old data.
-	delete[] _data;
-	_data = tmp;
-	_size--;
-	_elements--;
-	*/
-	return *_data[0];
+void Vector<T>::erase(size_t index) {
+	for(size_t i=index;i<_elements-1;++i) {
+		_data[i]=_data[i+1];
+	}
 }
 
 template<class T>
