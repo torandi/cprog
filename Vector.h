@@ -113,6 +113,7 @@ void Vector<T>::resize() {
  */
 template<class T>
 void Vector<T>::erase(size_t index) {
+	delete _data[index];
 	for(size_t i=index;i<_elements-1;++i) {
 		_data[i]=_data[i+1];
 	}
