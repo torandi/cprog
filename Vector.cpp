@@ -34,7 +34,7 @@ Vector<T>& Vector<T>::operator=(const Vector<T> &vector) {
 
 template<class T>
 T& Vector<T>::operator[](unsigned int index) const {
-	if (index < _size)
+	if (index < _elements)
 		return _data[index];
 	else
 		throw std::out_of_range("index");
