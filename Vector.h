@@ -145,9 +145,10 @@ template<class T>
 void Vector<T>::sort(bool ascending) {
 	// For now, only sort ascending.
 	//quicksort(_data, 0, _elements, ascending);
-	std::sort(_data, _data + _elements);
-	if (!ascending) {
-		std::reverse(_data,_data + _elements);
+	if (ascending) {
+		std::sort(_data, _data + _elements);
+	} else {
+		std::sort(_data,_data + _elements, std::greater<T>());
 	}
 
 }
