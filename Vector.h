@@ -108,9 +108,6 @@ void Vector<T>::resize() {
 	_data = tmp;
 }
 
-/**
- * Returns a pointer to the element after the element that was deleted 
- */
 template<class T>
 void Vector<T>::erase(size_t index) {
 	delete _data[index];
