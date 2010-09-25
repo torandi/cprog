@@ -9,7 +9,8 @@ class Vector {
 	size_t _size;
 	size_t _elements;
 
-	
+	void resize();
+
 public:
 	Vector();
 	explicit Vector(size_t size);
