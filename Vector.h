@@ -13,6 +13,8 @@ class Vector {
 
 	void resize();
 	void delete_data();
+	void swap(T *a, T *b);
+	void quicksort(T** data, int l, int r);
 
 public:
 	Vector();
@@ -141,8 +143,40 @@ void Vector<T>::insert(size_t index,const T& t) {
 }
 
 template<class T>
+void Vector<T>::swap(T *a, T *b) {
+	T* foo;
+	foo = a;
+	a = b;
+	b = foo;
+}
+
+template<class T>
+void Vector<T>::quicksort(T** data, int l, int r) {
+	int pivot, i_left, i_right;
+	i_left = l;
+	i_right = r;
+	
+	if (l < r) {
+		pivot = (l+r)/2;
+		while((i_left <= pivot) && (i_right >= pivot)) {
+			while((*data[i_left] < *data[pivot]) && (i_left <= pivot)) {
+				i_left++;
+			}
+			while((*data[i_right] > *data[pivot]) && (i_right >= pivot)) {
+				i_right--;
+			}
+			swap(data[i_left],data[i_right]);
+			
+			quicksort(data, l, i_right-1);
+			quicksort(data, i_right, r);
+		}
+	}
+}
+
+template<class T>
 void Vector<T>::sort(bool ascending) {
-	//TODO
+	// For now, only sort ascending.
+	quicksort(_data, 0, _elements);
 }
 
 template<class T>
