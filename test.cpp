@@ -17,4 +17,9 @@ int main() {
 	cout<<v[23134]<<","<<v[23135]<<endl;
 	v.erase(23134);
 	cout<<v[23134]<<endl;
+	Vector<int> v2;
+	for(int i=0;i<100;++i) {
+		v2.push_back(i);
+	}
+	v2.erase(100);
 }

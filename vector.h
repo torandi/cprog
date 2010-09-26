@@ -6,7 +6,7 @@
 #include <algorithm>
 
 #define DEFAULT_SIZE 100
-#define RESIZE_SIZE 1000
+#define RESIZE_SIZE 100
 
 template <class T>
 class Vector {
