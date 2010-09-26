@@ -1,12 +1,15 @@
 CFLAGS=-O2 -pg -g -Wall
 
-all: test_template_vec test
+all: test_template_vec test cprog09lab15
 
-test_template_vec: test_template_vec.cpp Vector.h
-	g++ test_template_vec.cpp Vector.h $(CFLAGS) -o test_template_vec
+test_template_vec: test_template_vec.cpp vector.h
+	g++ test_template_vec.cpp $(CFLAGS) -o test_template_vec
 
-test: test.cpp Vector.h
-	g++ test.cpp Vector.h $(CFLAGS) -o test
+test: test.cpp vector.h
+	g++ test.cpp $(CFLAGS) -o test
+
+cprog09lab15: cprog09lab15.cpp vector.h
+	g++ cprog09lab15.cpp $(CFLAGS) 
 
 clean: 
-	rm test.o test test_template_vec
+	rm test.o test test_template_vec cprog09lab15
