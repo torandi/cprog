@@ -10,13 +10,13 @@
 // 1.2 a)
 // 
 // Vilket värde får variabeln w? 
-
+w får värdet 28. (print w ger "$2 = 28" i gdb).
 
 // Hur många varv körs for-loopen i funktionen powerof? 
-
+Den kör y varv. Men den gör ingenting förutom att inkrementera i p.g.a. semikolonet efter for-loop-deklarationen.
 
 // Varför blir det fel värde?
-
+Rounding errors. z är 0.289999992, och z * x * x blir 28.999999165534973. När det castas om till en int så slängs decimaldelen bort och vi får kvar 28.
 // 1.2 b)
 
 // Dina tre testfall
