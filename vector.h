@@ -77,7 +77,7 @@ template<class T>
 Vector<T>& Vector<T>::operator=(const Vector<T> &vector) {
 	T* tmp;
 	INIT_DATA(tmp,vector._size);
-	for(int i=0;i<vector._elements;++i) {
+	for(size_t i=0;i<vector._elements;++i) {
 		tmp[i]=vector._data[i];
 	}
 	delete[] _data;
