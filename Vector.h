@@ -3,7 +3,7 @@
 #include <cstring>
 #include <stdexcept>
 #include <iostream>
-#include <functional>
+#include <algorithm>
 
 #define DEFAULT_SIZE 100
 

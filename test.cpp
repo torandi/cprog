@@ -11,4 +11,7 @@ int main() {
 	cout<<v[0]<<", "<<v[1]<<endl;
 	v.insert(0,5);
 	cout<<v[0]<<", "<<v[1]<<", "<<v[2]<<endl;
+	for(int i=0;i<1000;++i) {
+		v.push_back(i);
+	}
 }
