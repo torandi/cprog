@@ -14,7 +14,6 @@ class Vector {
 	size_t _elements;
 
 	void resize();
-	void delete_data();
 	
 public:
 	Vector();
@@ -71,7 +70,7 @@ Vector<T>::Vector(const size_t &size, T default_value) : _size(size) {
 
 template<class T>
 Vector<T>::~Vector() {
-	delete_data();
+	delete[] _data;
 }
 
 template<class T>
@@ -81,7 +80,7 @@ Vector<T>& Vector<T>::operator=(const Vector<T> &vector) {
 	for(int i=0;i<vector._elements;++i) {
 		tmp[i]=vector._data[i];
 	}
-	delete_data();
+	delete[] _data;
 	_data=tmp;
 	_size = vector._size;
 	_elements= vector._elements;
@@ -117,7 +116,7 @@ void Vector<T>::resize() {
 	for(size_t i=0;i<_size;++i) {
 		tmp[i]=_data[i];
 	}
-	delete_data();
+	delete[] _data;
 	_data = tmp;
 }
 
@@ -166,11 +165,6 @@ void Vector<T>::sort(bool ascending) {
 	if (!ascending) {
 		std::reverse(_data, _data+_elements);
 	}
-}
-
-template<class T>
-void Vector<T>::delete_data() {
-	delete[] _data;
 }
 
 template <class T>
