@@ -91,5 +91,5 @@ För att slippa saker som Vector v = 123; Kompilatorn kommer göra en implicit kon
 
 // operatorn[] måste vara en konstant medlemsfunktion i vissa
 // fall. När och varför? Hur kopierar man vektorn?
-
+Själva operator[]-funktionen ska inte ändra på något i klassen. Däremot ska det vara möjligt att ändra på det returnerade resultatet. Kopiering av vektorn bör göras genom att copy-construktorn körs på alla objekt i vektorn (så att de kopieras korrekt).
 
