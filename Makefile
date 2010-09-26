@@ -6,6 +6,7 @@ test_template_vec: test_template_vec.cpp Vector.h
 	g++ test_template_vec.cpp Vector.h $(CFLAGS) -o test_template_vec
 
 test: test.cpp Vector.h
+	g++ test.cpp Vector.h $(CFLAGS) -o test
 
 clean: 
 	rm test.o test test_template_vec
