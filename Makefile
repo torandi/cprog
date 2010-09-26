@@ -9,7 +9,7 @@ test: test.cpp vector.h
 	g++ test.cpp $(CFLAGS) -o test
 
 cprog09lab15: cprog09lab15.cpp vector.h
-	g++ cprog09lab15.cpp $(CFLAGS) 
+	g++ cprog09lab15.cpp $(CFLAGS) -o  cprog09lab15
 
 clean: 
 	rm test.o test test_template_vec cprog09lab15

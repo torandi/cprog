@@ -14,7 +14,7 @@ int main() {
 	for(int i=0;i<100000;++i) {
 		v.push_back(i);
 	}
-	v.insert(39201,42);
-	cout<<v[13920]<<endl;
-	v.sort();
+	cout<<v[23134]<<","<<v[23135]<<endl;
+	v.erase(23134);
+	cout<<v[23134]<<endl;
 }

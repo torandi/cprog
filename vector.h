@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #define DEFAULT_SIZE 100
+#define RESIZE_SIZE 1000
 
 template <class T>
 class Vector {
@@ -112,11 +113,11 @@ void Vector<T>::push_back(const T &t) {
 template<class T>
 void Vector<T>::resize() {
 	T* tmp;
-	INIT_DATA(tmp,(_size*2));
+	INIT_DATA(tmp,(_size+RESIZE_SIZE));
 	for(size_t i=0;i<_size;++i) {
 		tmp[i]=_data[i];
 	}
-	_size=_size*2;
+	_size=_size+RESIZE_SIZE;
 	delete[] _data;
 	_data = tmp;
 }
