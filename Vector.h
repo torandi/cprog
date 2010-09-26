@@ -116,6 +116,7 @@ void Vector<T>::resize() {
 	for(size_t i=0;i<_size;++i) {
 		tmp[i]=_data[i];
 	}
+	_size=_size*2;
 	delete[] _data;
 	_data = tmp;
 }
