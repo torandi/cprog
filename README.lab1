@@ -87,7 +87,7 @@ Nej, eftersom a är en referens kommer det inte ske.
 // Generellt är det ofta en god idé att låta konstruktorer som
 // tar ett argument deklareras som explicit. Varför? Ange ett
 // exempel där det annars kan bli dumt.
-
+För att slippa saker som Vector v = 123; Kompilatorn kommer göra en implicit konvertering till Vector v(size_t size); Och om vi har en funktion foo(const Vector& v) kommer vi kunna köra foo(123) t.ex. Det är då väldigt otydligt vad koden gör.
 
 // operatorn[] måste vara en konstant medlemsfunktion i vissa
 // fall. När och varför? Hur kopierar man vektorn?
