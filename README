@@ -1,9 +1,9 @@
 /////////////////////////////////////////////////////////////////
 //
-// Personuppgifter (namn, pnr, epost) på dem som gjort labben
+// Personuppgifter (namn, pnr, epost) pÃ¥ dem som gjort labben
 //
 Andreas Tarandi, 890416-0317, taran@kth.se
-Mattias Mikkola, xxx			,mmikkola@kth.se
+Mattias Mikkola, 880703-0237, mmikkola@kth.se
 
 
 
@@ -11,35 +11,35 @@ Mattias Mikkola, xxx			,mmikkola@kth.se
 //
 // 1.2 a)
 // 
-// Vilket värde får variabeln w? 
-w får värdet 28. (print w ger "$2 = 28" i gdb).
+// Vilket vÃ¤rde fÃ¥r variabeln w? 
+w fÃ¥r vÃ¤rdet 28. (print w ger "$2 = 28" i gdb).
 
-// Hur många varv körs for-loopen i funktionen powerof? 
-Den kör y varv. Men den gör ingenting förutom att inkrementera i p.g.a. semikolonet efter for-loop-deklarationen.
+// Hur mÃ¥nga varv kÃ¶rs for-loopen i funktionen powerof? 
+Den kÃ¶r y varv. Men den gÃ¶r ingenting fÃ¶rutom att inkrementera i p.g.a. semikolonet efter for-loop-deklarationen.
 
-// Varför blir det fel värde?
-Rounding errors. z är 0.289999992, och z * x * x blir 28.999999165534973. När det castas om till en int så slängs decimaldelen bort och vi får kvar 28.
+// VarfÃ¶r blir det fel vÃ¤rde?
+Rounding errors. z Ã¤r 0.289999992, och z * x * x blir 28.999999165534973. NÃ¤r det castas om till en int sÃ¥ slÃ¤ngs decimaldelen bort och vi fÃ¥r kvar 28.
 // 1.2 b)
 
 // Dina tre testfall
 
-Testa att den räknar med absolut sista också 
+Testa att den rÃ¤knar med absolut sista ocksÃ¥ 
 char vek[] ={'a','a','a','b'};
 int result = must_follow_a(vek,4,'a','b');
 TS_ASSERT_EQUALS(result,1);
 
-Testa att den inte förvirrar första med att vara efter ett a
+Testa att den inte fÃ¶rvirrar fÃ¶rsta med att vara efter ett a
 char vek[] ={'b','a','a','a'};
 int result = must_follow_a(vek,4,'a','b');
 TS_ASSERT_EQUALS(result,0);
 
-Testa att den bara räknar rätt tecken
+Testa att den bara rÃ¤knar rÃ¤tt tecken
 char vek[] ={'a','b','c','b','a','g'};
 int result = must_follow_a(vek,6,'a','b');
 TS_ASSERT_EQUALS(result,1);
 
-// Varför är det så viktigt att testa randvillkoren?
-Det är oftast vid randerna som "off by one"-fel visar sig
+// VarfÃ¶r Ã¤r det sÃ¥ viktigt att testa randvillkoren?
+Det Ã¤r oftast vid randerna som "off by one"-fel visar sig
 
 
 /////////////////////////////////////////////////////////////////
@@ -47,38 +47,38 @@ Det är oftast vid randerna som "off by one"-fel visar sig
 // 1.3 
 // 
 
-// Fyll i egen text i de streckade strängarna nedanför. Vad skriver
-// ditt program ut? Varför? När frigörs objekten?  När skapas 
-// temporära objekt?
-Se kod för strängarna.
+// Fyll i egen text i de streckade strÃ¤ngarna nedanfÃ¶r. Vad skriver
+// ditt program ut? VarfÃ¶r? NÃ¤r frigÃ¶rs objekten?  NÃ¤r skapas 
+// temporÃ¤ra objekt?
+Se kod fÃ¶r strÃ¤ngarna.
 
-Det som skrivs ut är:
-    A a((char *)"My name is A"); // A(My name is A), eftersom vi kallar på konstruktorn med ett argument av typen char *.
-    A b = a; // A(0x7fff5fbff1cf), när vi skapar ett nytt objekt såhär så kommer kopieringskonstruktorn köras.
-    A c(a); // A(0x7fff5fbff1cf), Vi kör kopieringskonstruktorn.
-    A d; // A(), default-konstruktorn körs när vi skapar ett nytt objekt.
-    d = a; // operator=(0x7fff5fbff1cf), tilldelningsoperatorn körs här eftersom vi tilldelar ett redan instansierat onbjekt till ett annat.
+Det som skrivs ut Ã¤r:
+    A a((char *)"My name is A"); // A(My name is A), eftersom vi kallar pÃ¥ konstruktorn med ett argument av typen char *.
+    A b = a; // A(0x7fff5fbff1cf), nÃ¤r vi skapar ett nytt objekt sÃ¥hÃ¤r sÃ¥ kommer kopieringskonstruktorn kÃ¶ras.
+    A c(a); // A(0x7fff5fbff1cf), Vi kÃ¶r kopieringskonstruktorn.
+    A d; // A(), default-konstruktorn kÃ¶rs nÃ¤r vi skapar ett nytt objekt.
+    d = a; // operator=(0x7fff5fbff1cf), tilldelningsoperatorn kÃ¶rs hÃ¤r eftersom vi tilldelar ett redan instansierat onbjekt till ett annat.
     
-    A *aa = new A[5]; // 5xA(), varje A-objekt i arrayen körs default-konstruktor på.
-    delete[] aa; // 5x~A(), dekonstruktorn körs på samtliga objekt i arrayen.
+    A *aa = new A[5]; // 5xA(), varje A-objekt i arrayen kÃ¶rs default-konstruktor pÃ¥.
+    delete[] aa; // 5x~A(), dekonstruktorn kÃ¶rs pÃ¥ samtliga objekt i arrayen.
     
-    no_ref(a); // A(0x7fff5fbff1cf), eftersom det kommer skapas ett temporärt objekt som är en kopia av a.
+    no_ref(a); // A(0x7fff5fbff1cf), eftersom det kommer skapas ett temporÃ¤rt objekt som Ã¤r en kopia av a.
     with_ref(a); // Ger ingen utskrift.
     
-    return 0; // 5x~A(), a,b,c,d och det temporära objektet i no_ref dekonstrueras, då de går out of scope.
+    return 0; // 5x~A(), a,b,c,d och det temporÃ¤ra objektet i no_ref dekonstrueras, dÃ¥ de gÃ¥r out of scope.
 
-//   A b = a;         // vad är skillnaden
+//   A b = a;         // vad Ã¤r skillnaden
 //   A c(a);          // mellan dessa
 //   A d;             // tre tekniker?
-A b = a; och A c(a) kommer båda köra copy-konstruktorn, men A b = a; fungerar ej om man har explicit konstruktor. A d; kommer alltid köra default-konstruktorn.
+A b = a; och A c(a) kommer bÃ¥da kÃ¶ra copy-konstruktorn, men A b = a; fungerar ej om man har explicit konstruktor. A d; kommer alltid kÃ¶ra default-konstruktorn.
 
-//   delete aa;       // Vad kommer att hända
-Undefined behaviour. Förmodligen kompileringsfel.
+//   delete aa;       // Vad kommer att hÃ¤nda
+Undefined behaviour. FÃ¶rmodligen kompileringsfel.
 
-//   no_ref(a);       // Bildas temporära objekt?
-Ja, då a inte är en referens kommer det skapas ett nytt objekt, vilket vi såg nör vi körde den då den kallade på copy-konstruktorn.
-//   with_ref(a);     // Bildas temporära objekt?
-Nej, eftersom a är en referens kommer det inte ske.
+//   no_ref(a);       // Bildas temporÃ¤ra objekt?
+Ja, dÃ¥ a inte Ã¤r en referens kommer det skapas ett nytt objekt, vilket vi sÃ¥g nÃ¶r vi kÃ¶rde den dÃ¥ den kallade pÃ¥ copy-konstruktorn.
+//   with_ref(a);     // Bildas temporÃ¤ra objekt?
+Nej, eftersom a Ã¤r en referens kommer det inte ske.
 
 
 
@@ -86,12 +86,12 @@ Nej, eftersom a är en referens kommer det inte ske.
 //
 // 1.4
 //
-// Generellt är det ofta en god idé att låta konstruktorer som
-// tar ett argument deklareras som explicit. Varför? Ange ett
-// exempel där det annars kan bli dumt.
-För att slippa saker som Vector v = 123; Kompilatorn kommer göra en implicit konvertering till Vector v(size_t size); Och om vi har en funktion foo(const Vector& v) kommer vi kunna köra foo(123) t.ex. Det är då väldigt otydligt vad koden gör.
+// Generellt Ã¤r det ofta en god idÃ© att lÃ¥ta konstruktorer som
+// tar ett argument deklareras som explicit. VarfÃ¶r? Ange ett
+// exempel dÃ¤r det annars kan bli dumt.
+FÃ¶r att slippa saker som Vector v = 123; Kompilatorn kommer gÃ¶ra en implicit konvertering till Vector v(size_t size); Och om vi har en funktion foo(const Vector& v) kommer vi kunna kÃ¶ra foo(123) t.ex. Det Ã¤r dÃ¥ vÃ¤ldigt otydligt vad koden gÃ¶r.
 
-// operatorn[] måste vara en konstant medlemsfunktion i vissa
-// fall. När och varför? Hur kopierar man vektorn?
-Själva operator[]-funktionen ska inte ändra på något i klassen. Däremot ska det vara möjligt att ändra på det returnerade resultatet. Kopiering av vektorn bör göras genom att copy-construktorn körs på alla objekt i vektorn (så att de kopieras korrekt).
+// operatorn[] mÃ¥ste vara en konstant medlemsfunktion i vissa
+// fall. NÃ¤r och varfÃ¶r? Hur kopierar man vektorn?
+SjÃ¤lva operator[]-funktionen ska inte Ã¤ndra pÃ¥ nÃ¥got i klassen. DÃ¤remot ska det vara mÃ¶jligt att Ã¤ndra pÃ¥ det returnerade resultatet. Kopiering av vektorn bÃ¶r gÃ¶ras genom att copy-construktorn kÃ¶rs pÃ¥ alla objekt i vektorn (sÃ¥ att de kopieras korrekt).
 
