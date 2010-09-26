@@ -21,7 +21,23 @@ Rounding errors. z är 0.289999992, och z * x * x blir 28.999999165534973. När de
 
 // Dina tre testfall
 
+Testa att den räknar med absolut sista också 
+char vek[] ={'a','a','a','b'};
+int result = must_follow_a(vek,4,'a','b');
+TS_ASSERT_EQUALS(result,1);
+
+Testa att den inte förvirrar första med att vara efter ett a
+char vek[] ={'b','a','a','a'};
+int result = must_follow_a(vek,4,'a','b');
+TS_ASSERT_EQUALS(result,0);
+
+Testa att den bara räknar rätt tecken
+char vek[] ={'a','b','c','b','a','g'};
+int result = must_follow_a(vek,6,'a','b');
+TS_ASSERT_EQUALS(result,1);
+
 // Varför är det så viktigt att testa randvillkoren?
+Det är oftast vid randerna som "off by one"-fel visar sig
 
 
 /////////////////////////////////////////////////////////////////
