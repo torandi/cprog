@@ -53,7 +53,7 @@ Vector<T>::Vector(size_t size) : _size(size)  {
 template<class T>
 Vector<T>::Vector(const Vector<T> &vector) : _size(vector._size) {
 	INIT_DATA(_data,vector._size);
-	_elements=_size;
+	_elements=vector._elements;
 	for(size_t i=0;i<_size;++i) {
 		_data[i]=vector._data[i];
 	}
@@ -123,10 +123,14 @@ void Vector<T>::resize() {
 
 template<class T>
 void Vector<T>::erase(size_t index) {
-	for(size_t i=index;i<_elements-1;++i) {
-		_data[i]=_data[i+1];
+	if (index < _elements) {
+		for(size_t i=index;i<_elements-1;++i) {
+			_data[i]=_data[i+1];
+		}
+		--_elements;
+	} else {
+		throw std::out_of_range("index");
 	}
-	--_elements;
 }
 
 template<class T>
