@@ -32,16 +32,35 @@ Rounding errors. z är 0.289999992, och z * x * x blir 28.999999165534973. När de
 // Fyll i egen text i de streckade strängarna nedanför. Vad skriver
 // ditt program ut? Varför? När frigörs objekten?  När skapas 
 // temporära objekt?
+Se kod för strängarna.
 
+Det som skrivs ut är:
+    A a((char *)"My name is A"); // A(My name is A), eftersom vi kallar på konstruktorn med ett argument av typen char *.
+    A b = a; // A(0x7fff5fbff1cf), när vi skapar ett nytt objekt såhär så kommer kopieringskonstruktorn köras.
+    A c(a); // A(0x7fff5fbff1cf), Vi kör kopieringskonstruktorn.
+    A d; // A(), default-konstruktorn körs när vi skapar ett nytt objekt.
+    d = a; // operator=(0x7fff5fbff1cf), tilldelningsoperatorn körs här eftersom vi tilldelar ett redan instansierat onbjekt till ett annat.
+    
+    A *aa = new A[5]; // 5xA(), varje A-objekt i arrayen körs default-konstruktor på.
+    delete[] aa; // 5x~A(), dekonstruktorn körs på samtliga objekt i arrayen.
+    
+    no_ref(a); // A(0x7fff5fbff1cf), eftersom det kommer skapas ett temporärt objekt som är en kopia av a.
+    with_ref(a); // Ger ingen utskrift.
+    
+    return 0; // 5x~A(), a,b,c,d och det temporära objektet i no_ref dekonstrueras, då de går out of scope.
 
 //   A b = a;         // vad är skillnaden
 //   A c(a);          // mellan dessa
 //   A d;             // tre tekniker?
+A b = a; och A c(a) kommer båda köra copy-konstruktorn, men A b = a; fungerar ej om man har explicit konstruktor. A d; kommer alltid köra default-konstruktorn.
 
 //   delete aa;       // Vad kommer att hända
+Undefined behaviour. Förmodligen kompileringsfel.
 
 //   no_ref(a);       // Bildas temporära objekt?
+Ja, då a inte är en referens kommer det skapas ett nytt objekt, vilket vi såg nör vi körde den då den kallade på copy-konstruktorn.
 //   with_ref(a);     // Bildas temporära objekt?
+Nej, eftersom a är en referens kommer det inte ske.
 
 
 
