@@ -20,6 +20,7 @@ public:
 	Vector();
 	explicit Vector(size_t size);
 	Vector(const Vector<T> &vector);
+	Vector(const size_t &size, T default_value);
 	~Vector();
 	Vector<T>& operator=(const Vector<T> &vector);
 	T& operator[](size_t index) const;
@@ -44,6 +45,9 @@ Vector<T>::Vector() : _size(DEFAULT_SIZE) {
 template<class T>
 Vector<T>::Vector(size_t size) : _size(size)  {
 	INIT_DATA(_data,size);
+	for(size_t i=0;i<size;++i) {
+		_data[i] = T();
+	}
 	_elements=_size;
 }
 
@@ -57,13 +61,22 @@ Vector<T>::Vector(const Vector<T> &vector) : _size(vector._size) {
 }
 
 template<class T>
+Vector<T>::Vector(const size_t &size, T default_value) : _size(size) {
+	INIT_DATA(_data,size);
+	for(size_t i = 0; i < size; ++i) {
+		_data[i] = T(default_value);
+	}
+	_elements = size;
+}
+
+template<class T>
 Vector<T>::~Vector() {
 	delete_data();
 }
 
 template<class T>
 Vector<T>& Vector<T>::operator=(const Vector<T> &vector) {
-	T** tmp;
+	T* tmp;
 	INIT_DATA(tmp,vector._size);
 	for(int i=0;i<vector._elements;++i) {
 		tmp[i]=vector._data[i];
@@ -118,7 +131,7 @@ void Vector<T>::erase(size_t index) {
 
 template<class T>
 void Vector<T>::clear() {
-	delete _data;
+	delete[] _data;
 	INIT_DATA(_data,DEFAULT_SIZE);
 	_elements = 0;
 }
@@ -145,12 +158,14 @@ template<class T>
 void Vector<T>::sort(bool ascending) {
 	// For now, only sort ascending.
 	//quicksort(_data, 0, _elements, ascending);
-	if (ascending) {
-		std::sort(_data, _data + _elements);
-	} else {
-		std::sort(_data,_data + _elements, std::greater<T>());
+	//if (ascending) {
+	std::sort(_data, _data + _elements);
+	//} else {
+	//	std::sort(_data,_data + _elements, std::greater<T>());
+	//}
+	if (!ascending) {
+		std::reverse(_data, _data+_elements);
 	}
-
 }
 
 template<class T>
