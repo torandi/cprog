@@ -15,6 +15,7 @@ namespace lab2 {
 			/************************************************************
 			 * Access functions.
 			 ************************************************************/
+
 			virtual int day() const = 0;
 			virtual int month() const = 0;
 			virtual int year() const = 0;
@@ -28,12 +29,18 @@ namespace lab2 {
 			/************************************************************
 			 * Operators
 			 ************************************************************/
+
+
 			virtual int operator=(const Date &date) { timestamp=date.timestamp; };
-			virtual int operator==(const Date &date) const { 
-				return timestamp == date.timestamp;
-			};
-			virtual Date &operator++() { ++timestamp; return this; };
-			virtual Date &operator--() { --timestamp; return this; };
+			virtual int operator==(const Date &date) const { return timestamp == date.timestamp; };
+			virtual int operator!=(const Date &date) const { return !(*this==date); };
+
+			virtual Date &operator+=(const int n) { timestamp+=n; return *this; };
+			virtual Date &operator-=(const int n) { timestamp-=n; return *this; };
+
+			virtual Date &operator++() { return *this+=1; };
+			virtual Date &operator--() { return *this-=1; };
+
 
 			/************************************************************
 			 * Modifiers
