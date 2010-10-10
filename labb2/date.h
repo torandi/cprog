@@ -5,16 +5,14 @@
 
 namespace lab2 {
 	class Date {
-		protected:
-			Date(const long timestamp); 
-			//Number of DAYS from 1 January 1970
-			long timestamp;
 		public:
 			virtual ~Date();
 
 			/************************************************************
 			 * Access functions.
 			 ************************************************************/
+
+			long mod_julian_day() const = 0;
 
 			virtual int day() const = 0;
 			virtual int month() const = 0;
@@ -31,12 +29,12 @@ namespace lab2 {
 			 ************************************************************/
 
 
-			virtual int operator=(const Date &date) { timestamp=date.timestamp; };
-			virtual int operator==(const Date &date) const { return timestamp == date.timestamp; };
-			virtual int operator!=(const Date &date) const { return !(*this==date); };
+			virtual int operator=(const Date &date) = 0;
+			virtual int operator==(const Date &date) const = 0;
+			int operator!=(const Date &date) const { return !(*this==date); };
 
-			virtual Date &operator+=(const int n) { timestamp+=n; return *this; };
-			virtual Date &operator-=(const int n) { timestamp-=n; return *this; };
+			virtual Date &operator+=(const int n) = 0;
+			virtual Date &operator-=(const int n) = 0;
 
 			virtual Date &operator++() { return *this+=1; };
 			virtual Date &operator--() { return *this-=1; };
