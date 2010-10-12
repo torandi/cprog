@@ -3,6 +3,8 @@
 #include <string>
 #include "date.h"
 
+#define DAYS_BETWEEN_UNIX_AND_MOD_JULIAN 40587
+
 namespace lab2 {
 	class AnsiDate : public Date {
 			static const std::string weekdays[7];
