@@ -12,7 +12,7 @@ namespace lab2 {
 			 * Access functions.
 			 ************************************************************/
 
-			long mod_julian_day() const = 0;
+			virtual int mod_julian_day() const = 0;
 
 			virtual int day() const = 0;
 			virtual int month() const = 0;
@@ -43,6 +43,8 @@ namespace lab2 {
 			/************************************************************
 			 * Modifiers
 			 ************************************************************/
+			virtual void add_year(int n = 1);
+			virtual void add_month(int n = 1);
 
 	};
 };
