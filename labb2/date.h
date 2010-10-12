@@ -29,9 +29,9 @@ namespace lab2 {
 			 ************************************************************/
 
 
-			virtual int operator=(const Date &date) = 0;
-			virtual int operator==(const Date &date) const = 0;
-			int operator!=(const Date &date) const { return !(*this==date); };
+			virtual Date& operator=(const Date &date) = 0;
+			virtual bool operator==(const Date &date) const = 0;
+			bool operator!=(const Date &date) const { return !(*this==date); };
 
 			virtual Date &operator+=(const int n) = 0;
 			virtual Date &operator-=(const int n) = 0;
