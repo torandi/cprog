@@ -5,21 +5,23 @@
 
 namespace lab2 {
 	class AnsiDate : public Date {
-			static const std::string weekdays[7];
-			static const std::string months[12];
-			static const int days_per_month[12];
+		static const std::string weekdays[7];
+		static const std::string months[12];
+		static const int days_per_month[12];
 		protected:
-			int year,day,month;
+			int _year;
+			int _day;
+			int _month;
 
 			AnsiDate();
-			AnsiDate(int year,int month, int day);
+			AnsiDate(int y,int m, int d);
 			virtual ~AnsiDate();
 
 
 		public:
-			virtual int day() const { return day; };
-			virtual int month() const { return month; };
-			virtual int year() const { return year; };
+			virtual int day() const { return _day; };
+			virtual int month() const { return _month; };
+			virtual int year() const { return _year; };
 			virtual int days_per_week() const { return 7; };
 			virtual int months_per_year() const { return 12; };
 			virtual int days_this_month() const;
@@ -30,5 +32,4 @@ namespace lab2 {
 			virtual bool operator==(const Date &date) const;
 	};
 };
-
 #endif

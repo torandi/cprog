@@ -1,9 +1,8 @@
 #include "ansi_date.h"
-
 #include <string>
 
 namespace lab2 {
-	static const std::string AnsiDate::weekdays[7]={
+	const std::string AnsiDate::weekdays[7]={
 		"monday",
 		"tuesday",
 		"wednesday",
@@ -13,7 +12,7 @@ namespace lab2 {
 		"sunday"
 	};
 
-	static const std::string AnsiDate::months[12]={
+	const std::string AnsiDate::months[12]={
 		"january",
 		"february",
 		"mars",
@@ -27,14 +26,14 @@ namespace lab2 {
 		"november",
 		"december"
 	};
-	static const int AnsiDate::days_per_month[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+	const int AnsiDate::days_per_month[12]={31,28,31,30,31,30,31,31,30,31,30,31};
 
-	AnsiDate::AnsiDate() : year(0), month(0), day(0) { }
-	AnsiDate::AnsiDate(int y,int m, int d) : year(y), month(m), day(d) {}
+	AnsiDate::AnsiDate() : _year(0), _month(0), _day(0) { }
+	AnsiDate::AnsiDate(int y,int m, int d) : _year(y), _month(m), _day(d) {}
 	AnsiDate::~AnsiDate() {}
 
 	int AnsiDate::days_this_month() const {
-		return days_per_month[month];
+		return days_per_month[_month];
 	}
 
 	std::string AnsiDate::week_day_name() const {
@@ -42,19 +41,19 @@ namespace lab2 {
 	}
 
 	std::string AnsiDate::month_name() const {
-		return months[month];
+		return months[_month];
 	}
 
-	Date& AnsiDate::operator=(const Date &date) {
-		day=date.day();
-		month=date.month();
-		year=date.year();
+	Date& AnsiDate::operator=(const Date& date) {
+		_day=date.day();
+		_month=date.month();
+		_year=date.year();
 		return *this;
 	}
 
-	bool AnsiDate::operator==(const Date &date) {
-		return ( year==date.year() &&
-					month==date.month() &&
-					day==date.day() );
+	bool AnsiDate::operator==(const Date& date) const {
+		return ( _year==date.year() &&
+					_month==date.month() &&
+					_day==date.day() );
 	}
 }
