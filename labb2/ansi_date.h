@@ -22,7 +22,8 @@ namespace lab2 {
 			virtual std::string week_day_name() const;
 			virtual std::string month_name() const;
 
-			virtual int 
+			virtual int operator=(const Date &date);
+			virtual int operator==(const Date &date) const;
 	}
 }
 
