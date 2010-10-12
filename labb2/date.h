@@ -6,7 +6,7 @@
 namespace lab2 {
 	class Date {
 		public:
-			virtual ~Date();
+			virtual ~Date() {};
 
 			/************************************************************
 			 * Access functions.
