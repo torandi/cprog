@@ -1,12 +1,15 @@
 CFLAGS=-O2 -pg -g -Wall
 
-all: ansi_date.o
+all: ansi_date.o date.o
 
 #date: date.o
 #	g++ date.o $(CFLAGS) -o test_template_vec
 
-ansi_date.o: date.h ansi_date.cpp ansi_date.h
-	g++ -c ansi_date.cpp date.h -o ansi_date.o
+date.o: date.cpp date.h
+	g++ -c date.cpp -o date.o
+
+ansi_date.o:  ansi_date.cpp ansi_date.h
+	g++ -c ansi_date.cpp -o ansi_date.o
 
 clean: 
-	rm ansi_date.o
+	rm ansi_date.o date.o

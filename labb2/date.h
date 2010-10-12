@@ -5,6 +5,9 @@
 
 namespace lab2 {
 	class Date {
+		protected:
+			int _mod_julian_day;
+
 		public:
 			virtual ~Date() {};
 
@@ -12,7 +15,7 @@ namespace lab2 {
 			 * Access functions.
 			 ************************************************************/
 
-			virtual int mod_julian_day() const = 0;
+			virtual int mod_julian_day() const { return _mod_julian_day; };
 
 			virtual int day() const = 0;
 			virtual int month() const = 0;
@@ -29,12 +32,12 @@ namespace lab2 {
 			 ************************************************************/
 
 
-			virtual Date& operator=(const Date &date) = 0;
-			virtual bool operator==(const Date &date) const = 0;
-			bool operator!=(const Date &date) const { return !(*this==date); };
+			virtual Date& operator=(const Date &date);
+			virtual bool operator==(const Date &date) const;
+			bool operator!=(const Date &date) const;
 
-			virtual Date &operator+=(const int n) = 0;
-			virtual Date &operator-=(const int n) = 0;
+			virtual Date &operator+=(const int n);
+			virtual Date &operator-=(const int n);
 
 			virtual Date &operator++() { return *this+=1; };
 			virtual Date &operator--() { return *this-=1; };
