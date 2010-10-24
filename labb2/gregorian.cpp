@@ -9,7 +9,7 @@ namespace lab2 {
 
 		int days_since_unix = (int) currenttime / (60 * 60 * 24);
 		
-		_mod_julian_day = days_since_unix + DAYS_BETWEEN_UNIX_AND_MOD_JULIAN;			
+		_mod_julian_day = days_since_unix + DAYS_BETWEEN_UNIX_AND_MOD_JULIAN;		
 	}
 
 	Gregorian::(int year, int month, int day) {
@@ -21,5 +21,20 @@ namespace lab2 {
 	}
 
 
+	Gregorian::weekday() const {
+		// The constant -5 is due to _mod_julian_day counting from a wednesday.
+		return ((_mod_julian_day-5)%7 +1);
+	}
 
+	Gregorian::days_this_month() const {
+		
+	}
+
+	Gregorian::&operator+=(const int n) {
+		_mod_julian_day += n;
+	}
+
+	Gregorian::&operator-=(const int n) {
+		_mod_julian_day -= n;
+	}
 };
