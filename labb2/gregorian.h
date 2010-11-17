@@ -2,7 +2,6 @@
 #define LAB2_GREGORIAN_H
 
 #include "ansi_date.h"
-#include <string>
 
 namespace lab2 {
 	class Gregorian : public AnsiDate {
