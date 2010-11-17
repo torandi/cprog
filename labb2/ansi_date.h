@@ -22,5 +22,11 @@ namespace lab2 {
 			virtual std::string week_day_name() const;
 			virtual std::string month_name() const;
 	};
+
+	struct ymd_t {
+		int y;
+		int m;
+		int d;
+	};
 };
 #endif

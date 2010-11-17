@@ -1,3 +1,4 @@
+#include <cmath>
 #include "gregorian.h"
 #include "kattistime.h"
 
@@ -25,16 +26,51 @@ namespace lab2 {
 		// The constant -5 is due to _mod_julian_day counting from a wednesday.
 		return ((_mod_julian_day-5)%7 +1);
 	}
-
-	Gregorian::days_this_month() const {
+	
+	const int Gregorian::days_this_month() const {
+		ymd_t ymd = mjd_to_ymd;
+		int y = ymd.y;
 		
+		if((ymd.m == 2) && is_leap_year(y)) {
+			return 29;
+		} else {
+			return days_per_month[m];
+		}
 	}
 
-	Gregorian::&operator+=(const int n) {
-		_mod_julian_day += n;
+	private float mjd_to_jd() const {
+		return _mod_julian_day + 2400000.5;
 	}
 
-	Gregorian::&operator-=(const int n) {
-		_mod_julian_day -= n;
+	private bool is_leap_year(int y) const {
+		if(y % 4 == 0) {
+			if(y % 100 == 0) {
+				if(y % 400 == 0) {
+					return true;
+				}
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private ymd_t mjd_to_ymd() const {
+		int x2 = (int) mjd_to_jd() + 1721119.5;
+		int c2 = (int) floor((4*x2+3)/146097); 
+		int x1 = (int) x2 - floor(146097*(c2/4));
+		int c1 = (int) floor((100*x1 + 99)/36525);
+		int	x0 = (int) x1 - floor(36525*c1/100);
+
+		int y = 100*c2 + c1;
+		int m = floor((5*x0 + 461)/153);
+		int d = x0 - floor((153*m -457)/5) + 1;
+	
+		ymd_t ymd;
+		ymd.y = y;
+		ymd.m = m;
+		ymd.d = d;
+
+		return ymd;
 	}
 };
