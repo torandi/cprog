@@ -15,17 +15,17 @@ namespace lab2 {
 			 * Access functions.
 			 ************************************************************/
 
-			virtual int mod_julian_day() const { return _mod_julian_day; };
+			virtual const int mod_julian_day() const { return _mod_julian_day; };
 
-			virtual int day() const = 0;
-			virtual int month() const = 0;
-			virtual int year() const = 0;
-			virtual int week_day() const = 0;
-			virtual int days_per_week() const = 0;
-			virtual int days_this_month() const = 0;
-			virtual int months_per_year() const = 0;
-			virtual std::string week_day_name() const = 0;
-			virtual std::string month_name() const = 0;
+			virtual const int day() const = 0;
+			virtual const int month() const = 0;
+			virtual const int year() const = 0;
+			virtual const int week_day() const = 0;
+			virtual const int days_per_week() const = 0;
+			virtual const int days_this_month() const = 0;
+			virtual const int months_per_year() const = 0;
+			virtual const std::string week_day_name() const = 0;
+			virtual const std::string month_name() const = 0;
 
 			/************************************************************
 			 * Operators
