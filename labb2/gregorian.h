@@ -11,11 +11,16 @@ namespace lab2 {
 			Gregorian(int year, int month, int day);
 			virtual ~Gregorian();
 
-			virtual week_day() const;
-			virtual days_this_month() const;
+			virtual const int week_day() const;
+			virtual const int days_this_month() const;
 
 			virtual Gregorian &operator +=(const int n);
 			virtual Gregorian &operator -=(const int n);
+
+		private:
+			float mjd_to_jd() const;
+			const bool is_leap_year(int y) const;
+			ymd_t mjd_to_ymd() const;
 	};	
 };
 #endif
