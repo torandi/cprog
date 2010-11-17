@@ -2,6 +2,7 @@
 #define LAB2_DATE_H
 
 #include <string>
+#include <iostream>
 
 namespace lab2 {
 	class Date {
@@ -50,5 +51,10 @@ namespace lab2 {
 			virtual void add_month(int n = 1);
 
 	};
+};
+
+std::ostream & operator<<(std::ostream & os, const lab2::Date &date) {
+	os<<date.year()<<"-"<<date.month()<<"-"<<date.day();
+	return os;
 };
 #endif
