@@ -35,7 +35,11 @@ namespace lab2 {
 
 			virtual Date& operator=(const Date &date);
 			virtual bool operator==(const Date &date) const;
-			bool operator!=(const Date &date) const;
+			virtual bool operator!=(const Date &date) const;
+			virtual bool operator<(const Date &date) const;
+			virtual bool operator>(const Date &date) const;
+			virtual bool operator<=(const Date &date) const;
+			virtual bool operator>=(const Date &date) const;
 
 			virtual Date &operator+=(const int n);
 			virtual Date &operator-=(const int n);
