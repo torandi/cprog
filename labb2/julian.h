@@ -17,6 +17,7 @@ namespace lab2 {
 
 		private:
 			const float mjd_to_jd() const;
+			virtual const bool is_leap_year(int year) const;
 			ymd_t mjd_to_ymd() const;
 			virtual void set_mjd_from_ymd(const ymd_t &ymd);
 	};
