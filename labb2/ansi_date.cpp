@@ -52,4 +52,34 @@ namespace lab2 {
 		return date.mod_julian_day()!=mod_julian_day();
 	}
 
+	void AnsiDate::add_month(const int months) {
+		ymd_t ymd=mjd_to_ymd();
+		for(int i=0;i<months;++i) {
+			++ymd.m;
+			if(ymd.m>12) { 
+				ymd.m=1;
+				++ymd.y;
+			}
+			int days;
+			if((ymd.m ==2) && is_leap_year(ymd.y))
+				days=29;
+			else
+				days=days_per_month[ymd.m];
+			if(ymd.d > days) {
+				//Just add 30 days
+				_mod_julian_day+=30;
+			} else {
+				set_mjd_from_ymd(ymd);
+			}
+		}
+	}
+
+	void AnsiDate::add_year(const int years) {
+		ymd_t ymd=mjd_to_ymd();
+		ymd.y+=years;
+		if(ymd.m==2 && ymd.d==29 && !is_leap_year(ymd.y))
+			ymd.d=28;
+		set_mjd_from_ymd(ymd);
+	}
+
 }
