@@ -16,6 +16,14 @@ namespace lab2 {
 		set_mjd_from_ymd(ymd_t(year,month,day));
 	}
 
+	Julian::Julian(const Date &date) {
+		_mod_julian_day = date.mod_julian_day();
+	}
+
+	Julian::Julian(Date * &date) {
+		_mod_julian_day = date->mod_julian_day();
+	}
+
 	void Julian::set_mjd_from_ymd(const ymd_t &ymd) {
 		_mod_julian_day = 367*ymd.y + (7*(ymd.y+((ymd.m+9)/2)))/4 + 
 			285*ymd.m / 9 + ymd.d;

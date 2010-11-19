@@ -8,6 +8,8 @@ namespace lab2 {
 		public:
 			Julian();
 			Julian(int year, int month, int day);
+			Julian(const Date &date);
+			Julian(Date * &date);
 
 			virtual const int week_day() const;
 			virtual const int days_this_month() const;
