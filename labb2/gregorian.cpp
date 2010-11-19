@@ -13,6 +13,10 @@ namespace lab2 {
 		_mod_julian_day = days_since_unix + DAYS_BETWEEN_UNIX_AND_MOD_JULIAN;		
 	}
 
+	Gregorian::Gregorian(const Date &date) {
+		_mod_julian_day=date.mod_julian_day();
+	}
+
 	Gregorian::Gregorian(int year, int month, int day) {
 		set_mjd_from_ymd(ymd_t(year,month,day));
 	}
