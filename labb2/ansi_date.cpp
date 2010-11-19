@@ -39,16 +39,6 @@ namespace lab2 {
 		return months[month()];
 	}
 
-	Date &AnsiDate::operator+=(const int n) {
-		_mod_julian_day += n;
-		return *this;
-	}
-
-	Date &AnsiDate::operator-=(const int n) {
-		_mod_julian_day -= n;
-		return *this;
-	}
-
 	Date& AnsiDate::operator=(const Date &date) {
 		_mod_julian_day=date.mod_julian_day();
 		return *this;

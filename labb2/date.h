@@ -40,8 +40,8 @@ namespace lab2 {
 			virtual Date &operator+=(const int n);
 			virtual Date &operator-=(const int n);
 
-			virtual Date &operator++() { return *this+=1; };
-			virtual Date &operator--() { return *this-=1; };
+			virtual Date &operator++();
+			virtual Date &operator--();
 
 
 			/************************************************************

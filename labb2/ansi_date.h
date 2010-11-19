@@ -33,6 +33,8 @@ namespace lab2 {
 		int y;
 		int m;
 		int d;
+		ymd_t() {};
+		ymd_t(int _y,int _m,int _d) : y(_y), m(_m), d(_d) { };
 	};
 };
 #endif

@@ -14,11 +14,8 @@ namespace lab2 {
 	}
 
 	Gregorian::Gregorian(int year, int month, int day) {
-		int a = (14-month)/2;
-		int y = year + 4800 - a;
-		int m = month + 12*a - 3;
-
-		_mod_julian_day = day + (153*m + 2)/5 + 365*y + (y/4) - (y/100) + (y/400) - 32045;
+		ymd_t ymd(year,month,day);
+		set_mjd_from_ymd(ymd);
 	}
 
 
@@ -37,9 +34,38 @@ namespace lab2 {
 			return days_per_month[ymd.m];
 		}
 	}
+/*
+	Gregorian Gregorian::operator++(int i) {
+		Gregorian g(*this);
+		++(*this);
+		return g;
+	}	
+	*/
 
 	float Gregorian::mjd_to_jd() const {
 		return _mod_julian_day + 2400000.5;
+	}
+
+	void Gregorian::add_month(const int months) {
+		ymd_t ymd=mjd_to_ymd();
+		for(int i=0;i<months;++i) {
+			++ymd.m;
+			if(ymd.m>12) { 
+				ymd.m=1;
+				++ymd.y;
+			}
+			int days;
+			if((ymd.m ==2) && is_leap_year(ymd.y))
+				days=29;
+			else
+				days=days_per_month[ymd.m];
+			if(ymd.d > days) {
+				//Just add 30 days
+				_mod_julian_day+=30;
+			} else {
+				set_mjd_from_ymd(ymd);
+			}
+		}
 	}
 
 	const bool Gregorian::is_leap_year(int y) const {
@@ -72,5 +98,14 @@ namespace lab2 {
 		ymd.d = d;
 
 		return ymd;
+	}
+
+	void Gregorian::set_mjd_from_ymd(const ymd_t &ymd) {
+		int a = (14-ymd.m)/2;
+		int y = ymd.y + 4800 - a;
+		int m = ymd.m + 12*a - 3;
+
+		_mod_julian_day = ymd.d + (153*m + 2)/5 + 365*y + (y/4) - (y/100) + (y/400) - 32045;
+
 	}
 };

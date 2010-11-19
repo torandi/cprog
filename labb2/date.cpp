@@ -13,5 +13,18 @@ namespace lab2 {
 		return !(*this==date);
 	}
 
+	Date & Date::operator++() { return *this+=1; };
+	Date & Date::operator--() { return *this-=1; };
+
+	Date &Date::operator+=(const int n) {
+		_mod_julian_day += n;
+		return *this;
+	}
+
+	Date &Date::operator-=(const int n) {
+		_mod_julian_day -= n;
+		return *this;
+	}
+
 
 }
