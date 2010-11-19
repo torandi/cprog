@@ -15,7 +15,7 @@ gregorian.o: gregorian.cpp gregorian.h
 	g++ -c gregorian.cpp -o gregorian.o
 
 julian.o: julian.cpp julian.h
-	g++ -c julian.cpp julian.h
+	g++ -c julian.cpp -o julian.o
 
 clean: 
 	rm ansi_date.o date.o gregorian.o julian.o
