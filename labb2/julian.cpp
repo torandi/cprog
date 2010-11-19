@@ -48,4 +48,8 @@ namespace lab2 {
 
 		return ymd_t(y,m,d);
 	}
+
+	const bool Julian::is_leap_year(int year) const {
+		return !(year%4);
+	}
 }
