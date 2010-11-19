@@ -17,7 +17,7 @@ namespace lab2 {
 			virtual Gregorian &operator -=(const int n);
 
 		private:
-			float mjd_to_jd() const;
+			const float mjd_to_jd() const;
 			const bool is_leap_year(int y) const;
 			ymd_t mjd_to_ymd() const;
 	};	

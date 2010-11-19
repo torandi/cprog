@@ -24,7 +24,7 @@ namespace lab2 {
 
 	const int Gregorian::week_day() const {
 		// The constant -5 is due to _mod_julian_day counting from a wednesday.
-		return ((_mod_julian_day-5)%7 +1);
+		return (_mod_julian_day%7)+4;
 	}
 	
 	const int Gregorian::days_this_month() const {
@@ -38,7 +38,7 @@ namespace lab2 {
 		}
 	}
 
-	float Gregorian::mjd_to_jd() const {
+	const float Gregorian::mjd_to_jd() const {
 		return _mod_julian_day + 2400000.5;
 	}
 
