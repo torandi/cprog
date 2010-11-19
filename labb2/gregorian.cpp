@@ -92,12 +92,7 @@ namespace lab2 {
 		int m = floor((5*x0 + 461)/153);
 		int d = x0 - floor((153*m -457)/5) + 1;
 	
-		ymd_t ymd;
-		ymd.y = y;
-		ymd.m = m;
-		ymd.d = d;
-
-		return ymd;
+		return ymd_t(y,m,d);
 	}
 
 	void Gregorian::set_mjd_from_ymd(const ymd_t &ymd) {
