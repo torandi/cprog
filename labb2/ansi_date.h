@@ -15,15 +15,16 @@ namespace lab2 {
 	};
 
 	class AnsiDate : public Date {
-		static const std::string weekdays[7];
-		static const std::string months[12];
+		private:
+			static const std::string weekdays[7];
+			static const std::string months[12];
+			virtual ymd_t mjd_to_ymd() const = 0;
+			virtual void set_mjd_from_ymd(const ymd_t &ymd) = 0;
+			virtual const bool is_leap_year(int y) const = 0;
 		protected:
 			AnsiDate();
 			virtual ~AnsiDate();
 			static const int days_per_month[12];
-			virtual ymd_t mjd_to_ymd() const = 0;
-			virtual void set_mjd_from_ymd(const ymd_t &ymd) const = 0;
-			virtual const bool is_leap_year(int y) const = 0;
 
 		public:
 			virtual const int days_per_week() const { return 7; };

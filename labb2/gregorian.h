@@ -19,11 +19,10 @@ namespace lab2 {
 	//		Gregorian operator++(int);
 
 
-		protected:
+		private:
 			virtual const bool is_leap_year(int y) const;
 			virtual ymd_t mjd_to_ymd() const;
 			virtual void set_mjd_from_ymd(const ymd_t &ymd);
-		private:
 			const float mjd_to_jd() const;
 	};	
 };
