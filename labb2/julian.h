@@ -13,11 +13,12 @@ namespace lab2 {
 			virtual const int days_this_month() const;
 
 			virtual Julian &operator +=(const int n);
-			virtual Julian &operator -=(const in n);
+			virtual Julian &operator -=(const int n);
 
 		private:
+			const float mjd_to_jd() const;
 			ymd_t mjd_to_ymd() const;
 				
-	}
+	};
 }
 #endif
