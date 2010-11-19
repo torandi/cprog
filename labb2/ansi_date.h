@@ -6,6 +6,14 @@
 #define DAYS_BETWEEN_UNIX_AND_MOD_JULIAN 40587
 
 namespace lab2 {
+	struct ymd_t {
+		int y;
+		int m;
+		int d;
+		ymd_t() {};
+		ymd_t(int _y,int _m,int _d) : y(_y), m(_m), d(_d) { };
+	};
+
 	class AnsiDate : public Date {
 		static const std::string weekdays[7];
 		static const std::string months[12];
@@ -13,7 +21,9 @@ namespace lab2 {
 			AnsiDate();
 			virtual ~AnsiDate();
 			static const int days_per_month[12];
-
+			virtual ymd_t mjd_to_ymd() const = 0;
+			virtual void set_mjd_from_ymd(const ymd_t &ymd) const = 0;
+			virtual const bool is_leap_year(int y) const = 0;
 
 		public:
 			virtual const int days_per_week() const { return 7; };
@@ -27,14 +37,10 @@ namespace lab2 {
 
 			virtual Date &operator+=(const int n);
 			virtual Date &operator-=(const int n);
+
+			virtual void add_month(const int months);
+			virtual void add_year(const int years);
 	};
 
-	struct ymd_t {
-		int y;
-		int m;
-		int d;
-		ymd_t() {};
-		ymd_t(int _y,int _m,int _d) : y(_y), m(_m), d(_d) { };
-	};
 };
 #endif

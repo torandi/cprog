@@ -18,14 +18,13 @@ namespace lab2 {
 
 	//		Gregorian operator++(int);
 
-			virtual void add_month(const int months);
-			virtual void add_year(const int years);
 
+		protected:
+			virtual const bool is_leap_year(int y) const;
+			virtual ymd_t mjd_to_ymd() const;
+			virtual void set_mjd_from_ymd(const ymd_t &ymd);
 		private:
 			const float mjd_to_jd() const;
-			const bool is_leap_year(int y) const;
-			ymd_t mjd_to_ymd() const;
-			void set_mjd_from_ymd(const ymd_t &ymd);
 	};	
 };
 #endif
