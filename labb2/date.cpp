@@ -13,6 +13,22 @@ namespace lab2 {
 		return !(*this==date);
 	}
 
+	bool Date::operator<(const Date &date) const {
+		return mod_julian_day() < date.mod_julian_day();
+	}
+
+	bool Date::operator>(const Date &date) const {
+		return mod_julian_day() > date.mod_julian_day();
+	}
+
+	bool Date::operator<=(const Date &date) const {
+		return mod_julian_day() <= date.mod_julian_day();
+	}
+
+	bool Date::operator>=(const Date &date) const {
+		return mod_julian_day() >= date.mod_julian_day();
+	}
+
 	Date & Date::operator++() { return *this+=1; };
 	Date & Date::operator--() { return *this-=1; };
 
