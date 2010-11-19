@@ -42,9 +42,6 @@ namespace lab2 {
 			++y;
 		}
 
-		ymd_t ymd;
-		ymd.y = y;
-		ymd.m = m;
-		ymd.d = d;
+		return ymd_t(y,m,d);
 	}
 }
