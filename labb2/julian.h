@@ -18,7 +18,7 @@ namespace lab2 {
 		private:
 			const float mjd_to_jd() const;
 			ymd_t mjd_to_ymd() const;
-				
+			virtual void set_mjd_from_ymd(const ymd_t &ymd);
 	};
 }
 #endif
