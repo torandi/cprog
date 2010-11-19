@@ -7,6 +7,7 @@ namespace lab2 {
 	class Gregorian : public AnsiDate {
 		public:
 			Gregorian();
+			Gregorian(const Date &date);
 			Gregorian(int year, int month, int day);
 			virtual ~Gregorian();
 
