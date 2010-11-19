@@ -26,5 +26,8 @@ namespace lab2 {
 		return *this;
 	}
 
+	int Date::operator-(const Date &date) const {
+		return _mod_julian_day-date.mod_julian_day();
+	}
 
 }
