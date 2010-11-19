@@ -43,6 +43,8 @@ namespace lab2 {
 			virtual Date &operator++();
 			virtual Date &operator--();
 
+			virtual int operator-(const Date &date) const;
+
 
 			/************************************************************
 			 * Modifiers

@@ -14,7 +14,7 @@ namespace lab2 {
 	}
 
 	Gregorian::Gregorian(int year, int month, int day) {
-		set_mjd_from_ymd(ymd(year,month,day));
+		set_mjd_from_ymd(ymd_t(year,month,day));
 	}
 
 
