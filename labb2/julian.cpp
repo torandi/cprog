@@ -13,10 +13,14 @@ namespace lab2 {
 	}
 
 	Julian::Julian(int year, int month, int day) {
-		_mod_julian_day = 367*year + (7*(year+((month+9)/2)))/4 + 285*month / 9 + day;
+		set_mjd_from_ymd(ymd_t(year,month,day));
 	}
 
-	
+	void Julian::set_mjd_from_ymd(const ymd_t &ymd) {
+		_mod_julian_day = 367*ymd.y + (7*(ymd.y+((ymd.m+9)/2)))/4 + 
+			285*ymd.m / 9 + ymd.d;
+	}
+
 	const int Julian::week_day() const {
 		return (_mod_julian_day % 7)+4;			
 	}
