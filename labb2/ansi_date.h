@@ -31,6 +31,10 @@ namespace lab2 {
 			virtual const std::string week_day_name() const;
 			virtual const std::string month_name() const;
 
+			virtual const int day() const;
+			virtual const int month() const;
+			virtual const int year() const;
+
 			virtual Date& operator=(const Date &date);
 			virtual bool operator==(const Date &date) const;
 			bool operator!=(const Date &date) const;
@@ -38,8 +42,8 @@ namespace lab2 {
 			virtual Date &operator+=(const int n);
 			virtual Date &operator-=(const int n);
 
-			virtual void add_month(const int months);
-			virtual void add_year(const int years);
+			virtual void add_month(const int months=1);
+			virtual void add_year(const int years=1);
 	};
 
 };

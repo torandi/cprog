@@ -42,6 +42,7 @@ namespace lab2 {
 	Date& AnsiDate::operator=(const Date &date) {
 		_mod_julian_day=date.mod_julian_day();
 		return *this;
+	
 	}
 
 	bool AnsiDate::operator==(const Date &date) const {
@@ -80,6 +81,18 @@ namespace lab2 {
 		if(ymd.m==2 && ymd.d==29 && !is_leap_year(ymd.y))
 			ymd.d=28;
 		set_mjd_from_ymd(ymd);
+	}
+
+	const int AnsiDate::day() const {
+		return mjd_to_ymd().d;
+	}
+
+	const int AnsiDate::month() const {
+		return mjd_to_ymd().m;
+	}
+
+	const int AnsiDate::year() const {
+		return mjd_to_ymd().y;
 	}
 
 }

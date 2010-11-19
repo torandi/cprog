@@ -1,6 +1,6 @@
 CFLAGS=-O2 -pg -g -Wall
 
-all: ansi_date.o date.o gregorian.o julian.o
+all: ansi_date.o date.o gregorian.o julian.o datetest
 
 #date: date.o
 #	g++ date.o $(CFLAGS) -o test_template_vec
