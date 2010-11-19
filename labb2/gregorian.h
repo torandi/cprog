@@ -9,13 +9,9 @@ namespace lab2 {
 			Gregorian();
 			Gregorian(const Date &date);
 			Gregorian(int year, int month, int day);
-			virtual ~Gregorian();
 
 			virtual const int week_day() const;
 			virtual const int days_this_month() const;
-
-			virtual Gregorian &operator +=(const int n);
-			virtual Gregorian &operator -=(const int n);
 
 	//		Gregorian operator++(int);
 

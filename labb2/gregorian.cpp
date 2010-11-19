@@ -85,4 +85,4 @@ namespace lab2 {
 		_mod_julian_day = ymd.d + (153*m + 2)/5 + 365*y + (y/4) - (y/100) + (y/400) - 32045;
 
 	}
-};
+}

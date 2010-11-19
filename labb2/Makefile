@@ -20,8 +20,11 @@ julian.o: julian.cpp julian.h
 datetest.o: datetest.cpp
 	g++ -c datetest.cpp
 
-datetest: date.o ansi_date.o gregorian.o julian.o datetest.o
-	g++ date.o ansi_date.o gregorian.o julian.o datetest.o -o datetest
+kattistime.o: kattistime.cpp kattistime.h
+	g++ -c kattistime.cpp
+
+datetest: date.o ansi_date.o gregorian.o julian.o datetest.o kattistime.o
+	g++ date.o ansi_date.o gregorian.o julian.o datetest.o kattistime.o -o datetest
 
 clean: 
 	rm ansi_date.o date.o gregorian.o julian.o

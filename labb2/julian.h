@@ -14,9 +14,6 @@ namespace lab2 {
 			virtual const int week_day() const;
 			virtual const int days_this_month() const;
 
-			virtual Julian &operator +=(const int n);
-			virtual Julian &operator -=(const int n);
-
 		private:
 			const float mjd_to_jd() const;
 			virtual const bool is_leap_year(int year) const;

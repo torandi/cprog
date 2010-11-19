@@ -53,14 +53,11 @@ namespace lab2 {
 			/************************************************************
 			 * Modifiers
 			 ************************************************************/
-			virtual void add_year(int n = 1);
-			virtual void add_month(int n = 1);
+			virtual void add_year(int n = 1) = 0;
+			virtual void add_month(int n = 1) = 0;
 
 	};
-};
+}
 
-std::ostream & operator<<(std::ostream & os, const lab2::Date &date) {
-	os<<date.year()<<"-"<<date.month()<<"-"<<date.day();
-	return os;
-};
+std::ostream & operator<<(std::ostream & os, const lab2::Date &date);
 #endif

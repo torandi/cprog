@@ -39,19 +39,6 @@ namespace lab2 {
 		return months[month()];
 	}
 
-	Date& AnsiDate::operator=(const Date &date) {
-		_mod_julian_day=date.mod_julian_day();
-		return *this;
-	
-	}
-
-	bool AnsiDate::operator==(const Date &date) const {
-		return date.mod_julian_day()==mod_julian_day();
-	}	
-
-	bool AnsiDate::operator!=(const Date &date) const {
-		return date.mod_julian_day()!=mod_julian_day();
-	}
 
 	void AnsiDate::add_month(const int months) {
 		ymd_t ymd=mjd_to_ymd();
