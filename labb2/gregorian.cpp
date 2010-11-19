@@ -68,6 +68,14 @@ namespace lab2 {
 		}
 	}
 
+	void Gregorian::add_year(const int years) {
+		ymd_t ymd=mjd_to_ymd();
+		ymd.y+=years;
+		if(ymd.m==2 && ymd.d==29 && !is_leap_year(ymd.y))
+			ymd.d=28;
+		set_mjd_from_ymd(ymd);
+	}
+
 	const bool Gregorian::is_leap_year(int y) const {
 		if(y % 4 == 0) {
 			if(y % 100 == 0) {
