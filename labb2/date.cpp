@@ -47,9 +47,9 @@ namespace lab2 {
 		return _mod_julian_day-date.mod_julian_day();
 	}
 
-	std::ostream & operator<<(std::ostream & os, const lab2::Date &date) {
-		os<<date.year()<<"-"<<date.month()<<"-"<<date.day();
-		return os;
-	}
+}
 
+std::ostream & operator<<(std::ostream & os, const lab2::Date &date) {
+	os<<date.year()<<"-"<<date.month()<<"-"<<date.day();
+	return os;
 }
