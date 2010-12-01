@@ -34,7 +34,7 @@ namespace lab2 {
 			y-=1;
 		}
 		
-		_mod_julian_day = floor(1721117.5 + floor(1461*.y/4) + floor((153*m - 457)/5) + d - 1) - DAYS_BETWEEN_MJD_AND_JD;
+		_mod_julian_day = floor(1721117.5 + floor(1461*y/4) + floor((153*m - 457)/5) + d - 1) - DAYS_BETWEEN_MJD_AND_JD;
 	}
 
 	const int Julian::week_day() const {
