@@ -34,7 +34,7 @@ namespace lab2 {
 			y-=1;
 		}
 		
-		_mod_julian_day = floor(1721117.5 + floor(1461*y/4) + floor((153*m - 457)/5) + d - 1) - DAYS_BETWEEN_MJD_AND_JD;
+		_mod_julian_day = 1721117.5 + floor(1461*y/4) + floor((153*m - 457)/5) + d - 0.5 - DAYS_BETWEEN_MJD_AND_JD;
 	}
 
 	const int Julian::week_day() const {
@@ -47,7 +47,7 @@ namespace lab2 {
 	}
 
 	ymd_t Julian::mjd_to_ymd() const {
-		int x1 = (int) mjd_to_jd() - 1721117.5;
+		int x1 = (int) mjd_to_jd() - 1721117.5 +0.5;
 		int y = (int) floor((4*x1 + 3)/1461);
 		int x0 = (int) x1 - floor(1461*y/4);
 		int m = (int) floor((5*x0 + 461)/153);
