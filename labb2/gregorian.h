@@ -11,7 +11,6 @@ namespace lab2 {
 			Gregorian(int year, int month, int day);
 
 			virtual const int week_day() const;
-			virtual const int days_this_month() const;
 
 	//		Gregorian operator++(int);
 

@@ -89,4 +89,15 @@ namespace lab2 {
 		return (ymd.y==ymd2.y && ymd.m==ymd2.m && ymd.d == ymd2.d);
 	}
 
+	const int AnsiDate::days_this_month() const {
+		ymd_t ymd = mjd_to_ymd();
+		int y = ymd.y;
+		
+		if((ymd.m == 2) && is_leap_year(y)) {
+			return 29;
+		} else {
+			return days_per_month[ymd.m];
+		}
+	}
+
 }
