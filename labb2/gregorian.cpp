@@ -73,14 +73,14 @@ namespace lab2 {
 		int y = 100*c2 + c1;
 		int m = floor((5*x0 + 461)/153);
 		int d = x0 - floor((153*m -457)/5) + 1;
-	
+
 		return ymd_t(y,m,d);
 	}
 
 	void Gregorian::set_mjd_from_ymd(const ymd_t &ymd) {
 		float a = floor((14-ymd.m)/2);
-		float y = floor(ymd.y + 4800 - a);
-		float m = floor(ymd.m + (12*a) - 3);
+		float y = ymd.y + 4800 - a;
+		float m = ymd.m + (12*a) - 3;
 
 		_mod_julian_day = ymd.d + floor((153*m + 2)/5) + (365*y) + floor(y/4) - floor(y/100) + floor(y/400) - 32045 - DAYS_BETWEEN_MJD_AND_JD;
 	}

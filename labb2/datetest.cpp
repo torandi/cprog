@@ -60,6 +60,8 @@ int main()
 	 std::cout << "Gregorian (2010-12-01): "<<gt<<std::endl;
 	 std::cout << "Julian (2010-12-01): "<<jt<<std::endl;
 
+	 std::cout << "Gregorian today: "<<Gregorian()<<std::endl;
+
 	 std::cout << "Running gregorian selftest...";
 	 assert(gt.self_test());
 	 std::cout << "OK" << std::endl;
