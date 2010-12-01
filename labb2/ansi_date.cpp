@@ -42,19 +42,14 @@ namespace lab2 {
 
 
 	void AnsiDate::add_month(const int months) {
-		ymd_t ymd=mjd_to_ymd();
 		for(int i=0;i<months;++i) {
+			ymd_t ymd=mjd_to_ymd();
 			++ymd.m;
 			if(ymd.m>12) { 
 				ymd.m=1;
 				++ymd.y;
 			}
-			int days;
-			if((ymd.m ==2) && is_leap_year(ymd.y))
-				days=29;
-			else
-				days=days_per_month[ymd.m];
-			if(ymd.d > days) {
+			if(ymd.d > days_this_month(ymd.y,ymd.m)) {
 				//Just add 30 days
 				_mod_julian_day+=30;
 			} else {

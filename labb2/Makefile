@@ -20,6 +20,9 @@ julian.o: julian.cpp julian.h
 cprog09lab22a.o: cprog09lab22a.cpp
 	g++ -c cprog09lab22a.cpp
 
+cprog09lab22b.o: cprog09lab22b.cpp
+	g++ -c cprog09lab22b.cpp
+
 datetest.o: datetest.cpp
 	g++ -c datetest.cpp
 
@@ -31,6 +34,9 @@ datetest: date.o ansi_date.o gregorian.o julian.o datetest.o kattistime.o
 
 cprog09lab22a: date.o ansi_date.o gregorian.o julian.o cprog09lab22a.o kattistime.o
 	g++ date.o ansi_date.o gregorian.o julian.o cprog09lab22a.o kattistime.o -o cprog09lab22a
+
+cprog09lab22b: date.o ansi_date.o gregorian.o julian.o cprog09lab22b.o kattistime.o
+	g++ date.o ansi_date.o gregorian.o julian.o cprog09lab22b.o kattistime.o -o cprog09lab22b
 
 clean: 
 	rm ansi_date.o date.o gregorian.o julian.o
