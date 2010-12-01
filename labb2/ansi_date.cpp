@@ -128,6 +128,10 @@ namespace lab2 {
 	}
 
 	const int AnsiDate::week_day() const {
-		return (_mod_julian_day+2)%7+1;
+		if (_mod_julian_day < 0) {
+			return 7 - ((_mod_julian_day+2)%7 +1);
+		} else {
+			return ((_mod_julian_day+2)%7)+1;
+		}
 	}
 }
