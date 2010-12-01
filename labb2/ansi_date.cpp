@@ -1,5 +1,6 @@
 #include "ansi_date.h"
 #include <string>
+#include <stdexcept>
  
 namespace lab2 {
 	const std::string AnsiDate::weekdays[7]={
@@ -15,7 +16,7 @@ namespace lab2 {
 	const std::string AnsiDate::months[12]={
 		"january",
 		"february",
-		"mars",
+		"march",
 		"april",
 		"may",
 		"june",
@@ -32,28 +33,23 @@ namespace lab2 {
 	AnsiDate::~AnsiDate() {}
 
 	const std::string AnsiDate::week_day_name() const {
-		return weekdays[week_day()];
+		return weekdays[week_day()-1];
 	}
 
 	const std::string AnsiDate::month_name() const {
-		return months[month()];
+		return months[month()-1];
 	}
 
 
 	void AnsiDate::add_month(const int months) {
-		ymd_t ymd=mjd_to_ymd();
 		for(int i=0;i<months;++i) {
+			ymd_t ymd=mjd_to_ymd();
 			++ymd.m;
 			if(ymd.m>12) { 
 				ymd.m=1;
 				++ymd.y;
 			}
-			int days;
-			if((ymd.m ==2) && is_leap_year(ymd.y))
-				days=29;
-			else
-				days=days_per_month[ymd.m];
-			if(ymd.d > days) {
+			if(ymd.d > days_this_month(ymd.y,ymd.m)) {
 				//Just add 30 days
 				_mod_julian_day+=30;
 			} else {
@@ -91,12 +87,26 @@ namespace lab2 {
 
 	const int AnsiDate::days_this_month() const {
 		ymd_t ymd = mjd_to_ymd();
-		int y = ymd.y;
+		return days_this_month(ymd.y,ymd.m);
+	}
 		
-		if((ymd.m == 2) && is_leap_year(y)) {
+
+	const int AnsiDate::days_this_month(int year,int month) const {
+		if((month == 2) && is_leap_year(year)) {
 			return 29;
 		} else {
-			return days_per_month[ymd.m-1];
+			return days_per_month[month-1];
+		}
+	}
+
+	
+	void AnsiDate::check_valid_date(const ymd_t ymd) const {
+		//Check month:
+		if(ymd.m<1 || ymd.m > 12) {
+			throw std::out_of_range("Month must be a number between 1 and 12");
+		}
+		if(ymd.d<1 || ymd.d > days_this_month(ymd.y,ymd.m) ) {
+			throw std::out_of_range("Invalid number of days for this month");
 		}
 	}
 
