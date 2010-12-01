@@ -60,6 +60,15 @@ int main()
 	 std::cout << "Gregorian (2010-12-01): "<<gt<<std::endl;
 	 std::cout << "Julian (2010-12-01): "<<jt<<std::endl;
 
+	 std::cout << "Running gregorian selftest...";
+	 assert(gt.self_test());
+	 std::cout << "OK" << std::endl;
+
+	 std::cout << "Running julian selftest...";
+	 assert(jt.self_test());
+	 std::cout << "OK" << std::endl;
+
+
 	 std::cout << "Running test 2...";
     assert(today.year() == year &&          // rtt initierad
            today.month() == month &&

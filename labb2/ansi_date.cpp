@@ -82,4 +82,11 @@ namespace lab2 {
 		return mjd_to_ymd().y;
 	}
 
+	bool AnsiDate::self_test() {
+		ymd_t ymd=mjd_to_ymd();
+		set_mjd_from_ymd(ymd);
+		ymd_t ymd2=mjd_to_ymd();
+		return (ymd.y==ymd2.y && ymd.m==ymd2.m && ymd.d == ymd2.d);
+	}
+
 }

@@ -38,6 +38,8 @@ namespace lab2 {
 
 			virtual void add_month(const int months=1);
 			virtual void add_year(const int years=1);
+
+			bool self_test();
 	};
 
 };
