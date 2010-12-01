@@ -1,6 +1,7 @@
 #include "ansi_date.h"
 #include <string>
 #include <stdexcept>
+#include <stdio.h>
  
 namespace lab2 {
 	const std::string AnsiDate::weekdays[7]={
@@ -41,18 +42,35 @@ namespace lab2 {
 	}
 
 	void AnsiDate::add_month(const int months) {
-		for(int i=0;i<months;++i) {
-			ymd_t ymd=mjd_to_ymd();
-			++ymd.m;
-			if(ymd.m>12) { 
-				ymd.m=1;
-				++ymd.y;
+		if(months>0) {
+			for(int i=0;i<months;++i) {
+				ymd_t ymd=mjd_to_ymd();
+				++ymd.m;
+				if(ymd.m>12) { 
+					ymd.m=1;
+					++ymd.y;
+				}
+				if(ymd.d > days_this_month(ymd.y,ymd.m)) {
+					//Just add 30 days
+					_mod_julian_day+=30;
+				} else {
+					set_mjd_from_ymd(ymd);
+				}
 			}
-			if(ymd.d > days_this_month(ymd.y,ymd.m)) {
-				//Just add 30 days
-				_mod_julian_day+=30;
-			} else {
-				set_mjd_from_ymd(ymd);
+		} else {
+			//Bloody negative months...
+			for(int i=0;i>months;--i) {
+				ymd_t ymd=mjd_to_ymd();
+				--ymd.m;
+				if(ymd.m<1) { 
+					ymd.m=12;
+					--ymd.y;
+				}
+				if(ymd.d > days_this_month(ymd.y,ymd.m)) {
+					_mod_julian_day-=30;
+				} else {
+					set_mjd_from_ymd(ymd);
+				}
 			}
 		}
 	}
