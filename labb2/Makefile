@@ -27,4 +27,4 @@ datetest: date.o ansi_date.o gregorian.o julian.o datetest.o kattistime.o
 	g++ date.o ansi_date.o gregorian.o julian.o datetest.o kattistime.o -o datetest
 
 clean: 
-	rm ansi_date.o date.o gregorian.o julian.o
+	rm ansi_date.o date.o gregorian.o julian.o kattistime.o datetest.o datetest
