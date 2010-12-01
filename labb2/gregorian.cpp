@@ -46,7 +46,7 @@ namespace lab2 {
 	*/
 
 	const float Gregorian::mjd_to_jd() const {
-		return _mod_julian_day + 2400000.5;
+		return _mod_julian_day + DAYS_BETWEEN_MJD_AND_JD;
 	}
 
 
@@ -78,10 +78,10 @@ namespace lab2 {
 	}
 
 	void Gregorian::set_mjd_from_ymd(const ymd_t &ymd) {
-		float a = (14-ymd.m)/2;
-		float y = ymd.y + 4800 - a;
-		float m = ymd.m + (12*a) - 3;
+		float a = floor((14-ymd.m)/2);
+		float y = floor(ymd.y + 4800 - a);
+		float m = floor(ymd.m + (12*a) - 3);
 
-		_mod_julian_day = ymd.d + ((153*m + 2)/5) + (365*y) + (y/4) - (y/100) + (y/400) - 32045 - 2400000.5;
+		_mod_julian_day = ymd.d + floor((153*m + 2)/5) + (365*y) + floor(y/4) - floor(y/100) + floor(y/400) - 32045 - DAYS_BETWEEN_MJD_AND_JD;
 	}
 }

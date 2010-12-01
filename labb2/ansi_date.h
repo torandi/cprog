@@ -5,6 +5,9 @@
 
 #define DAYS_BETWEEN_UNIX_AND_MOD_JULIAN 40587
 
+#define DAYS_BETWEEN_MJD_AND_JD 2400000.5
+
+
 namespace lab2 {
 	struct ymd_t {
 		int y;

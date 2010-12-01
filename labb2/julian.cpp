@@ -38,7 +38,7 @@ namespace lab2 {
 	}
 
 	const float Julian::mjd_to_jd() const {
-		return _mod_julian_day + 2400000.5;
+		return _mod_julian_day + DAYS_BETWEEN_MJD_AND_JD;
 	}
 
 	ymd_t Julian::mjd_to_ymd() const {
