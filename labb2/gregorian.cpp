@@ -23,11 +23,6 @@ namespace lab2 {
 		set_mjd_from_ymd(ymd);
 	}
 
-
-	const int Gregorian::week_day() const {
-		return (_mod_julian_day+2)%7+1;
-	}
-	
 /*
 	Gregorian Gregorian::operator++(int i) {
 		Gregorian g(*this);

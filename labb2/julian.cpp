@@ -39,11 +39,6 @@ namespace lab2 {
 		_mod_julian_day = 1721117.5 + floor(1461*y/4) + floor((153*m - 457)/5) + d - 1.0 - DAYS_BETWEEN_MJD_AND_JD;
 	}
 
-	const int Julian::week_day() const {
-		return (_mod_julian_day+2) % 7+1;			
-	}
-
-
 	const float Julian::mjd_to_jd() const {
 		return _mod_julian_day + DAYS_BETWEEN_MJD_AND_JD;
 	}

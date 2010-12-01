@@ -37,6 +37,7 @@ namespace lab2 {
 			virtual const std::string month_name() const;
 			virtual const int days_this_month(int year,int month) const;
 			const int days_this_month() const;
+			const int week_day() const;
 
 			virtual const int day() const;
 			virtual const int month() const;

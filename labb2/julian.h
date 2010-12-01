@@ -10,9 +10,7 @@ namespace lab2 {
 			Julian(int year, int month, int day);
 			Julian(const Date &date);
 			Julian(Date * &date);
-
-			virtual const int week_day() const;
-
+		
 		private:
 			const float mjd_to_jd() const;
 			virtual const bool is_leap_year(int year) const;

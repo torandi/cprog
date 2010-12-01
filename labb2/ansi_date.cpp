@@ -40,7 +40,6 @@ namespace lab2 {
 		return months[month()-1];
 	}
 
-
 	void AnsiDate::add_month(const int months) {
 		for(int i=0;i<months;++i) {
 			ymd_t ymd=mjd_to_ymd();
@@ -110,4 +109,7 @@ namespace lab2 {
 		}
 	}
 
+	const int AnsiDate::week_day() const {
+		return (_mod_julian_day+2)%7+1;
+	}
 }
