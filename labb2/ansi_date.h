@@ -45,6 +45,11 @@ namespace lab2 {
 			virtual void add_month(const int months=1);
 			virtual void add_year(const int years=1);
 
+			/**
+			 * This methods tests if a set_mtd_from_ymd(mtm_to_ymd()) leaves the date unchanged.
+			 * If the method returns true, the class acts correctly and no content of the class was change
+			 * If the method return false, the class acts incorrect, and the content of the class has changed!
+			 */ 
 			bool self_test();
 	};
 

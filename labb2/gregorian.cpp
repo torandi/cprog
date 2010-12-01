@@ -25,8 +25,7 @@ namespace lab2 {
 
 
 	const int Gregorian::week_day() const {
-		// The constant 3 is due to _mod_julian_day counting from a wednesday.
-		return (_mod_julian_day+3)%7;
+		return (_mod_julian_day+2)%7+1;
 	}
 	
 /*
@@ -77,7 +76,7 @@ namespace lab2 {
 		float a = floor((14-ymd.m)/12);
 		float y = ymd.y + 4800 - a;
 		float m = ymd.m + (12*a) - 3;
-
-		_mod_julian_day = ymd.d + floor((153*m + 2)/5) + (365*y) + floor(y/4) - floor(y/100) + floor(y/400) - 32045 - DAYS_BETWEEN_MJD_AND_JD;
+		
+		_mod_julian_day = ymd.d + floor((153*m + 2)/5) + (365*y) + floor(y/4) - floor(y/100) + floor(y/400) - 32045 -0.5- DAYS_BETWEEN_MJD_AND_JD;
 	}
 }

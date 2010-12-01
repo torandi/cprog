@@ -54,10 +54,24 @@ int main()
     int month = t->tm_mon + 1;      // mnaderna och dagarna
     int day   = t->tm_mday;         // indexerade frn ETT
 
+	 
+	 /*
+	 Julian jl;
+	 while(jl>Julian(1800,1,1)) {
+		--jl;
+		std::cout<<jl<<" ("<<jl.mod_julian_day()<<")"<<"...";
+		if(!jl.self_test()) {
+			std::cout<<"FAIL! (is now: "<<jl<<")"<<std::endl;
+			return 1;
+		} else {
+			std::cout<<"OK"<<std::endl;
+		}
+	 }
+	*/
     std::cout << "Testing constructors..." << std::endl;
-	 Gregorian gt(1900,1,1);
+	 Gregorian gt(2010,12,1);
 	 Julian jt(2010,12,1);
-	 std::cout << "Gregorian (1900-01-01): "<<gt<<std::endl;
+	 std::cout << "Gregorian (2010-12-01): "<<gt<<std::endl;
 	 std::cout << "Julian (2010-12-01): "<<jt<<std::endl;
 
 	 std::cout << "Gregorian today: "<<Gregorian()<<std::endl;
@@ -71,6 +85,34 @@ int main()
 	 assert(jt.self_test());
 	 std::cout << "OK" << std::endl;
 
+
+	 std::cout << "Running pre-test 1...";
+    assert(gt.year() == 2010 &&              
+           gt.month() == 12 &&
+           gt.day() == 1);                  
+	 std::cout << "OK" << std::endl;
+	 gt=Gregorian(1858,1,1);
+	 std::cout << "Gregorian (1858-01-01): "<<gt<<std::endl;
+	 assert(gt.self_test());
+	 std::cout << "Running pre-test 2...";
+    assert(gt.year() == 1858 &&              
+           gt.month() == 1 &&
+           gt.day() == 1);                  
+	 std::cout << "OK" << std::endl;
+
+	 std::cout << "Running pre-test 3...";
+    assert(jt.year() == 2010 &&              
+           jt.month() == 12 &&
+           jt.day() == 1);                  
+	 std::cout << "OK" << std::endl;
+	 jt=Julian(1858,1,1);
+	 std::cout << "Julian (1858-01-01): "<<jt<<std::endl;
+	 assert(jt.self_test());
+	 std::cout << "Running pre-test 4...";
+    assert(gt.year() == 1858 &&              
+           gt.month() == 1 &&
+           gt.day() == 1);                  
+	 std::cout << "OK" << std::endl;
 
 	 std::cout << "Running test 2...";
     assert(today.year() == year &&          // rtt initierad
