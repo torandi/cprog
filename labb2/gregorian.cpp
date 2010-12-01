@@ -78,7 +78,7 @@ namespace lab2 {
 	}
 
 	void Gregorian::set_mjd_from_ymd(const ymd_t &ymd) {
-		float a = floor((14-ymd.m)/2);
+		float a = floor((14-ymd.m)/12);
 		float y = ymd.y + 4800 - a;
 		float m = ymd.m + (12*a) - 3;
 
