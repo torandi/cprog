@@ -159,10 +159,12 @@ int main()
     assert(g.week_day() == 4); // rtt veckodag
 	 std::cout << "OK" << std::endl;
 	 Gregorian g2 = g;
+	 std::cout<<g<<std::endl;
     g -= 3;                     // dra bort tre dagar
     g.add_month();              // lgg till en mnad
     g.add_month(-1);            // dra bort en mnad    
     g.add_year(10);             // lgg till tio r.
+    g += 3;                     // lägg till tre dagar
 
 	 std::cout << "Running test 13...";
 	 assert(g.month()==g2.month());
@@ -234,6 +236,21 @@ int main()
         }
 
     
+	 g=Gregorian(1992,2,29);
+	 g.add_month(29);
+	 g.add_month(41);
+	 std::cout<<"pre "<<g<<std::endl;
+	 g.add_month(-19);
+	 std::cout << "Running test 15...";
+    if(g.year() == 1996 &&
+           g.month() == 5 &&
+           g.day() == 28) {}
+	 else {
+	 	std::cout<<"FAIL!: "<<g<<std::endl;
+		return 1;
+	 }
+	 std::cout << "OK" << std::endl;
+
     std::cout << std::endl << "All tests were successful." << std::endl;
 
     // fljande ska inte g att kompilera
