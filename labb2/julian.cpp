@@ -41,9 +41,6 @@ namespace lab2 {
 		return (_mod_julian_day % 7)+4;			
 	}
 
-	const int Julian::days_this_month() const {
-		return 0;
-	}
 
 	const float Julian::mjd_to_jd() const {
 		return _mod_julian_day + DAYS_BETWEEN_MJD_AND_JD;

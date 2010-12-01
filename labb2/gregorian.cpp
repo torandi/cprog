@@ -27,16 +27,6 @@ namespace lab2 {
 		return (_mod_julian_day%7)+4;
 	}
 	
-	const int Gregorian::days_this_month() const {
-		ymd_t ymd = mjd_to_ymd();
-		int y = ymd.y;
-		
-		if((ymd.m == 2) && is_leap_year(y)) {
-			return 29;
-		} else {
-			return days_per_month[ymd.m];
-		}
-	}
 /*
 	Gregorian Gregorian::operator++(int i) {
 		Gregorian g(*this);
@@ -82,6 +72,6 @@ namespace lab2 {
 		float y = ymd.y + 4800 - a;
 		float m = ymd.m + (12*a) - 3;
 
-		_mod_julian_day = ymd.d + floor((153*m + 2)/5) + (365*y) + floor(y/4) - floor(y/100) + floor(y/400) - 32045 - DAYS_BETWEEN_MJD_AND_JD;
+		_mod_julian_day = ymd.d + floor((153*m + 2)/5) + (365*y) + floor(y/4) - floor(y/100) + floor(y/400) - 32045 -0.5 - DAYS_BETWEEN_MJD_AND_JD;
 	}
 }

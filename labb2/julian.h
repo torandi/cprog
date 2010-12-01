@@ -12,7 +12,6 @@ namespace lab2 {
 			Julian(Date * &date);
 
 			virtual const int week_day() const;
-			virtual const int days_this_month() const;
 
 		private:
 			const float mjd_to_jd() const;
