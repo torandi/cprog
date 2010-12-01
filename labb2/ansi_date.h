@@ -28,13 +28,15 @@ namespace lab2 {
 			AnsiDate();
 			virtual ~AnsiDate();
 			static const int days_per_month[12];
+			void check_valid_date(const ymd_t ymd) const;
 
 		public:
 			virtual const int days_per_week() const { return 7; };
 			virtual const int months_per_year() const { return 12; };
 			virtual const std::string week_day_name() const;
 			virtual const std::string month_name() const;
-			virtual const int days_this_month() const;
+			virtual const int days_this_month(int year,int month) const;
+			const int days_this_month() const;
 
 			virtual const int day() const;
 			virtual const int month() const;

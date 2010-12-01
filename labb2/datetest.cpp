@@ -58,8 +58,6 @@ int main()
 	 Gregorian gt(1900,1,1);
 	 Julian jt(2010,12,1);
 	 std::cout << "Gregorian (1900-01-01): "<<gt<<std::endl;
-	 ++gt;
-	 std::cout << "Gregorian (1900-01-02): "<<gt<<std::endl;
 	 std::cout << "Julian (2010-12-01): "<<jt<<std::endl;
 
 	 std::cout << "Gregorian today: "<<Gregorian()<<std::endl;
