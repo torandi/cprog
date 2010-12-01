@@ -64,11 +64,11 @@ namespace lab2 {
 	}
 
 	ymd_t Gregorian::mjd_to_ymd() const {
-		int x2 = (int) mjd_to_jd() + 1721119.5;
-		int c2 = (int) floor((4*x2+3)/146097); 
-		int x1 = (int) x2 - floor(146097*(c2/4));
-		int c1 = (int) floor((100*x1 + 99)/36525);
-		int	x0 = (int) x1 - floor(36525*c1/100);
+		float x2 = mjd_to_jd() - 1721119.5;
+		float c2 = floor((4*x2+3)/146097); 
+		float x1 = x2 - floor(146097*(c2/4));
+		float c1 = floor((100*x1 + 99)/36525);
+		float x0 = x1 - floor(36525*c1/100);
 
 		int y = 100*c2 + c1;
 		int m = floor((5*x0 + 461)/153);
@@ -78,11 +78,10 @@ namespace lab2 {
 	}
 
 	void Gregorian::set_mjd_from_ymd(const ymd_t &ymd) {
-		int a = (14-ymd.m)/2;
-		int y = ymd.y + 4800 - a;
-		int m = ymd.m + 12*a - 3;
+		float a = (14-ymd.m)/2;
+		float y = ymd.y + 4800 - a;
+		float m = ymd.m + (12*a) - 3;
 
-		_mod_julian_day = ymd.d + (153*m + 2)/5 + 365*y + (y/4) - (y/100) + (y/400) - 32045;
-
+		_mod_julian_day = ymd.d + ((153*m + 2)/5) + (365*y) + (y/4) - (y/100) + (y/400) - 32045 - 2400000.5;
 	}
 }
