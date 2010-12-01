@@ -60,7 +60,7 @@ int main()
 	 std::cout << "Gregorian (2010-12-01): "<<gt<<std::endl;
 	 std::cout << "Julian (2010-12-01): "<<jt<<std::endl;
 
-	 std::cout << "Running test 2-2...";
+	 std::cout << "Running test 2...";
     assert(today.year() == year &&          // rtt initierad
            today.month() == month &&
            today.day() == day);

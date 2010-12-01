@@ -1,4 +1,5 @@
 #include "date.h"
+#include <cstdio>
 
 namespace lab2 {
 	Date& Date::operator=(const Date &date) {
@@ -50,6 +51,9 @@ namespace lab2 {
 }
 
 std::ostream & operator<<(std::ostream & os, const lab2::Date &date) {
-	os<<date.year()<<"-"<<date.month()<<"-"<<date.day();
+	//Fix padding:
+	char buffer[10];
+	std::sprintf(buffer,"%04d-%02d-%02d",date.year(),date.month(),date.day());
+	os<<buffer;
 	return os;
 }
