@@ -16,7 +16,7 @@ namespace lab2 {
 	const std::string AnsiDate::months[12]={
 		"january",
 		"february",
-		"mars",
+		"march",
 		"april",
 		"may",
 		"june",
@@ -33,11 +33,11 @@ namespace lab2 {
 	AnsiDate::~AnsiDate() {}
 
 	const std::string AnsiDate::week_day_name() const {
-		return weekdays[week_day()];
+		return weekdays[week_day()-1];
 	}
 
 	const std::string AnsiDate::month_name() const {
-		return months[month()];
+		return months[month()-1];
 	}
 
 
