@@ -59,6 +59,7 @@ int main()
 	 Julian jt(2010,12,1);
 	 std::cout << "Gregorian (2010-12-01): "<<gt<<std::endl;
 	 std::cout << "Julian (2010-12-01): "<<jt<<std::endl;
+	 std::cout << "Julian from Gregorian "<<Julian(gt)<<std::endl;
 
 	 std::cout << "Gregorian today: "<<Gregorian()<<std::endl;
 
