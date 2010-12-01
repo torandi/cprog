@@ -25,8 +25,8 @@ namespace lab2 {
 	}
 
 	void Julian::set_mjd_from_ymd(const ymd_t &ymd) {
-		_mod_julian_day = 367*ymd.y + (7*(ymd.y+((ymd.m+9)/2)))/4 + 
-			285*ymd.m / 9 + ymd.d;
+		_mod_julian_day = 367*ymd.y + floor((7*(ymd.y+floor((ymd.m+9)/12)))/4) + 
+			floor(285*ymd.m / 9) + ymd.d - 730530;
 	}
 
 	const int Julian::week_day() const {
