@@ -55,7 +55,12 @@ int main()
     int day   = t->tm_mday;         // indexerade frn ETT
 
     std::cout << "Testing constructors..." << std::endl;
-	 std::cout << "Running test 2...";
+	 Gregorian gt(2010,12,1);
+	 Julian jt(2010,12,1);
+	 std::cout << "Gregorian (2010-12-01): "<<gt<<std::endl;
+	 std::cout << "Julian (2010-12-01): "<<jt<<std::endl;
+
+	 std::cout << "Running test 2-2...";
     assert(today.year() == year &&          // rtt initierad
            today.month() == month &&
            today.day() == day);
