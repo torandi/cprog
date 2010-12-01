@@ -31,8 +31,8 @@ namespace lab2 {
 		return mod_julian_day() >= date.mod_julian_day();
 	}
 
-	Date & Date::operator++() { return *this+=1; };
-	Date & Date::operator--() { return *this-=1; };
+	Date & Date::operator++() { return (*this)+=1; };
+	Date & Date::operator--() { return (*this)-=1; };
 
 	Date &Date::operator+=(const int n) {
 		_mod_julian_day += n;

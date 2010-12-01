@@ -55,9 +55,11 @@ int main()
     int day   = t->tm_mday;         // indexerade frn ETT
 
     std::cout << "Testing constructors..." << std::endl;
-	 Gregorian gt(2010,12,1);
+	 Gregorian gt(1900,1,1);
 	 Julian jt(2010,12,1);
-	 std::cout << "Gregorian (2010-12-01): "<<gt<<std::endl;
+	 std::cout << "Gregorian (1900-01-01): "<<gt<<std::endl;
+	 ++gt;
+	 std::cout << "Gregorian (1900-01-02): "<<gt<<std::endl;
 	 std::cout << "Julian (2010-12-01): "<<jt<<std::endl;
 
 	 std::cout << "Gregorian today: "<<Gregorian()<<std::endl;
@@ -144,6 +146,7 @@ int main()
     std::cout << "Testing boundary violations";
     Gregorian temp(1900, 1, 1);
     Date &d = temp;
+
 
     // loopa ver dagar och kolla att inga grnser ver/underskrids
     for(int i = 0; i < 100000; ++i, ++d)

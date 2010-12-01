@@ -63,6 +63,10 @@ namespace lab2 {
 		int y = 100*c2 + c1;
 		int m = floor((5*x0 + 461)/153);
 		int d = x0 - floor((153*m -457)/5) + 1;
+		if(m>12) {
+			m-=12;
+			++y;
+		}
 
 		return ymd_t(y,m,d);
 	}
@@ -72,6 +76,6 @@ namespace lab2 {
 		float y = ymd.y + 4800 - a;
 		float m = ymd.m + (12*a) - 3;
 
-		_mod_julian_day = ymd.d + floor((153*m + 2)/5) + (365*y) + floor(y/4) - floor(y/100) + floor(y/400) - 32045 -0.5 - DAYS_BETWEEN_MJD_AND_JD;
+		_mod_julian_day = ymd.d + floor((153*m + 2)/5) + (365*y) + floor(y/4) - floor(y/100) + floor(y/400) - 32045 - DAYS_BETWEEN_MJD_AND_JD;
 	}
 }
