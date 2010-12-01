@@ -17,7 +17,7 @@ namespace lab2 {
 		int y = year + 4800 - a;
 		int m = month + 12*a - 3;
 
-		mod_julian_day = day + (153*m + 2)/5 + 365*y + (y/4) - (y/100) + (y/400) - 32045;
+		_mod_julian_day = day + (153*m + 2)/5 + 365*y + (y/4) - (y/100) + (y/400) - 32045;
 	}
 
 
