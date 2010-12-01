@@ -96,7 +96,7 @@ namespace lab2 {
 		if((ymd.m == 2) && is_leap_year(y)) {
 			return 29;
 		} else {
-			return days_per_month[ymd.m];
+			return days_per_month[ymd.m-1];
 		}
 	}
 

@@ -23,8 +23,8 @@ namespace lab2 {
 
 
 	const int Gregorian::week_day() const {
-		// The constant -5 is due to _mod_julian_day counting from a wednesday.
-		return (_mod_julian_day%7)+4;
+		// The constant 3 is due to _mod_julian_day counting from a wednesday.
+		return (_mod_julian_day+3)%7;
 	}
 	
 /*
