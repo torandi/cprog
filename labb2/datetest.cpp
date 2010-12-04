@@ -186,23 +186,28 @@ int main()
         {}
     
     std::cout << "Testing boundary violations";
-    Gregorian temp(1900, 1, 1);
+    Gregorian temp(1700, 1, 1);
     Date &d = temp;
 
 
     // loopa ver dagar och kolla att inga grnser ver/underskrids
     for(int i = 0; i < 100000; ++i, ++d)
         {
+		  		
             if(!(i % 5000))        // utskrift p framsteg
                 {
                     std::cout << ".";
                     flush(std::cout);
                 }
             int m[] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-            if(d.year() >= 1900 && 
+            if(d.year() >= 1700 && 
                d.month() >= 1 && d.month() <= 12 &&
-               d.day() >= 1 && d.day() <= m[d.month() - 1])
-                {}
+               d.day() >= 1 && d.day() <= m[d.month() - 1]
+					&& d.week_day() >0 && d.week_day() <=7)
+                {
+					 	d.week_day_name();
+						d.month_name();
+					 }
             else
                 {
                     std::cout << std::endl;
@@ -210,6 +215,7 @@ int main()
                     std::cout << d.year() << ", "
                               << d.month() << ", "
                               << d.day() << std::endl;
+						  std::cout << "wd: " << d.week_day() <<std::endl;
                     return 1;
                 }
         }
@@ -249,6 +255,25 @@ int main()
 	 	std::cout<<"FAIL!: "<<g<<std::endl;
 		return 1;
 	 }
+	 std::cout << "OK" << std::endl;
+
+	 std::cout << "Running test 16...";
+	 g=Gregorian(1858,1,1);
+	 assert(g.week_day()==5);
+	 ++g;
+	 assert(g.week_day()==6);
+	 ++g;
+	 assert(g.week_day()==7);
+	 ++g;
+	 assert(g.week_day()==1);
+	 ++g;
+	 assert(g.week_day()==2);
+	 ++g;
+	 assert(g.week_day()==3);
+	 ++g;
+	 assert(g.week_day()==4);
+	 ++g;
+	 assert(g.week_day()==5);
 	 std::cout << "OK" << std::endl;
 
     std::cout << std::endl << "All tests were successful." << std::endl;

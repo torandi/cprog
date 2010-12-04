@@ -2,6 +2,7 @@
 #include <string>
 #include <stdexcept>
 #include <stdio.h>
+#include <algorithm>
  
 namespace lab2 {
 	const std::string AnsiDate::weekdays[7]={
@@ -129,7 +130,7 @@ namespace lab2 {
 
 	const int AnsiDate::week_day() const {
 		if (_mod_julian_day < 0) {
-			return 7 - ((_mod_julian_day+2)%7 +1);
+			return 7 - ((abs(_mod_julian_day+3))%7);
 		} else {
 			return ((_mod_julian_day+2)%7)+1;
 		}
