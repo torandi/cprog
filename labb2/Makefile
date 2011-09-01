@@ -40,3 +40,7 @@ cprog09lab22b: date.o ansi_date.o gregorian.o julian.o cprog09lab22b.o kattistim
 
 clean: 
 	rm ansi_date.o date.o gregorian.o julian.o kattistime.o datetest.o datetest
+
+submit: cprog09lab22a.cpp date.cpp date.h gregorian.cpp gregorian.h julian.cpp julian.h kattistime.cpp kattistime.h ansi_date.cpp ansi_date.h 
+	kattis.py cprog09lab22a.cpp date.cpp date.h gregorian.cpp gregorian.h julian.cpp julian.h kattistime.cpp kattistime.h ansi_date.cpp ansi_date.h
+
