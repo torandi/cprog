@@ -1,6 +1,10 @@
+#ifndef MIKTOR_CALENDAR
+#define MIKTOR_CALENDAR
+
 #include "date.h"
 #include <string>
-#include <set>
+#include <vector>
+#include <map>
 #include <utility>
 #include <climits>
 #include <stdexcept>
@@ -16,7 +20,12 @@ namespace lab2 {
 	template <typename T>
 	class Calendar {
 		T _current_date;
-		std::set< std::pair<int , std::string> > _events;
+
+
+		/*
+		 * Map each date to an vector with events that date
+		*/
+		std::map<int, std::vector<std::string> > _events;
 
 		template<typename> friend class Calendar;
 
@@ -31,13 +40,16 @@ namespace lab2 {
 		
 		public:
 			Calendar();
+
+			template <typename T2> Calendar(const Calendar<T2> &calendar);
+
 			template <typename T2>
 			Calendar<T> &operator=(const Calendar<T2> &calendar);
 			bool set_date(int year, int month, int day);
 			bool add_event(std::string event, int day=INT_MIN, int month=INT_MIN, int year=INT_MIN);
 			bool remove_event(std::string event, int day=INT_MIN, int month=INT_MIN, int year=INT_MIN);
 
-			const std::set<std::pair<int, std::string> > &events() const;
+			const std::map<int, std::vector<std::string> > &events() const;
 	};
 }
 
@@ -63,6 +75,13 @@ lab2::Calendar<T>::Calendar() : _current_date() { }
 
 template <typename T>
 template <typename T2>
+lab2::Calendar<T>::Calendar(const Calendar<T2> &calendar) {
+	_current_date = calendar._current_date;
+	_events = calendar._events;
+}
+
+template <typename T>
+template <typename T2>
 lab2::Calendar<T> &lab2::Calendar<T>::operator=(const lab2::Calendar<T2> &calendar) {
 	_current_date = calendar._current_date;
 	_events = calendar._events;
@@ -78,9 +97,16 @@ template<typename T>
 bool lab2::Calendar<T>::add_event(std::string event, int day, int month, int year) {
 	T date;
 	if(_create_date(date, year, month, day)) {
-		return _events.insert(make_pair(date.mod_julian_day(),event)).second; //Second value in pair is true if insert succeds
+		//Find events for this date:
+		std::vector<std::string> * date_events = &_events[date.mod_julian_day()];
+		//Exists?
+		for(std::vector<std::string>::const_iterator it=date_events->begin(); it!=date_events->end(); ++it) {
+			if(*it == event)
+				return false;
+		}
+		date_events->push_back(event);
+		return true;
 	} else {
-		printf("Create failed\n");
 		return false;
 	}
 }
@@ -89,25 +115,39 @@ template<typename T>
 bool lab2::Calendar<T>::remove_event(std::string event, int day, int month, int year) {
 	T date;
 	if(_create_date(date, year, month, day)) {
-		return (_events.erase(make_pair(date.mod_julian_day(), event))==1);
+		//Find events for this date:
+		std::vector<std::string> * date_events = &_events[date.mod_julian_day()];
+		for(std::vector<std::string>::iterator it=date_events->begin(); it!=date_events->end(); ++it) {
+			if(*it == event) {
+				date_events->erase(it);
+				return true;
+			}
+		}
+		//Nothing found
+		return false;
 	} else {
 		return false;
 	}
 }
 
 template<typename T>
-const std::set<std::pair<int, std::string> > &lab2::Calendar<T>::events() const{
+const std::map<int, std::vector<std::string> > &lab2::Calendar<T>::events() const{
 	return _events;
 }
 
 
 template <typename T>
 std::ostream & operator<<(std::ostream & os, const lab2::Calendar<T> & calendar) {
-	std::set<std::pair<int, std::string> >::iterator it;
+	std::map<int, std::vector<std::string> >::const_iterator it;
+	std::vector<std::string>::const_iterator it2;
 	for(it=calendar.events().begin(); it!=calendar.events().end();++it) {
-		os << T(it->first);
-		os << " : ";
-		os << it->second << std::endl;
+		for(it2=it->second.begin();it2!=it->second.end();++it2) {
+			os << T(it->first);
+			os << " : ";
+			os << (*it2) << std::endl;
+		}
 	}
 	return os;
 }
+
+#endif

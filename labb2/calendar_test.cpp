@@ -45,5 +45,15 @@ int main() {
 	jcal = cal;
 	std::cout << jcal <<std::endl;
 	std::cout << "----------------------------------------" << std::endl;
+	Calendar<Gregorian> c;
+	c.set_date(2011,1,1);
+	c.add_event("Test 10 1", 10);
+	c.add_event("Test 9 1", 9);
+	c.add_event("Test 10 2", 10);
+	c.add_event("Test 11 1", 11);
+	std::cout << "----------------------------------------" << std::endl;
+	std::cout << c;
+	std::cout << "----------------------------------------" << std::endl;
+
 
 }
