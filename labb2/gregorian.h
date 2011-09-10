@@ -8,9 +8,11 @@ namespace lab2 {
 		public:
 			Gregorian();
 			Gregorian(const Date &date);
+			Gregorian(Date * date);
 			Gregorian(int year, int month, int day);
 
-	//		Gregorian operator++(int);
+			Gregorian(int mjd);
+
 
 
 		private:

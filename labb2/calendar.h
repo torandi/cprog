@@ -19,7 +19,6 @@ namespace lab2 {
 		std::set< std::pair<int , std::string> > _events;
 
 		template<typename> friend class Calendar;
-		template<typename> friend std::ostream & operator<<(std::ostream & os, const lab2::Calendar<T> & cal);
 
 		/*
 		 * Creates a date object from the given parameters and set date to it
@@ -37,6 +36,8 @@ namespace lab2 {
 			bool set_date(int year, int month, int day);
 			bool add_event(std::string event, int day=INT_MIN, int month=INT_MIN, int year=INT_MIN);
 			bool remove_event(std::string event, int day=INT_MIN, int month=INT_MIN, int year=INT_MIN);
+
+			const std::set<std::pair<int, std::string> > &events() const;
 	};
 }
 
@@ -94,12 +95,19 @@ bool lab2::Calendar<T>::remove_event(std::string event, int day, int month, int 
 	}
 }
 
+template<typename T>
+const std::set<std::pair<int, std::string> > &lab2::Calendar<T>::events() const{
+	return _events;
+}
+
 
 template <typename T>
 std::ostream & operator<<(std::ostream & os, const lab2::Calendar<T> & calendar) {
-/*	std::set<std::pair<int, std::string> >::iterator it;
-	for(it=calendar._events.begin(); it!=calendar._events.end();++it) {
-		os << T(
-	}*/
+	std::set<std::pair<int, std::string> >::iterator it;
+	for(it=calendar.events().begin(); it!=calendar.events().end();++it) {
+		os << T(it->first);
+		os << " : ";
+		os << it->second << std::endl;
+	}
 	return os;
 }

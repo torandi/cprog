@@ -52,7 +52,7 @@ namespace lab2 {
 
 std::ostream & operator<<(std::ostream & os, const lab2::Date &date) {
 	//Fix padding:
-	char buffer[10];
+	char buffer[11];
 	std::sprintf(buffer,"%04d-%02d-%02d",date.year(),date.month(),date.day());
 	os<<buffer;
 	return os;

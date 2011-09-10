@@ -9,7 +9,9 @@ namespace lab2 {
 			Julian();
 			Julian(int year, int month, int day);
 			Julian(const Date &date);
-			Julian(Date * &date);
+			Julian(Date * date);
+
+			Julian(int mjd);
 		
 		private:
 			const float mjd_to_jd() const;

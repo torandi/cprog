@@ -23,13 +23,13 @@ namespace lab2 {
 		set_mjd_from_ymd(ymd);
 	}
 
-/*
-	Gregorian Gregorian::operator++(int i) {
-		Gregorian g(*this);
-		++(*this);
-		return g;
-	}	
-	*/
+	Gregorian::Gregorian(int mjd) {
+		_mod_julian_day = mjd;
+	}
+
+	Gregorian::Gregorian(Date * date) {
+		_mod_julian_day = date->mod_julian_day();
+	}
 
 	const float Gregorian::mjd_to_jd() const {
 		return _mod_julian_day + DAYS_BETWEEN_MJD_AND_JD;

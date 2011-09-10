@@ -22,8 +22,13 @@ namespace lab2 {
 		_mod_julian_day = date.mod_julian_day();
 	}
 
-	Julian::Julian(Date * &date) {
+	Julian::Julian(Date * date) {
 		_mod_julian_day = date->mod_julian_day();
+	}
+
+	
+	Julian ::Julian(int mjd) {
+		_mod_julian_day = mjd;
 	}
 
 	void Julian::set_mjd_from_ymd(const ymd_t &ymd) {

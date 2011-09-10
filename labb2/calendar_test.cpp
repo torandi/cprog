@@ -30,6 +30,7 @@ int main() {
 	assert(cal.add_event("Min första cykel", 20, 12, 2000));
 	assert(cal.remove_event("Basketträning", 4));
 
+	std::cout << "----------------------------------------" << std::endl;
 	std::cout << cal; // OBS! Vårdagjämning och första advent är
 	// före nuvarande datum och skrivs inte ut
 	std::cout << "----------------------------------------" << std::endl;
@@ -37,22 +38,12 @@ int main() {
 	assert(cal.remove_event("Kalle Anka hälsar god jul", 24, 12, 2000));
 	assert(cal.set_date(2000, 11, 2));
 	assert(cal.remove_event("Julafton", 24) == false);
-	std::cout << "----------------------------------------" << std::endl;
 	std::cout << cal;
-
+	std::cout << "----------------------------------------" << std::endl;
+	std::cout << "This should have same events but with different dates--" << std::endl;
 	Calendar<Julian> jcal;
 	jcal = cal;
 	std::cout << jcal <<std::endl;
-/*
-	std::cout < "------------------------------------------" << std::endl;
-	std::cout << "Testing cloning with operator= works as expected" <<std::endl;
+	std::cout << "----------------------------------------" << std::endl;
 
-	Calendar<Gregorian> gcal;
-	assert(gcal.set_date(2011,1,1));
-	assert(gcal.add_event("Testevent", 10));
-	std::cout << "Original calender, before assign: "<< gcal<<std::endl;
-	jcal = gcal;
-	assert(jcal.remove_event("Testevent", 10));
-	std::cout << "After : "<<gcal <<std::endl;
-*/
 }
