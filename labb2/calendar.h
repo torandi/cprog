@@ -50,6 +50,7 @@ namespace lab2 {
 			bool remove_event(std::string event, int day=INT_MIN, int month=INT_MIN, int year=INT_MIN);
 
 			const std::map<int, std::vector<std::string> > &events() const;
+			const T &current_date() const;
 	};
 }
 
@@ -135,12 +136,17 @@ const std::map<int, std::vector<std::string> > &lab2::Calendar<T>::events() cons
 	return _events;
 }
 
+template<typename T>
+const T &lab2::Calendar<T>::current_date() const{
+	return _current_date;
+}
+
 
 template <typename T>
 std::ostream & operator<<(std::ostream & os, const lab2::Calendar<T> & calendar) {
 	std::map<int, std::vector<std::string> >::const_iterator it;
 	std::vector<std::string>::const_iterator it2;
-	for(it=calendar.events().begin(); it!=calendar.events().end();++it) {
+	for(it=calendar.events().lower_bound(calendar.current_date().mod_julian_day()+1); it!=calendar.events().end();++it) {
 		for(it2=it->second.begin();it2!=it->second.end();++it2) {
 			os << T(it->first);
 			os << " : ";

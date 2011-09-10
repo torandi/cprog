@@ -23,7 +23,7 @@ cprog09lab22a.o: cprog09lab22a.cpp
 cprog09lab22b.o: cprog09lab22b.cpp
 	g++ $(CFLAGS) -c cprog09lab22b.cpp
 
-cprog09lab23.o: cprog09lab23.cpp
+cprog09lab23.o: cprog09lab23.cpp calendar.h
 	g++ $(CFLAGS) -c cprog09lab23.cpp
 
 datetest.o: datetest.cpp
@@ -44,7 +44,7 @@ cprog09lab22a: date.o ansi_date.o gregorian.o julian.o cprog09lab22a.o kattistim
 cprog09lab22b: date.o ansi_date.o gregorian.o julian.o cprog09lab22b.o kattistime.o
 	g++ $(CFLAGS) date.o ansi_date.o gregorian.o julian.o cprog09lab22b.o kattistime.o -o cprog09lab22b
 
-cprog09lab23: date.o ansi_date.o gregorian.o julian.o cprog09lab23.o kattistime.o
+cprog09lab23: date.o ansi_date.o gregorian.o julian.o cprog09lab23.o kattistime.o 
 	g++ $(CFLAGS) date.o ansi_date.o gregorian.o julian.o cprog09lab23.o kattistime.o -o cprog09lab23
 
 calendar_test: date.o ansi_date.o gregorian.o julian.o kattistime.o calendar_test.o
