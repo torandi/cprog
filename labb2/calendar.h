@@ -6,7 +6,6 @@
 #include <vector>
 #include <map>
 #include <utility>
-#include <climits>
 #include <stdexcept>
 
 #include <ostream>
@@ -46,29 +45,18 @@ namespace lab2 {
 			template <typename T2>
 			Calendar<T> &operator=(const Calendar<T2> &calendar);
 			bool set_date(int year, int month, int day);
-			bool add_event(std::string event, int day=INT_MIN, int month=INT_MIN, int year=INT_MIN);
-			bool remove_event(std::string event, int day=INT_MIN, int month=INT_MIN, int year=INT_MIN);
+			bool add_event(std::string event);
+			bool add_event(std::string event, int day);
+			bool add_event(std::string event, int day, int month);
+			bool add_event(std::string event, int day, int month, int year);
+			bool remove_event(std::string event);
+			bool remove_event(std::string event, int day);
+			bool remove_event(std::string event, int day, int month);
+			bool remove_event(std::string event, int day, int month, int year);
 
 			const std::map<int, std::vector<std::string> > &events() const;
 			const T &current_date() const;
 	};
-}
-
-template<typename T>
-bool lab2::Calendar<T>::_create_date(T & date, int year, int month, int day) {
-	if(day == INT_MIN)
-		day = _current_date.day();
-	if(month == INT_MIN)
-		month = _current_date.month();
-	if(year == INT_MIN)
-		year = _current_date.year();
-
-	try {
-		date = T(year, month, day);
-		return true;
-	} catch (std::out_of_range e) {
-		return false;
-	}
 }
 
 template <typename T>
@@ -91,42 +79,77 @@ lab2::Calendar<T> &lab2::Calendar<T>::operator=(const lab2::Calendar<T2> &calend
 
 template<typename T>
 bool lab2::Calendar<T>::set_date(int year, int month, int day) {
-	return _create_date(_current_date,year, month, day);
-}
-
-template<typename T>
-bool lab2::Calendar<T>::add_event(std::string event, int day, int month, int year) {
-	T date;
-	if(_create_date(date, year, month, day)) {
-		//Find events for this date:
-		std::vector<std::string> * date_events = &_events[date.mod_julian_day()];
-		//Exists?
-		for(std::vector<std::string>::const_iterator it=date_events->begin(); it!=date_events->end(); ++it) {
-			if(*it == event)
-				return false;
-		}
-		date_events->push_back(event);
+	try {
+		_current_date = T(year, month, day);
 		return true;
-	} else {
+	} catch (std::out_of_range e) {
 		return false;
 	}
 }
 
 template<typename T>
-bool lab2::Calendar<T>::remove_event(std::string event, int day, int month, int year) {
-	T date;
-	if(_create_date(date, year, month, day)) {
+bool lab2::Calendar<T>::add_event(std::string event, int day, int month) {
+	return add_event(event,day,month,_current_date.year());
+}
+
+template<typename T>
+bool lab2::Calendar<T>::add_event(std::string event, int day) {
+	return add_event(event,day,_current_date.month(),_current_date.year());
+}
+
+template<typename T>
+bool lab2::Calendar<T>::add_event(std::string event) {
+	return add_event(event,_current_date.day(),_current_date.month(),_current_date.year());
+}
+
+template<typename T>
+bool lab2::Calendar<T>::add_event(std::string event, int day, int month, int year) {
+	try {
+		T date = T(year, month, day);
 		//Find events for this date:
-		std::vector<std::string> * date_events = &_events[date.mod_julian_day()];
-		for(std::vector<std::string>::iterator it=date_events->begin(); it!=date_events->end(); ++it) {
+		std::vector<std::string> &date_events = _events[date.mod_julian_day()];
+		//Exists?
+		for(std::vector<std::string>::iterator it=date_events.begin(); it!=date_events.end(); ++it) {
+			if(*it == event)
+				return false;
+		}
+		date_events.push_back(event);
+		return true;
+	} catch (std::out_of_range e) {
+		return false;
+	}
+}
+
+template<typename T>
+bool lab2::Calendar<T>::remove_event(std::string event, int day, int month) {
+	return remove_event(event, day,month,_current_date.year());
+}
+
+template<typename T>
+bool lab2::Calendar<T>::remove_event(std::string event, int day) {
+	return remove_event(event, day,_current_date.month(),_current_date.year());
+}
+
+template<typename T>
+bool lab2::Calendar<T>::remove_event(std::string event) {
+	return remove_event(event, _current_date.day(),_current_date.month(),_current_date.year());
+}
+
+template<typename T>
+bool lab2::Calendar<T>::remove_event(std::string event, int day, int month, int year) {
+	try {
+		T date = T(year, month, day);
+		//Find events for this date:
+		std::vector<std::string> &date_events = _events[date.mod_julian_day()];
+		for(std::vector<std::string>::iterator it=date_events.begin(); it!=date_events.end(); ++it) {
 			if(*it == event) {
-				date_events->erase(it);
+				date_events.erase(it);
 				return true;
 			}
 		}
 		//Nothing found
 		return false;
-	} else {
+	} catch (std::out_of_range e) {
 		return false;
 	}
 }

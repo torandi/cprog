@@ -48,12 +48,22 @@ int main() {
 	Calendar<Gregorian> c;
 	c.set_date(2011,1,1);
 	c.add_event("Test 10 1", 1);
-	c.add_event("Test 9 1", 2);
 	c.add_event("Test 10 2", 3);
+	c.add_event("Test 10 3", 3);
+	c.add_event("Test 10 4", 3);
 	c.add_event("Test 11 1", 4);
+	assert(c.remove_event("Test 10 3",3));
+	assert(c.add_event("Test 10 4", 3)==false);
+	assert(c.remove_event("Test 2 1",2)==false);
+	assert(c.add_event("Test 10 2", 3)==false);
 	std::cout << "----------------------------------------" << std::endl;
 	std::cout << c;
 	std::cout << "----------------------------------------" << std::endl;
-
+	//Test some illegal dates
+	assert(c.add_event("a",32)==false);
+	assert(c.add_event("b",0)==false);
+	assert(c.add_event("c",30,2)==false);
+	assert(c.add_event("d",30,-1)==false);
+	assert(c.add_event("d",30,20)==false);
 
 }
