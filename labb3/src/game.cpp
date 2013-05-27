@@ -37,7 +37,25 @@ namespace game {
 				node->print();
 				Logging::fatal("Invalid or missing tag for area");
 			}
-			areas[node->find("/id",true)->parse_string()] = area;
+			areas[(*node)["/id"].parse_string()] = area;
+		}
+
+
+		//Fix area exits
+		for(const ConfigNode * node : areas_config.root().list()) {
+			Area * area = areas.find((*node)["/id"].parse_string())->second;
+			const ConfigNode * exits_node = node->find("/exits");
+			if(exits_node) {
+				std::map<std::string, Area*> exits;
+				for(auto &exit : exits_node->map()) {
+					auto e_area = areas.find(exit.second->parse_string());
+					if(e_area == areas.end()) {
+						Logging::fatal("Unknown area id %s for exit %s from area %s\n", exit.second->parse_string().c_str(), exit.first.c_str(), area->name().c_str());
+					}
+					exits[exit.first] = e_area->second;
+				}
+				area->set_exits(exits);
+			}
 		}
 
 	}
