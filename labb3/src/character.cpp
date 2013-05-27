@@ -9,10 +9,10 @@
 
 namespace game {
 
-	Character::Character(const std::string &name, const std::string &type, const std::string & description, int life, int initiative, int action_points, Area * location)
+	Character::Character(const std::string &name, const std::string &faction, const std::string & description, int life, int initiative, int action_points, Area * location)
 		: m_max_life(life)
 		, m_name(name)
-		, m_type(type)
+		, m_faction(faction)
 		, m_description(description)
 		, m_initiative(initiative)
 		, m_base_action_points(action_points)
@@ -42,8 +42,8 @@ namespace game {
 		m_life += l;
 	}
 
-	const std::string &Character::type() const {
-		return m_type;
+	const std::string &Character::faction() const {
+		return m_faction;
 	}
 
 	const std::string &Character::name() const {
@@ -97,7 +97,11 @@ namespace game {
 	void Character::pick_up(Item * item) {
 		if(m_location->pick_up(this, item)) {
 			Game::out(location()) << name() << " picks up " << item->name() << std::endl;
-			item->aquire(this);
+			if(item->aquire(this)) {
+				store(item);
+			} else {
+				delete item;
+			}
 		}
 	}
 

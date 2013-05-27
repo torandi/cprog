@@ -31,7 +31,7 @@ namespace game {
 
 		virtual void regain_life(int life);
 
-		virtual const std::string &type() const;
+		virtual const std::string &faction() const;
 		virtual const std::string &name() const;
 		virtual const std::string &description() const;
 		state_t state() const;
@@ -56,10 +56,10 @@ namespace game {
 
 		virtual ~Character();
 	protected:
-		Character(const std::string &name, const std::string &type, const std::string &description, int life, int initiative, int action_points, Area * location);
+		Character(const std::string &name, const std::string &faction, const std::string &description, int life, int initiative, int action_points, Area * location);
 
 		const int m_max_life;
-		const std::string m_name, m_type, m_description;
+		const std::string m_name, m_faction, m_description;
 
 		const int m_initiative, m_base_action_points;
 		int m_action_points;
@@ -74,6 +74,8 @@ namespace game {
 		Character * m_in_fight = nullptr;
 
 		int initiative_roll() const;
+
+		virtual void store(Item * item) = 0;
 
 	};
 };

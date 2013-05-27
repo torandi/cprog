@@ -8,9 +8,12 @@ bin_PROGRAMS = cprog10l3
 cprog10l3_SOURCES = \
 	src/area.cpp src/area.hpp \
 	src/game.cpp src/game.hpp \
+	src/item.cpp src/item.hpp \
+	src/health_potion.cpp src/health_potion.hpp \
 	src/character.cpp src/character.hpp \
 	src/config.cpp src/config.hpp \
 	src/logging.cpp src/logging.hpp \
+	src/keepable.cpp src/keepable.hpp \
 	src/main.cpp
 
 cprog10l3_LDADD = ${yaml_LIBS}

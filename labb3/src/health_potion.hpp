@@ -7,8 +7,7 @@
 namespace game {
   class HealthPotion : public Item {
     public:
-      virtual bool pick_up(Character * character) const;
-      virtual void aquire(Character * character) const;
+      virtual bool aquire(Character * character) const;
 
       static HealthPotion * from_config(const ConfigNode * node);
 

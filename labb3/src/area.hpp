@@ -11,6 +11,7 @@
 namespace game {
 	class Character;
 	class Item;
+	class Keepable;
 
 	class Area {
 		public:
@@ -32,8 +33,7 @@ namespace game {
 			virtual void stay(Character * character); /* A character stays idle in the location */
 
 			virtual bool pick_up(Character * character, Item * item);
-			//virtual bool drop(Character * character, Keepable * item);
-			//
+			virtual bool drop(Character * character, Keepable * item);
 
 			void set_exits(const std::map<std::string, Area*> &exits);
 

@@ -2,6 +2,7 @@
 #include "character.hpp"
 #include "config.hpp"
 #include "item.hpp"
+#include "keepable.hpp"
 
 #include <algorithm>
 
@@ -59,6 +60,15 @@ namespace game {
 	bool Area::pick_up(Character * character, Item * item) {
 		if(item->pick_up(character)) {
 			m_items.erase(item);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	bool Area::drop(Character * character, Keepable * item) {
+		if(item->drop(character)) {
+			m_items.insert(item);
 			return true;
 		} else {
 			return false;

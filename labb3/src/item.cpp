@@ -13,8 +13,4 @@ namespace game {
 		, m_description(description) {
 
 	}
-
-	Item::~Item() {
-
-	}
 }

@@ -1,10 +1,13 @@
 #include "health_potion.hpp"
+#include "character.hpp"
 
 namespace game {
-  HealthPotion::HealthPotion(int hp) {
-    : m_hp(hp) {
+  HealthPotion::HealthPotion(int hp)
+    : Item("health potion", "restores some health")
+    , m_hp(hp) {
   }
-  void HealthPotion::aquire(Character * character) const {
+  bool HealthPotion::aquire(Character * character) const {
     character->regain_life(m_hp);
+    return false;
   }
 };
