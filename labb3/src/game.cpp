@@ -5,6 +5,8 @@ namespace game {
 	std::default_random_engine Game::generator;
 	std::vector<std::uniform_int_distribution<int> > Game::dices;
 
+	Game * Game::singleton = nullptr;
+
 	Game::Game() {
 
 		dices.push_back(std::uniform_int_distribution<int>(1,5));
@@ -26,5 +28,13 @@ namespace game {
 		} else {
 			return value;
 		}
+	}
+
+	Game::try_result_t Game::try_action(int points) {
+		int roll = roll_dice(T20);
+		if(roll == 1) return PERFECT;
+		else if(roll == 20) return FATAL;
+		else if(roll <= points) return SUCCESS;
+		else return FAIL;
 	}
 }

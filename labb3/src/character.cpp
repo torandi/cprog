@@ -8,17 +8,23 @@
 
 namespace game {
 
-	Character::Character(const std::string &name, const std::string &type, int life, int initiative, Area * location)
+	Character::Character(const std::string &name, const std::string &type, const std::string & description, int life, int initiative, int action_points, Area * location)
 		: m_max_life(life)
 		, m_name(name)
 		, m_type(type)
+		, m_description(description)
 		, m_initiative(initiative)
+		, m_base_action_points(action_points)
 		, m_life(life)
 		, m_location(location) {
 	}
 
 	Character::~Character() {
 
+	}
+
+	void Character::new_turn() {
+		m_action_points = m_base_action_points;
 	}
 
 	const int Character::life() const {
@@ -35,6 +41,10 @@ namespace game {
 
 	const std::string &Character::name() const {
 		return m_name;
+	}
+
+	const std::string &Character::description() const {
+		return m_description;
 	}
 
 	Character::state_t Character::state() const {
@@ -59,6 +69,19 @@ namespace game {
 
 	int Character::initiative_roll() const {
 		return Game::roll_dice(Game::T10, 10);
+	}
+
+	void Character::do_action(int cost) {
+		if(m_action_points >= cost) {
+			m_action_points -= cost;
+		} else {
+			throw "More action points needed";
+		}
+	}
+
+	Game::try_result_t Character::try_do_action(int cost) {
+		do_action(cost);
+		return Game::try_action(cost);
 	}
 
 }

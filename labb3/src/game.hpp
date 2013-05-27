@@ -8,6 +8,8 @@
 namespace game {
 	class Game {
 		public:
+			static Game * singleton;
+
 			Game();
 			~Game();
 
@@ -18,7 +20,15 @@ namespace game {
 				T20
 			};
 
+			enum try_result_t {
+				PERFECT=0,
+				SUCCESS=1,
+				FAIL=2,
+				FATAL=3
+			};
+
 			static int roll_dice(dice_t dice, int op=-1);
+			static try_result_t try_action(int points);
 
 		private:
 			static std::default_random_engine generator;
