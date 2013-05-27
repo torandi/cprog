@@ -6,6 +6,7 @@ AM_CXXFLAGS = -Wall -Woverloaded-virtual -Wvla -Wconversion ${yaml_CFLAGS} -I${t
 bin_PROGRAMS = cprog10l3
 
 cprog10l3_SOURCES = \
+	src/area.cpp src/area.hpp \
 	src/game.cpp src/game.hpp \
 	src/character.cpp src/character.hpp \
 	src/config.cpp src/config.hpp \
