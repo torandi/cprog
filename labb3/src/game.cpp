@@ -82,7 +82,11 @@ namespace game {
 		else return FAIL;
 	}
 
-	std::ostream &Game::out(const Area*) {
+	std::ostream &Game::output(const Area* area) {
 		return std::cout;
+	}
+
+	std::ostream &Game::out(const Area* area) {
+		return Game::singleton->output(area);
 	}
 }

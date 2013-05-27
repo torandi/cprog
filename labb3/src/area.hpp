@@ -31,7 +31,7 @@ namespace game {
 			virtual bool leave(Character * character); /* Return false if action is denied */
 			virtual void stay(Character * character); /* A character stays idle in the location */
 
-			virtual void pick_up(Character * character, Item * item);
+			virtual bool pick_up(Character * character, Item * item);
 			//virtual bool drop(Character * character, Keepable * item);
 			//
 

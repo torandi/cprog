@@ -29,6 +29,8 @@ namespace game {
 		virtual const int life() const;
 		const int max_life() const;
 
+		virtual void regain_life(int life);
+
 		virtual const std::string &type() const;
 		virtual const std::string &name() const;
 		virtual const std::string &description() const;

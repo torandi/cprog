@@ -34,7 +34,8 @@ namespace game {
 			static try_result_t try_action(int points);
 
 			/* Return output stream (none/stdout) to use for a given area */
-			std::ostream &out(const Area*);
+			std::ostream &output(const Area*);
+			static std::ostream &out(const Area*); /* alias for Game::singleton->output */
 
 		private:
 			static std::default_random_engine generator;

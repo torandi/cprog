@@ -7,7 +7,9 @@ namespace game {
 
 	class Item {
 		public:
-			virtual bool pick_up(Character * character) const = 0; /* This should be call on by the area */
+			/* Return true if item can be picked up by character */
+			virtual bool pick_up(Character * character) const { return true; };
+			virtual void aquire(Character * character) const = 0;
 			virtual const std::string &name() const;
 			virtual const std::string &description() const;
 

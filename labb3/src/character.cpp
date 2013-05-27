@@ -5,6 +5,7 @@
 #include "character.hpp"
 #include "game.hpp"
 #include "area.hpp"
+#include "item.hpp"
 
 namespace game {
 
@@ -35,6 +36,12 @@ namespace game {
 		return m_max_life;
 	}
 
+	void Character::regain_life(int life) {
+		int l = std::min(life, m_max_life - m_life);
+		Game::out(location()) << name() << " regains " << l << " hp." << std::endl;
+		m_life += l;
+	}
+
 	const std::string &Character::type() const {
 		return m_type;
 	}
@@ -49,6 +56,10 @@ namespace game {
 
 	Character::state_t Character::state() const {
 		return m_state;
+	}
+
+	const Area* Character::location() const {
+		return m_location;
 	}
 
 	void Character::go(const std::string &direction) {
@@ -84,7 +95,10 @@ namespace game {
 	}
 
 	void Character::pick_up(Item * item) {
-		m_location->pick_up(this, item);
+		if(m_location->pick_up(this, item)) {
+			Game::out(location()) << name() << " picks up " << item->name() << std::endl;
+			item->aquire(this);
+		}
 	}
 
 }

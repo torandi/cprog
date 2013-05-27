@@ -56,9 +56,12 @@ namespace game {
 		std::for_each(exits.begin(), exits.end(), [&](const std::pair<std::string, Area*> it) { m_directions.push_back(it.first); });
 	}
 
-	void Area::pick_up(Character * character, Item * item) {
+	bool Area::pick_up(Character * character, Item * item) {
 		if(item->pick_up(character)) {
 			m_items.erase(item);
+			return true;
+		} else {
+			return false;
 		}
 	}
 
