@@ -20,6 +20,7 @@ namespace game {
 
 		const std::string &type() const;
 		const std::string &name() const;
+		const std::string &description() const;
 		state_t state() const;
 
 		virtual const int initiative() const;
@@ -31,11 +32,12 @@ namespace game {
 		//go
 
 		protected:
-			Character(const std::string &name, const std::string &type, int life, int initiative);
+			Character(const std::string &name, const std::string &type, const std::string & description, int life, int initiative);
 			~Character();
 
 			const int m_max_life;
 			const std::string m_name, m_type;
+			const std::string m_description;
 
 			const int m_initiative;
 
