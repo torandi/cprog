@@ -178,6 +178,7 @@ void ConfigNode::add_child(const error_info_t &error_info, const std::string &ke
 Config Config::from_filename(const std::string &filename) {
 	std::ifstream file(std::string(srcdir) + "/" + filename);
 	if(file.is_open()) {
+		file.seekg(0, file.end);
 		std::ifstream::pos_type size = file.tellg();
 		char * data = new char[size];
 		file.seekg(0, std::ios::beg);

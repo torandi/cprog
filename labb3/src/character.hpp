@@ -6,6 +6,7 @@
 
 namespace game {
 	class Area;
+	class Item;
 
 	class Character {
 	public:
@@ -39,25 +40,29 @@ namespace game {
 
 		virtual void new_turn();
 		virtual void action() = 0;
-		virtual void fight(Character * character);
+
+		virtual void attack(Character * character) = 0;
+		virtual void incoming_attack(Character * character, int damage) = 0;
 		virtual void go(const std::string &direction);
 
 		virtual void do_action(int cost);
 		virtual Game::try_result_t try_do_action(int cost);
 
-		//pick_up
-		//int damage()
-		//take_damage()
+		virtual int armor_protection() const;
 
+		virtual void pick_up(Item * item);
+
+		virtual ~Character();
 	protected:
 		Character(const std::string &name, const std::string &type, const std::string &description, int life, int initiative, int action_points, Area * location);
-		~Character();
 
 		const int m_max_life;
 		const std::string m_name, m_type, m_description;
 
 		const int m_initiative, m_base_action_points;
 		int m_action_points;
+		int m_action_mod = 0;
+		int m_armor = 0;
 
 		int m_life;
 		state_t m_state = IDLE;

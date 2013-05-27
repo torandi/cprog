@@ -62,10 +62,9 @@ namespace game {
 		return m_initiative + initiative_roll();
 	}
 
-	void Character::fight(Character * character) {
-		if(m_in_fight == nullptr) m_in_fight = character;
+	int Character::armor_protection() const {
+		return m_armor / 10;
 	}
-
 
 	int Character::initiative_roll() const {
 		return Game::roll_dice(Game::T10, 10);
@@ -81,7 +80,11 @@ namespace game {
 
 	Game::try_result_t Character::try_do_action(int cost) {
 		do_action(cost);
-		return Game::try_action(cost);
+		return Game::try_action(cost + m_action_mod);
+	}
+
+	void Character::pick_up(Item * item) {
+		m_location->pick_up(this, item);
 	}
 
 }

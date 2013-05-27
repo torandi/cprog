@@ -1,0 +1,30 @@
+- !area
+  id: forest
+  name: The Forest
+  description: It is a dark and wet forest.
+  movement_cost: 10
+  exits:
+    north: bridge
+    west: forest_pond
+- !area
+  id: bridge
+  name: A Bridge
+  description: A old bridge, it looks a bit unstable.
+  movement_cost: 7
+  exits:
+    south: forest
+    north: castle
+- !area
+  id: forest_pond
+  name: Forest Pond
+  description: A serene forest pond.
+  movement_cost: 5
+  exits:
+    east: forest
+- !area
+  id: castle
+  name: Old Castle
+  description: An old mossy castle, it looks haunted.
+  movement_cost: 10
+  exits:
+

@@ -1,5 +1,9 @@
 #include "area.hpp"
 #include "character.hpp"
+#include "config.hpp"
+#include "item.hpp"
+
+#include <algorithm>
 
 namespace game {
 
@@ -9,6 +13,8 @@ namespace game {
 		, m_movement_cost(movement_cost) {
 
 	}
+
+	Area::~Area() { }
 
 	const std::vector<std::string> &Area::directions() const {
 		return m_directions;
@@ -43,4 +49,24 @@ namespace game {
 	}
 
 	void Area::stay(Character * character) { }
+
+	void Area::set_exits(const std::map<std::string, Area*> &exits) {
+		m_exits = exits;
+		m_directions.clear();
+		std::for_each(exits.begin(), exits.end(), [&](const std::pair<std::string, Area*> it) { m_directions.push_back(it.first); });
+	}
+
+	void Area::pick_up(Character * character, Item * item) {
+		if(item->pick_up(character)) {
+			m_items.erase(item);
+		}
+	}
+
+	Area * Area::from_config(const ConfigNode * _node) {
+		const ConfigNode &node = *_node;
+		std::string name = node["/name"].parse_string();
+		std::string description = node["/description"].parse_string();
+		int movement_cost = node["/movement_cost"].parse_int();
+		return new Area(name, description, movement_cost);
+	}
 }

@@ -4,8 +4,11 @@
 #include <string>
 #include <map>
 #include <random>
+#include <iostream>
 
 namespace game {
+	class Character;
+	class Area;
 	class Game {
 		public:
 			static Game * singleton;
@@ -30,9 +33,15 @@ namespace game {
 			static int roll_dice(dice_t dice, int op=-1);
 			static try_result_t try_action(int points);
 
+			/* Return output stream (none/stdout) to use for a given area */
+			std::ostream &out(const Area*);
+
 		private:
 			static std::default_random_engine generator;
 			static std::vector<std::uniform_int_distribution<int> > dices;
+
+			std::map<std::string,Area*> areas;
+			std::vector<Character*> characters;
 
 	};
 };
