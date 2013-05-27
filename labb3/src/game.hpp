@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <random>
 
 namespace game {
 	class Game {
@@ -10,17 +11,19 @@ namespace game {
 			Game();
 			~Game();
 
-			enum relation_status_t {
-				ALLIED,
-				NEUTRAL,
-				HOSTILE
+			enum dice_t {
+				T5=0,
+				T6,
+				T10,
+				T20
 			};
 
-			void change_faction_relation(const std::string &faction1, const std::string &faction2, int mod) const;
-			relation_status_t faction_relation(const std::string &faction1, const std::string &faction2) const;
+			static int roll_dice(dice_t dice, int op=-1);
 
 		private:
-			std::map<std::string, std::map<std::string, int*> > m_faction_relations;
+			static std::default_random_engine generator;
+			static std::vector<std::uniform_int_distribution<int> > dices;
+
 	};
 };
 

@@ -1,6 +1,8 @@
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
 
+#include <string>
+
 class Game;
 
 namespace game {
@@ -16,7 +18,6 @@ namespace game {
 		const int life() const;
 		const int max_life() const;
 
-
 		const std::string &type() const;
 		const std::string &name() const;
 		state_t state() const;
@@ -30,19 +31,20 @@ namespace game {
 		//go
 
 		protected:
-			Character(const std::string &name, const std::string &type, const std::string &faction, int life, int initiative, int );
+			Character(const std::string &name, const std::string &type, int life, int initiative);
 			~Character();
 
 			const int m_max_life;
-			const std::string name, type, faction;
+			const std::string m_name, m_type;
 
 			const int m_initiative;
 
 			int m_life;
-			state_t state = IDLE;
+			state_t m_state = IDLE;
 
-			Character * in_fight = nullptr;
+			Character * m_in_fight = nullptr;
 
+			int initiative_roll() const;
 
 	};
 };
