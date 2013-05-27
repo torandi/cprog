@@ -1,0 +1,14 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Automake files
+*.m4
+*.cache
+*.in
+build*
+configure
+
+# vim temporaries
+.*.swp
