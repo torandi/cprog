@@ -1,10 +1,12 @@
 #include "human.hpp"
 
-int Human::backpack_size() const {
-	/*if(equipments[BACKPACK] != nullptr) {
-		return ((Backpack*)equipments[BACKPACK])->storage_size();
-	} else {
-		return 0;
-	}*/
-	return 0;
+int Human::backpack_volume() const {
+	return 5 + attribute("backpack_volume");
+}
+
+int Human::attribute(const std::string &attr) const {
+	int base = Character::attribute(attr);
+	for(const Equipment * e : equipments) {
+		base += e->effect(attr);
+	}
 }

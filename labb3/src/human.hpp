@@ -18,6 +18,8 @@ namespace game {
 				NUM_SLOTS
 			};
 
+			virtual int backpack_volume() const;
+			virtual int attribute(const std::string &attr) const;
 			//virtual void talk_to(Character * character);
 			//drop
 			//equip
