@@ -14,6 +14,7 @@ cprog10l3_SOURCES = \
 	src/config.cpp src/config.hpp \
 	src/logging.cpp src/logging.hpp \
 	src/keepable.cpp src/keepable.hpp \
+	src/container.cpp src/container.hpp \
 	src/main.cpp
 
 cprog10l3_LDADD = ${yaml_LIBS}

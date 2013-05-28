@@ -1,14 +1,14 @@
 #include "keepable.hpp"
 
 namespace game {
-  Keepable::Keepable(const std::string & name, const std::string & description, int size, int weight)
+  Keepable::Keepable(const std::string & name, const std::string & description, int volume, int weight)
     : Item(name, description)
-    , m_size(size)
+    , m_volume(volume)
     , m_weight(weight) {
   }
 
-  int Keepable::size() const {
-    return m_size;
+  int Keepable::volume() const {
+    return m_volume;
   }
 
   int Keepable::weight() const {
