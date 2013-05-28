@@ -8,6 +8,7 @@
 #include <yaml.h>
 #include <iostream>
 #include <fstream>
+#include <random>
 
 #include "config.hpp"
 #include "logging.hpp"
@@ -411,8 +412,21 @@ const std::string &ConfigNode::parse_string() const {
 }
 
 int ConfigNode::parse_int() const {
-	if(type != NODE_SCALAR) Logging::fatal("[ConfigNode] Trying to read a non-scalar node as int\n");
-	return atoi(scalar.c_str());
+	if(tag() == "!rnd" && type == NODE_SCALAR) {
+		if(scalar[0] != '(' || scalar[scalar.size() - 1] != ')') Logging::fatal("[ConfigNode] !rnd requires the format (min, max): %s\n", scalar.c_str());
+
+		std::vector<std::string> parts = Config::split(scalar.substr(1, scalar.size() - 1), ",", false);
+
+		if(parts.size() != 2) Logging::fatal("[ConfigNode] !rnd requires the format (min, max): %s", scalar.c_str());
+
+		std::default_random_engine generator;
+		std::uniform_int_distribution<int> rnd(atoi(parts[0].c_str()), atoi(parts[1].c_str()));
+
+		return rnd(generator);
+	} else {
+		if(type != NODE_SCALAR) Logging::fatal("[ConfigNode] Trying to read a non-scalar node as int\n");
+		return atoi(scalar.c_str());
+	}
 }
 
 bool ConfigNode::parse_bool() const {

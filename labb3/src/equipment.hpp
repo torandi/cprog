@@ -1,6 +1,7 @@
 #ifndef EQUIPMENT_HPP
 #define EQUIPMENT_HPP
 
+#include "config.hpp"
 #include "keepable.hpp"
 
 namespace game {
@@ -20,6 +21,8 @@ namespace game {
 			virtual type_t type() const;
 
 			virtual ~Equipment() {};
+
+			static Equipment * from_config(const ConfigNode * node);
 		protected:
 			Equipment(const std::string & name, const std::string & description, int volume, int weight, type_t type, const std::map<std::string, int> effects);
 
