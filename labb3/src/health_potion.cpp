@@ -10,4 +10,8 @@ namespace game {
     character->regain_life(m_hp);
     return false;
   }
+
+  HealthPotion * HealthPotion::from_config(const ConfigNode * node) {
+    return new HealthPotion((*node)["/hp"].parse_int());
+  }
 };

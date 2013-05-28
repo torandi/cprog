@@ -8,12 +8,16 @@
 #include "area.hpp"
 #include "logging.hpp"
 
+
 namespace game {
+	std::default_random_engine WorldParser::generator;
+
 	void WorldParser::parse(Game * game) {
 		/* Load world */
 		Config game_config = Config::from_filename("game/game.yaml");
 		//Config item_config = Config::from_filename("game/items.yaml");
 		//
+		parse_items(game);
 		parse_areas(game);
 	}
 
@@ -50,5 +54,13 @@ namespace game {
 			}
 		}
 	}
+
+	/*
+	 * Parse items that are randomly placed
+	 */
+	void WorldParser::parse_items(Game * game) {
+		Config items_config = Config::from_filename("game/items.yaml");
+		std::map<std::string,Area*> &areas = game->areas;
+
 
 }

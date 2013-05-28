@@ -13,6 +13,7 @@ namespace game {
 		public:
 			virtual bool pick_up(Character * character) const { return true; };
 			virtual bool open(Character * character) const { return true; };
+      virtual bool aquire(Character * character) const { return false; };
 
 			virtual int storage_volume() const;
 			virtual int max_storage_volume() const;
@@ -23,7 +24,7 @@ namespace game {
 
 			virtual ~Container() {};
 
-			static Container * from_config(ConfigNode * node);
+			static Container * from_config(const ConfigNode * node);
 		protected:
 
 			Container(const std::string &name, const std::string &description, int storage_volume);

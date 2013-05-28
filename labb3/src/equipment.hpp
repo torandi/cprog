@@ -1,6 +1,10 @@
 #ifndef EQUIPMENT_HPP
 #define EQUIPMENT_HPP
 
+
+#include <string>
+#include <map>
+
 #include "config.hpp"
 #include "keepable.hpp"
 #include "human.hpp"
@@ -32,6 +36,8 @@ namespace game {
 
 			const std::map<std::string, int> m_effects;
 			const type_t m_type;
+
+			static std::map<std::string, type_t> type_string_map;
 	};
 
 };

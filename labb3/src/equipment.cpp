@@ -42,5 +42,26 @@ namespace game {
 		}
 	}
 
+	Equipment * Equipment::from_config(const ConfigNode * node) {
+		std::map<std::string, int> effects;
+		auto type = type_string_map.find((*node)["/type"].parse_string());
+		if(type == type_string_map.end()) {
+			Logging::fatal("Unknown equipment type %s", (*node)["/type"].parse_string().c_str());
+		}
+		return new Equipment(
+				(*node)["/name"].parse_string(),
+				(*node)["/description"].parse_string(),
+				(*node)["/volume"].parse_int(),
+				(*node)["/weight"].parse_int(),
+				type->second,
+				effects
+			);
+	}
+
+	std::map<std::string, Equipment::type_t> Equipment::type_string_map = {
+		{"one_hand", Equipment::ONE_HAND},
+		{"off_hand", Equipment::OFF_HAND},
+	};
+
 
 }

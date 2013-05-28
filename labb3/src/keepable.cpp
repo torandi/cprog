@@ -14,4 +14,13 @@ namespace game {
   int Keepable::weight() const {
     return m_weight;
   }
+
+	Keepable * Keepable::from_config(const ConfigNode * node) {
+		return new Keepable(
+				(*node)["/name"].parse_string(),
+				(*node)["/description"].parse_string(),
+				(*node)["/volume"].parse_int(),
+				(*node)["/weight"].parse_int()
+			);
+	}
 }

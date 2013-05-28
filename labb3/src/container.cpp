@@ -52,4 +52,20 @@ namespace game {
 		}
 	}
 
+  Container * Container::from_config(const ConfigNode * node) {
+    Container * container = new Container(
+        (*node)["/name"].parse_string(),
+        (*node)["/description"].parse_string(),
+        (*node)["/storage_volume"].parse_int()
+      );
+    const ConfigNode * content = node->find("/content");
+    if(content != nullptr) {
+      for(const ConfigNode * i : content->list()) {
+        Keepable * item = Keepable::from_config(i);
+        if(!container->put(item)) delete item;
+      }
+    }
+    return container;
+  }
+
 }

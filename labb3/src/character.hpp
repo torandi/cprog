@@ -3,6 +3,7 @@
 
 #include <string>
 #include "game.hpp"
+#include "config.hpp"
 
 namespace game {
 	class Area;
@@ -52,6 +53,8 @@ namespace game {
 		virtual int armor_protection() const;
 
 		virtual void pick_up(Item * item);
+
+		static Character * from_config(const ConfigNode * node);
 
 		virtual ~Character();
 	protected:

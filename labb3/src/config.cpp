@@ -413,11 +413,10 @@ const std::string &ConfigNode::parse_string() const {
 
 int ConfigNode::parse_int() const {
 	if(tag() == "!rnd" && type == NODE_SCALAR) {
-		if(scalar[0] != '(' || scalar[scalar.size() - 1] != ')') Logging::fatal("[ConfigNode] !rnd requires the format (min, max): %s\n", scalar.c_str());
 
-		std::vector<std::string> parts = Config::split(scalar.substr(1, scalar.size() - 1), ",", false);
+		std::vector<std::string> parts = Config::split(scalar, "-", false);
 
-		if(parts.size() != 2) Logging::fatal("[ConfigNode] !rnd requires the format (min, max): %s", scalar.c_str());
+		if(parts.size() != 2) Logging::fatal("[ConfigNode] !rnd requires the format min - max: %s", scalar.c_str());
 
 		std::default_random_engine generator;
 		std::uniform_int_distribution<int> rnd(atoi(parts[0].c_str()), atoi(parts[1].c_str()));
