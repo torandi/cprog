@@ -6,16 +6,16 @@
 #include "game.hpp"
 #include "area.hpp"
 #include "item.hpp"
+#include "keepable.hpp"
 
 namespace game {
 
-	Character::Character(const std::string &name, const std::string &faction, const std::string & description, int life, std::map<std::string, int> attributes, Area * location)
-		: m_max_life(life)
-		, m_name(name)
-		, m_faction(faction)
+	Character::Character(const std::string &name, const std::string &description, Character::faction_t faction, std::map<std::string, int> attributes, Area * location)
+		: m_name(name)
 		, m_description(description)
+		, m_faction(faction)
 		, m_attributes(attributes)
-		, m_life(life)
+		, m_life(max_life())
 		, m_location(location) {
 	}
 
@@ -32,8 +32,11 @@ namespace game {
 		}
 	}
 
-	void Character::new_turn() {
+	void Character::action() {
 		m_action_points = attribute("action_points");
+
+		int life_regen = attribute("life_regen");
+		if(life_regen > 0) regain_life(life_regen);
 	}
 
 	const int Character::life() const {
@@ -41,16 +44,16 @@ namespace game {
 	}
 
 	const int Character::max_life() const {
-		return m_max_life;
+		return attribute("life");
 	}
 
 	void Character::regain_life(int life) {
-		int l = std::min(life, m_max_life - m_life);
+		int l = std::min(life, max_life() - m_life);
 		Game::out(location()) << name() << " regains " << l << " hp." << std::endl;
 		m_life += l;
 	}
 
-	const std::string &Character::faction() const {
+	Character::faction_t Character::faction() const {
 		return m_faction;
 	}
 
@@ -106,7 +109,7 @@ namespace game {
 		if(m_location->pick_up(this, item)) {
 			Game::out(location()) << name() << " picks up " << item->name() << std::endl;
 			if(item->aquire(this)) {
-				store(item);
+				store(dynamic_cast<Keepable*>(item));
 			} else {
 				delete item;
 			}

@@ -13,8 +13,14 @@ namespace game {
 		enum state_t {
 			IDLE,
 			IN_FIGHT,
-			IN_DIALOG,
 			DEAD
+		};
+
+		enum faction_t {
+			CIVILIAN,
+			MONSTERS,
+			BANDITS,
+			UNALIGNED
 		};
 
 		virtual const int life() const;
@@ -22,7 +28,7 @@ namespace game {
 
 		virtual void regain_life(int life);
 
-		virtual const std::string &faction() const;
+		virtual faction_t faction() const;
 		virtual const std::string &name() const;
 		virtual const std::string &description() const;
 		state_t state() const;
@@ -31,8 +37,7 @@ namespace game {
 
 		virtual const int initiative() const;
 
-		virtual void new_turn();
-		virtual void action() = 0;
+		virtual void action();
 
 		virtual void attack(Character * character) = 0;
 		virtual void incoming_attack(Character * character, int damage) = 0;
@@ -49,13 +54,13 @@ namespace game {
 
 		virtual ~Character();
 	protected:
-		Character(const std::string &name, const std::string &faction, const std::string &description, int life, std::map<std::string, int> attributes, Area * location);
+		Character(const std::string &name, const std::string &description, faction_t faction, std::map<std::string, int> attributes, Area * location);
 
 		int initiative_roll() const;
 		virtual void store(Item * item) = 0;
 
-		const int m_max_life;
-		const std::string m_name, m_faction, m_description;
+		const std::string m_name, m_description;
+		const faction_t m_faction;
 
 		std::map<std::string, int> m_attributes;
 

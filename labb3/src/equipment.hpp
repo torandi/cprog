@@ -3,6 +3,7 @@
 
 #include "config.hpp"
 #include "keepable.hpp"
+#include "human.hpp"
 
 namespace game {
 
@@ -20,7 +21,10 @@ namespace game {
 			virtual int effect(const std::string &attribute) const;
 			virtual type_t type() const;
 
+
 			virtual ~Equipment() {};
+
+			static Human::slot_t default_slot(type_t type);
 
 			static Equipment * from_config(const ConfigNode * node);
 		protected:
