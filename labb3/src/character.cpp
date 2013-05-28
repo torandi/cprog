@@ -9,13 +9,12 @@
 
 namespace game {
 
-	Character::Character(const std::string &name, const std::string &faction, const std::string & description, int life, int initiative, int action_points, Area * location)
+	Character::Character(const std::string &name, const std::string &faction, const std::string & description, int life, std::map<std::string, int> attributes, Area * location)
 		: m_max_life(life)
 		, m_name(name)
 		, m_faction(faction)
 		, m_description(description)
-		, m_initiative(initiative)
-		, m_base_action_points(action_points)
+		, m_attributes(attributes)
 		, m_life(life)
 		, m_location(location) {
 	}
@@ -24,8 +23,17 @@ namespace game {
 
 	}
 
+	int Character::attribute(const std::string &attr) const {
+		auto it = m_attributes.find(attr);
+		if(it != m_attributes.end()) {
+			return it->second;
+		} else {
+			return 0;
+		}
+	}
+
 	void Character::new_turn() {
-		m_action_points = m_base_action_points;
+		m_action_points = attribute("action_points");
 	}
 
 	const int Character::life() const {
@@ -70,11 +78,11 @@ namespace game {
 	}
 
 	const int Character::initiative() const {
-		return m_initiative + initiative_roll();
+		return attribute("initiative") + initiative_roll();
 	}
 
 	int Character::armor_protection() const {
-		return m_armor / 10;
+		return attribute("armor") / 10;
 	}
 
 	int Character::initiative_roll() const {

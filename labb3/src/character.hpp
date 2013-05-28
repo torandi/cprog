@@ -17,15 +17,6 @@ namespace game {
 			DEAD
 		};
 
-		enum equipment_slot_t {
-			RIGHT_HAND=0,
-			LEFT_HAND,
-			ARMOR,
-			RING,
-			BACKPACK,
-			NUM_EQUIPMENT_SLOTS
-		};
-
 		virtual const int life() const;
 		const int max_life() const;
 
@@ -47,6 +38,8 @@ namespace game {
 		virtual void incoming_attack(Character * character, int damage) = 0;
 		virtual void go(const std::string &direction);
 
+		virtual int attribute(const std::string &attr) const;
+
 		virtual void do_action(int cost);
 		virtual Game::try_result_t try_do_action(int cost);
 
@@ -56,26 +49,26 @@ namespace game {
 
 		virtual ~Character();
 	protected:
-		Character(const std::string &name, const std::string &faction, const std::string &description, int life, int initiative, int action_points, Area * location);
+		Character(const std::string &name, const std::string &faction, const std::string &description, int life, std::map<std::string, int> attributes, Area * location);
+
+		int initiative_roll() const;
+		virtual void store(Item * item) = 0;
 
 		const int m_max_life;
 		const std::string m_name, m_faction, m_description;
 
-		const int m_initiative, m_base_action_points;
-		int m_action_points;
+		std::map<std::string, int> m_attributes;
+
 		int m_action_mod = 0;
-		int m_armor = 0;
+		int m_action_points = 0;
 
 		int m_life;
 		state_t m_state = IDLE;
 
+
 		Area * m_location;
 
 		Character * m_in_fight = nullptr;
-
-		int initiative_roll() const;
-
-		virtual void store(Item * item) = 0;
 
 	};
 };

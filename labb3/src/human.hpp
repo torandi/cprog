@@ -2,18 +2,23 @@
 #define HUMAN_HPP
 
 #include "character.hpp"
+#include "equipment.hpp"
 
-class Human : public Character {
-	public:
+namespace game {
+	class Keepable;
 
-		virtual int backpack_size() const;
-		//virtual void talk_to(Character * character);
-		//drop
-		//equip
+	class Human : public Character {
+		public:
 
-	protected:
-		//Equipment * equipments[NUM_EQUIPMENT_SLOTS] = {nullptr, };
-		//std::vector<Item*> m_inventory;
+			//virtual void talk_to(Character * character);
+			//drop
+			//equip
+
+		protected:
+			Equipment * equipments[Equipment::NUM_SLOTS] = {nullptr, };
+			std::set<Keepable*> m_inventory;
+
+	};
 
 };
 
