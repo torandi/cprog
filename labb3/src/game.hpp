@@ -9,6 +9,8 @@
 namespace game {
 	class Character;
 	class Area;
+	class WorldParser;
+
 	class Game {
 		public:
 			static Game * singleton;
@@ -43,6 +45,8 @@ namespace game {
 
 			std::map<std::string,Area*> areas;
 			std::vector<Character*> characters;
+
+			friend class WorldParser;
 
 	};
 };

@@ -7,6 +7,7 @@
 namespace game {
 	class Area;
 	class Item;
+	class Keepable;
 
 	class Character {
 	public:
@@ -33,7 +34,7 @@ namespace game {
 		virtual const std::string &description() const;
 		state_t state() const;
 
-		const Area* location() const;
+		Area* location() const;
 
 		virtual const int initiative() const;
 
@@ -57,7 +58,7 @@ namespace game {
 		Character(const std::string &name, const std::string &description, faction_t faction, std::map<std::string, int> attributes, Area * location);
 
 		int initiative_roll() const;
-		virtual void store(Item * item) = 0;
+		virtual void store(Keepable  * item) = 0;
 
 		const std::string m_name, m_description;
 		const faction_t m_faction;

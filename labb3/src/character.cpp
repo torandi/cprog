@@ -69,7 +69,7 @@ namespace game {
 		return m_state;
 	}
 
-	const Area* Character::location() const {
+	Area* Character::location() const {
 		return m_location;
 	}
 

@@ -15,7 +15,9 @@ cprog10l3_SOURCES = \
 	src/logging.cpp src/logging.hpp \
 	src/keepable.cpp src/keepable.hpp \
 	src/container.cpp src/container.hpp \
+	src/human.cpp src/human.hpp \
 	src/equipment.cpp src/equipment.hpp \
+	src/world_parser.cpp src/world_parser.hpp \
 	src/main.cpp
 
 cprog10l3_LDADD = ${yaml_LIBS}

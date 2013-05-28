@@ -15,7 +15,9 @@ namespace game {
 
 	}
 
-	Area::~Area() { }
+	Area::~Area() {
+		std::for_each(m_items.begin(), m_items.end(), [](Item* i) { delete i; });
+	}
 
 	const std::vector<std::string> &Area::directions() const {
 		return m_directions;
@@ -66,8 +68,8 @@ namespace game {
 		}
 	}
 
-	bool Area::drop(Character * character, Keepable * item) {
-		if(item->drop(character)) {
+	bool Area::drop(Character * character, Keepable * item, bool force) {
+		if(item->drop(character) || force) {
 			m_items.insert(item);
 			return true;
 		} else {
