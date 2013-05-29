@@ -22,6 +22,8 @@ namespace game {
 				BACKPACK
 			};
 
+
+			virtual const std::map<std::string, int> &effects() const;
 			virtual int effect(const std::string &attribute) const;
 			virtual type_t type() const;
 

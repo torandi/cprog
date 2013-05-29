@@ -41,9 +41,20 @@ namespace game {
 
 	void Character::action() {
 		m_action_points = attribute("action_points");
+		m_remaining_actions[0] = m_base_actions[0];
+		m_remaining_actions[1] = m_base_actions[1];
 
 		int life_regen = attribute("life_regen");
 		if(life_regen > 0) regain_life(life_regen);
+	}
+
+	bool Character::use_action(int hand) {
+		if(m_remaining_actions[hand] > 0) {
+			--m_remaining_actions[hand];
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	const int Character::life() const {

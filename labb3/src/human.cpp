@@ -1,8 +1,13 @@
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "human.hpp"
 #include "keepable.hpp"
 #include "equipment.hpp"
 #include "area.hpp"
 #include "game.hpp"
+#include "logging.hpp"
 
 #include <algorithm>
 
@@ -18,11 +23,21 @@ namespace game {
 
 	int Human::attribute(const std::string &attr) const {
 		int val = Character::attribute(attr);
-		for(const Equipment * e : equipments) {
+		for(const Equipment * e : m_equipments) {
 			val += e->effect(attr);
 		}
 		return val;
 	}
+
+  std::map<std::string, int> Human::attributes() const {
+    std::map<std::string, int> attributes = m_attributes;
+    for(const Equipment * eq : m_equipments) {
+      for(auto e : eq->effects()) {
+        attributes[e.first] += e.second;
+      }
+    }
+    return attributes;
+  }
 
 	bool Human::drop(Keepable * item) {
 		if(location()->drop(this, item)) {
@@ -47,7 +62,7 @@ namespace game {
 			return false;
 		}
 
-		if(slot == LEFT_HAND && equipments[RIGHT_HAND]->type() == Equipment::TWO_HAND) {
+		if(slot == LEFT_HAND && m_equipments[RIGHT_HAND]->type() == Equipment::TWO_HAND) {
 			Game::out(location()) << name() << " can't equip a item in the left hand while a two hand item is equipped in the right." << std::endl;
 			return false;
 		}
@@ -57,21 +72,21 @@ namespace game {
 			return false;
 		}
 
-		if(equipments[slot] != nullptr) {
-			store(equipments[slot]);
-			equipments[slot] = nullptr;
+		if(m_equipments[slot] != nullptr) {
+			store(m_equipments[slot]);
+			m_equipments[slot] = nullptr;
 		}
 
-		equipments[slot] = item;
+		m_equipments[slot] = item;
 		m_inventory.erase(dynamic_cast<Keepable*>(item));
 
 		return true;
 	}
 
 	bool Human::unequip(Human::slot_t slot) {
-		if(equipments[slot] != nullptr) {
-			store(equipments[slot]);
-			equipments[slot] = nullptr;
+		if(m_equipments[slot] != nullptr) {
+			store(m_equipments[slot]);
+			m_equipments[slot] = nullptr;
 			return true;
 		} else {
 			return false;
@@ -118,5 +133,58 @@ namespace game {
 	const std::set<Keepable*> &Human::inventory() const {
 		return m_inventory;
 	}
+
+  void Human::action() {
+    Character::action();
+
+    if(m_equipments[RIGHT_HAND] != nullptr) {
+      m_remaining_actions[RIGHT_HAND] = m_equipments[RIGHT_HAND]->effect("weapon_actions");
+      if(m_equipments[LEFT_HAND] != nullptr) {
+        m_remaining_actions[LEFT_HAND] = m_equipments[LEFT_HAND]->effect("weapon_actions");
+      } else if( m_equipments[RIGHT_HAND]->type() == Equipment::TWO_HAND) {
+        m_remaining_actions[LEFT_HAND] = 0;
+      } else {
+        m_remaining_actions[LEFT_HAND] = 1;
+      }
+    } else {
+      m_remaining_actions[RIGHT_HAND] = 1;
+      if(m_equipments[LEFT_HAND] != nullptr) {
+        m_remaining_actions[LEFT_HAND] = m_equipments[LEFT_HAND]->effect("weapon_actions");
+      } else {
+        m_remaining_actions[LEFT_HAND] = 1;
+      }
+    }
+  }
+
+  void Human::attack(Character * character, int points) {
+    if(m_remaining_actions[RIGHT_HAND] > 0) {
+      attack(character, points, RIGHT_HAND);
+    } else {
+      attack(character, points, LEFT_HAND);
+    }
+  }
+
+  void Human::attack(Character * character, int points, Human::slot_t slot) {
+    if(slot > LEFT_HAND) {
+      Logging::fatal("Invalid slot specified for attack, only LEFT or RIGHT hand allowed\n");
+    }
+
+    if(use_action(slot)) {
+
+    }
+    m_state = IN_FIGHT;
+    m_in_fight = character;
+    /* TODO */
+    if(try_do_action(points)) {
+      //int damage = T10 + dameg + öp etc
+      //Game::out(location()) << name() << " attack " << character->name() << " "
+    } else {
+      Game::out(location()) << name() << " misses " << character->name() << "." << std::endl;
+    }
+  }
+
+  void Human::incoming_attack(Character * character, int damage) {
+    
+  }
 
 }

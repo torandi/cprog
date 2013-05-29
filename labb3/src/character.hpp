@@ -43,7 +43,7 @@ namespace game {
 
 		virtual void action();
 
-		virtual void attack(Character * character) = 0;
+		virtual void attack(Character * character, int points) = 0;
 		virtual void incoming_attack(Character * character, int damage) = 0;
 		virtual void go(const std::string &direction);
 
@@ -64,6 +64,7 @@ namespace game {
 
 		int initiative_roll() const;
 		virtual void store(Keepable  * item) = 0;
+		virtual bool use_action(int hand);
 
 		const std::string m_name, m_description;
 		const faction_t m_faction;
@@ -72,6 +73,7 @@ namespace game {
 
 		int m_action_mod = 0;
 		int m_action_points = 0;
+		int m_remaining_actions[2] = {0, };
 
 		int m_life;
 		state_t m_state = IDLE;
@@ -83,6 +85,8 @@ namespace game {
 
 		/* True indicates agressive */
 		static bool faction_standings[Character::NUM_FACTIONS][Character::NUM_FACTIONS];
+	private:
+		int m_base_actions[2] = {1, };
 
 	};
 };

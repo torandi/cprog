@@ -27,6 +27,13 @@ namespace game {
 			int used_backpack_volume() const;
 			int used_carrying_capacity() const;
 
+
+      virtual void action();
+      virtual void attack(Character * character, int points);
+      virtual void attack(Character * character, int points, slot_t weapon_hand);
+      virtual void incoming_attack(Character * character, int damage);
+
+      virtual std::map<std::string, int> attributes() const;
 			virtual int attribute(const std::string &attr) const;
 			virtual bool talk_to(Human * human) { return false; };
 			virtual bool drop(Keepable * item);
@@ -38,7 +45,7 @@ namespace game {
 			virtual ~Human();
 		protected:
 			Human(const std::string &name, const std::string &description, faction_t faction, std::map<std::string, int> attributes, Area * location);
-			Equipment * equipments[NUM_SLOTS] = {nullptr, };
+			Equipment * m_equipments[NUM_SLOTS] = {nullptr, };
 			std::set<Keepable*> m_inventory;
 
 			int m_used_inventory_volume = 0;

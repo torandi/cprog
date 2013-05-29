@@ -16,6 +16,10 @@ namespace game {
 		, m_type(type) {
 	}
 
+	const std::map<std::string, int> &Equipment::effects() const {
+		return m_effects;
+	}
+
 	int Equipment::effect(const std::string &attr) const {
 		auto it = m_effects.find(attr);
 		if(it != m_effects.end()) {
