@@ -5,8 +5,10 @@
 #include <set>
 #include <map>
 #include <vector>
+#include <functional>
 
 #include "config.hpp"
+#include "world_parser.hpp"
 
 namespace game {
 	class Character;
@@ -47,6 +49,11 @@ namespace game {
 
 			std::set<const Character*> m_characters;
 			std::set<Item*> m_items;
+
+      friend class WorldParser;
+    private:
+      static std::map<std::string, std::function<Area*(const ConfigNode*)>  > tag_map;
+      static Area * self_from_config(const ConfigNode * node);
 	};
 };
 

@@ -22,8 +22,10 @@ namespace game {
 			CIVILIAN,
 			MONSTERS,
 			BANDITS,
-			UNALIGNED
+			UNALIGNED,
+			NUM_FACTIONS
 		};
+
 
 		virtual const int life() const;
 		const int max_life() const;
@@ -78,6 +80,9 @@ namespace game {
 		Area * m_location;
 
 		Character * m_in_fight = nullptr;
+
+		/* True indicates agressive */
+		static bool faction_standings[Character::NUM_FACTIONS][Character::NUM_FACTIONS];
 
 	};
 };

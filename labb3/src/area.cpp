@@ -1,8 +1,13 @@
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "area.hpp"
 #include "character.hpp"
 #include "config.hpp"
 #include "item.hpp"
 #include "keepable.hpp"
+#include "logging.hpp"
 
 #include <algorithm>
 
@@ -77,11 +82,21 @@ namespace game {
 		}
 	}
 
-	Area * Area::from_config(const ConfigNode * _node) {
+	Area * Area::self_from_config(const ConfigNode * _node) {
 		const ConfigNode &node = *_node;
 		std::string name = node["/name"].parse_string();
 		std::string description = node["/description"].parse_string();
 		int movement_cost = node["/movement_cost"].parse_int();
 		return new Area(name, description, movement_cost);
 	}
+
+  Area * Area::from_config(const ConfigNode * node) {
+    auto it = tag_map.find(node->tag());
+    if(it == tag_map.end()) Logging::fatal("Unknown area tag %s\n", node->tag().c_str());
+    return (it->second)(node);
+  }
+
+  std::map<std::string, std::function<Area*(const ConfigNode*)> > Area::tag_map = {
+    {"!area", &Area::self_from_config },
+  };
 }

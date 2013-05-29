@@ -6,6 +6,7 @@
 
 #include "keepable.hpp"
 #include "logging.hpp"
+#include "item.hpp"
 
 namespace game {
 
@@ -61,8 +62,10 @@ namespace game {
     const ConfigNode * content = node->find("/content");
     if(content != nullptr) {
       for(const ConfigNode * i : content->list()) {
-        Keepable * item = Keepable::from_config(i);
-        if(!container->put(item)) delete item;
+        Keepable * item = dynamic_cast<Keepable*>(Item::from_config(i));
+        if(item != nullptr) {
+          if(!container->put(item)) delete item;
+        }
       }
     }
     return container;

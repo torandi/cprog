@@ -9,6 +9,13 @@
 #include "keepable.hpp"
 
 namespace game {
+	bool faction_standings[Character::NUM_FACTIONS][Character::NUM_FACTIONS] = {
+										/*  C  M  B  U   */
+		/* CIVILIAN: */		{ 0, 1, 1, 1, },
+		/* MONSTER: */		{ 1, 0, 1, 1, },
+		/* BANDIT: */			{ 1, 1, 0, 1, },
+		/* UNALIGNED: */	{ 1, 1, 1, 1, },
+	};
 
 	Character::Character(const std::string &name, const std::string &description, Character::faction_t faction, std::map<std::string, int> attributes, Area * location)
 		: m_name(name)

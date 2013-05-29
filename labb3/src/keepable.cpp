@@ -1,4 +1,10 @@
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "keepable.hpp"
+#include "equipment.hpp"
+#include "logging.hpp"
 
 namespace game {
   Keepable::Keepable(const std::string & name, const std::string & description, int volume, int weight)

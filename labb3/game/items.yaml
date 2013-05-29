@@ -1,0 +1,128 @@
+
+health_potion:
+  count: !rnd -3,5
+  hp: !rnd 5,30
+
+item_count: !rnd -2, 5
+
+containers:
+  - name: Old Chest
+    description: A old dirty chest
+    storage_volume: !rnd 10,20
+  - name: Antique Chest
+    description: A anique chest
+    storage_volume: !rnd 20,30
+  - name: Large chest
+    description: A large chest, you could probably store a person in it
+    storage_volume: !rnd 40,50
+
+items:
+  - !equipment
+    type: one_hand
+    name: Longsword
+    description: A blank metal sword, good for use with a shield.
+    volume: !rnd 4,5
+    weight: !rnd 1,3
+    effects:
+      initiative: !rnd 0,3
+      action_points: !rnd 7,15
+      weapon_actions: !rnd 2,4
+      damage_extra: !rnd 0,2
+      damage_overpower: !rnd 9,10
+      durability: 60
+  - !equipment
+    type: one_hand
+    name: Dagger
+    description: A small sharp dagger, dualwielding this would give you some preeetty nice attack speed
+    volume: !rnd 2,3
+    weight: !rnd 1,2
+    effects:
+      initiative: !rnd 2,8
+      action_points: !rnd 10,30
+      weapon_actions: !rnd 4,8
+      damage_extra: 0
+      damage_overpower: 10
+      durability: 20
+  - !equipment
+    type: two_hand
+    name: Two Hand Sword
+    description: A massive two hand sword. It looks brutal
+    volume: !rnd 6,10
+    weight: !rnd 5,7
+    effects:
+      initiative: !rnd 1,3
+      action_points: !rnd 20,30
+      weapon_actions: !rnd 2,4
+      damage_extra: !rnd 5,10
+      damage_overpower: !rnd 6,9
+      durability: 130
+  - !equipment
+    type: off_hand
+    name: Small Shield
+    description: A small shield
+    volume: !rnd 3,5
+    weight: !rnd 1,3
+    effects:
+      initiative: !rnd 1,3
+      action_points: !rnd 5,10
+      weapon_actions: !rnd 1,3
+      durability: !rnd 60,80
+      passive_protection: !rnd 1,2
+  - !equipment
+    type: off_hand
+    name: Medium Shield
+    description: A shield
+    volume: !rnd 6,8
+    weight: !rnd 4,7
+    effects:
+      initiative: !rnd -1,1
+      action_points: !rnd 2,5
+      weapon_actions: !rnd 3,5
+      durability: !rnd 90,120
+      passive_protection: !rnd 3,4
+  - !equipment
+    type: off_hand
+    name: Large Shield
+    description: A really large shield, just having it equipped increases your chances of not beeing hit
+    volume: !rnd 9,10
+    weight: !rnd 8,10
+    effects:
+      initiative: !rnd -5,0
+      action_points: !rnd 0,5
+      weapon_actions: !rnd 3,5
+      durability: !rnd 150,200
+      passive_protection: !rnd 5,8
+  - !equipment
+    type: armor
+    name: Armor
+    description: Armor of some kind, it protects your nuts, cause nobody likes rosted nuts. (wat?)
+    volume: !rnd 10,15
+    weight: !rnd 5,10
+    effects:
+      initiative: !rnd -5,5
+      armor: !rnd 50,200
+  - !equipment
+    type: ring
+    name: Magic Ring
+    description: A magic ring
+    volume: !rnd 10,15
+    weight: !rnd 5,10
+    effects:
+      initiative: !rnd -10,10
+      life: !rnd -20, 5
+      strength: !rnd -10, 10
+      action_points: !rnd -1,5
+  - !equipment
+    type: backpack
+    name: Backpack
+    description: A backpack to put all your loot in
+    volume: 1
+    weight: 1
+    effects:
+      backpack_volume: !rnd 10-100
+  - !keepable
+    name: A fish
+    description: It's a dead fish.
+    volume: 1
+    weight: 1
+

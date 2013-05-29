@@ -414,7 +414,7 @@ const std::string &ConfigNode::parse_string() const {
 int ConfigNode::parse_int() const {
 	if(tag() == "!rnd" && type == NODE_SCALAR) {
 
-		std::vector<std::string> parts = Config::split(scalar, "-", false);
+		std::vector<std::string> parts = Config::split(scalar, ",", false);
 
 		if(parts.size() != 2) Logging::fatal("[ConfigNode] !rnd requires the format min - max: %s", scalar.c_str());
 

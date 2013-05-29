@@ -2,6 +2,8 @@
 #define ITEM_HPP
 
 #include <string>
+#include <functional>
+#include "config.hpp"
 
 namespace game {
 
@@ -20,10 +22,15 @@ namespace game {
 			virtual const std::string &description() const;
 
 			virtual ~Item() {};
+
+      static Item * from_config(const ConfigNode * node);
 		protected:
 			Item(const std::string &name, const std::string &description);
 
 			const std::string m_name, m_description;
+
+    private:
+      static std::map<std::string, std::function<Item*(const ConfigNode*)> > tag_map;
 	};
 
 };
