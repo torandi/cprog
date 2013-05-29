@@ -66,4 +66,10 @@ namespace game {
 	std::ostream &Game::out(const Area* area) {
 		return Game::singleton->output(area);
 	}
+
+  std::string Game::lowercase(const std::string &str) {
+    std::string ret = str;
+    std::transform(ret.begin(), ret.begin(), ret.end(), [](const char c) { return (char)std::tolower(c); });
+    return ret;
+  }
 }

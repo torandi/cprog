@@ -18,6 +18,7 @@ cprog10l3_SOURCES = \
 	src/human.cpp src/human.hpp \
 	src/equipment.cpp src/equipment.hpp \
 	src/world_parser.cpp src/world_parser.hpp \
+	src/parse_node.cpp src/parse_node.hpp \
 	src/main.cpp
 
 cprog10l3_LDADD = ${yaml_LIBS}
