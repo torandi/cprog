@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <random>
 
 class Config;
 
@@ -95,6 +96,8 @@ class ConfigNode {
 		bool node_has_anchor;
 
 		bool is_reference;
+
+    static std::default_random_engine generator;
 
 		friend class Config;
 };

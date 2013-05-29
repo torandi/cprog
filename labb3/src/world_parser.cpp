@@ -12,17 +12,19 @@
 #include "container.hpp"
 #include "keepable.hpp"
 
+#include <chrono>
+
 
 namespace game {
-	std::default_random_engine WorldParser::generator;
+	std::default_random_engine WorldParser::generator(std::chrono::system_clock::now().time_since_epoch().count());
 
 	void WorldParser::parse(Game * game) {
 		/* Load world */
 		Config game_config = Config::from_filename("game/game.yaml");
 		//Config item_config = Config::from_filename("game/items.yaml");
 		//
-		parse_items(game);
 		parse_areas(game);
+		parse_items(game);
 	}
 
 	void WorldParser::parse_areas(Game * game) {
@@ -84,6 +86,7 @@ namespace game {
 					Keepable * item = dynamic_cast<Keepable*>(Item::from_config(items[item_select(generator)]));
 					if(!container->put(item)) delete item;
 				}
+				area_items.insert(container);
 			}
 		}
 	}

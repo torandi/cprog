@@ -6,6 +6,8 @@
 #include "equipment.hpp"
 #include "logging.hpp"
 
+#include <sstream>
+
 namespace game {
   Keepable::Keepable(const std::string & name, const std::string & description, int volume, int weight)
     : Item(name, description)
@@ -28,5 +30,11 @@ namespace game {
 				(*node)["/volume"].parse_int(),
 				(*node)["/weight"].parse_int()
 			);
+	}
+
+	const std::string &Keepable::description() const {
+		std::stringstream str;
+		str << Item::description() << " [Weight: " << weight() << " , Volume: " << volume() << "]";
+		return move(str.str());
 	}
 }

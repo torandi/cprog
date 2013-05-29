@@ -82,6 +82,14 @@ namespace game {
 		}
 	}
 
+  const std::set<const Character*> &Area::characters() const {
+    return m_characters;
+  }
+
+  const std::set<Item*> &Area::items() const {
+    return m_items;
+  }
+
 	Area * Area::self_from_config(const ConfigNode * _node) {
 		const ConfigNode &node = *_node;
 		std::string name = node["/name"].parse_string();

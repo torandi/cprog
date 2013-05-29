@@ -15,6 +15,8 @@ namespace game {
       virtual int volume() const;
       virtual int weight() const;
 
+      virtual const std::string &description() const;
+
       virtual ~Keepable() {};
 
       static Keepable * from_config(const ConfigNode * node);

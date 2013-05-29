@@ -34,6 +34,9 @@ namespace game {
 			virtual bool leave(Character * character); /* Return false if action is denied */
 			virtual void stay(Character * character); /* A character stays idle in the location */
 
+      virtual const std::set<const Character*> &characters() const;
+      virtual const std::set<Item*> &items() const;
+
 			virtual bool pick_up(Character * character, Item * item);
 			virtual bool drop(Character * character, Keepable * item, bool force=true);
 

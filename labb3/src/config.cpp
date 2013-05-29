@@ -9,9 +9,12 @@
 #include <iostream>
 #include <fstream>
 #include <random>
+#include <chrono>
 
 #include "config.hpp"
 #include "logging.hpp"
+
+std::default_random_engine ConfigNode::generator(std::chrono::system_clock::now().time_since_epoch().count());
 
 static std::string trim(std::string s) {
 	size_t begin_str = s.find_first_not_of(" \t\n\r");
@@ -145,7 +148,7 @@ std::vector<std::string> Config::split(const std::string &str, const std::string
 		}
 		pos = p + 1;
 	}
-	if(pos < str.length() - 1) {
+	if(pos < str.length()) {
 		std::string s = trim(str.substr(pos));
 		if(!s.empty()) res.push_back(s);
 	}
@@ -416,12 +419,17 @@ int ConfigNode::parse_int() const {
 
 		std::vector<std::string> parts = Config::split(scalar, ",", false);
 
-		if(parts.size() != 2) Logging::fatal("[ConfigNode] !rnd requires the format min - max: %s", scalar.c_str());
+		if(parts.size() != 2) Logging::fatal("[ConfigNode] !rnd requires the format min , max: %s\n", scalar.c_str());
 
-		std::default_random_engine generator;
-		std::uniform_int_distribution<int> rnd(atoi(parts[0].c_str()), atoi(parts[1].c_str()));
+    int r1, r2;
 
-		return rnd(generator);
+    r1 = atoi(parts[0].c_str());
+    r2 = atoi(parts[1].c_str());
+		std::uniform_int_distribution<int> rnd(r1, r2);
+    //printf("RAND: %d, %d, %d, %d\n", rnd(generator), rnd(generator), rnd(generator), rnd(generator));
+    int r = rnd(generator);
+
+		return r;
 	} else {
 		if(type != NODE_SCALAR) Logging::fatal("[ConfigNode] Trying to read a non-scalar node as int\n");
 		return atoi(scalar.c_str());
