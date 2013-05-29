@@ -7,17 +7,13 @@ namespace game {
   class Area;
   class Player : public Human {
     public:
-      virtual ~Player() {};
       Player(std::map<std::string, int> attributes, Area * location);
+      virtual ~Player() {};
 
-      virtual void attack(Character * character);
       virtual void incoming_attack(Character * character, int damage);
 
       virtual void action();
-
-    private:
-
-  }
+  };
 
 };
 

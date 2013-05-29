@@ -11,4 +11,8 @@ namespace game {
 
   }
 
+  void Player::incoming_attack(Character * character, int damage) {
+
+  }
+
 }

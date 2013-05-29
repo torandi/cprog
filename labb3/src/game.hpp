@@ -10,6 +10,7 @@ namespace game {
 	class Character;
 	class Area;
 	class WorldParser;
+  class Player;
 
 	class Game {
 		public:
@@ -38,6 +39,7 @@ namespace game {
 			/* Return output stream (none/stdout) to use for a given area */
 			std::ostream &output(const Area*);
 			static std::ostream &out(const Area*); /* alias for Game::singleton->output */
+      static Player * player();
 
       static std::string lowercase(const std::string &str);
 		private:
@@ -46,6 +48,7 @@ namespace game {
 
 			std::map<std::string,Area*> areas;
 			std::vector<Character*> characters;
+      Player * m_player;
 
 			friend class WorldParser;
 

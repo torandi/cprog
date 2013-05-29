@@ -11,6 +11,7 @@
 #include "item.hpp"
 #include "container.hpp"
 #include "keepable.hpp"
+#include "player.hpp"
 
 #include <chrono>
 
@@ -19,12 +20,18 @@ namespace game {
 	std::default_random_engine WorldParser::generator(std::chrono::system_clock::now().time_since_epoch().count());
 
 	void WorldParser::parse(Game * game) {
-		/* Load world */
-		Config game_config = Config::from_filename("game/game.yaml");
-		//Config item_config = Config::from_filename("game/items.yaml");
-		//
 		parse_areas(game);
 		parse_items(game);
+
+		Config game_config = Config::from_filename("game/game.yaml");
+
+		std::map<std::string, int> player_attributes;
+
+		Area * player_location = game->areas[game_config["/player/start_location"].parse_string()];
+		for(auto attr : game_config["/player/attributes"].map()) {
+			player_attributes[attr.first] = attr.second->parse_int();
+		}
+		game->m_player = new Player(player_attributes, player_location);
 	}
 
 	void WorldParser::parse_areas(Game * game) {

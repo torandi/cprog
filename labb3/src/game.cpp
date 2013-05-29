@@ -7,6 +7,7 @@
 #include "character.hpp"
 #include "area.hpp"
 #include "logging.hpp"
+#include "player.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -40,6 +41,7 @@ namespace game {
 	Game::~Game() {
 		for(auto &a : areas) { delete a.second; }
 		std::for_each(characters.begin(), characters.end(), [](Character * c) { delete c; });
+    delete m_player;
 	}
 
 	int Game::roll_dice(Game::dice_t dice, int op) {
@@ -71,5 +73,9 @@ namespace game {
     std::string ret = str;
     std::transform(ret.begin(), ret.begin(), ret.end(), [](const char c) { return (char)std::tolower(c); });
     return ret;
+  }
+
+  Player * Game::player() {
+    return Game::singleton->m_player;
   }
 }
