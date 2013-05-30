@@ -11,4 +11,6 @@ int main(int argc, char* argv[]){
   Logging::init();
   Logging::add_destination(Logging::ERROR, stderr);
   Game::singleton = new Game();
+
+  Logging::cleanup();
 }

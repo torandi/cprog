@@ -215,6 +215,7 @@ Config Config::parse(const std::string &context, const char * data, size_t size)
 	yaml_parser_parse(&parser, &event) || yaml_error(context, parser);
 
 	if(event.type != YAML_STREAM_START_EVENT) Logging::fatal("[Config] %s doesn't start with stream start event\n", context.c_str());
+	yaml_event_delete(&event);
 
 	yaml_parser_parse(&parser, &event) || yaml_error(context, parser);
 	if(event.type != YAML_DOCUMENT_START_EVENT) Logging::fatal("[Config] %s doesn't start with document start event\n", context.c_str());
@@ -231,8 +232,8 @@ Config Config::parse(const std::string &context, const char * data, size_t size)
 	ConfigNode * node = nullptr;
 
 	/* for mapping */
-	std::string key_name;
 	bool has_key = false;
+	std::string key_name;
 
 	error_info_t error_info = {
 		&context,
@@ -240,6 +241,7 @@ Config Config::parse(const std::string &context, const char * data, size_t size)
 	};
 
 	do {
+		yaml_event_delete(&event);
 		yaml_parser_parse(&parser, &event) || yaml_error(context, parser);
 
 		switch(event.type) {
