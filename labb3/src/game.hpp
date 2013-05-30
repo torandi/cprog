@@ -11,6 +11,7 @@ namespace game {
 	class Area;
 	class WorldParser;
   class Player;
+  class Keepable;
 
 	class Game {
 		public:
@@ -42,11 +43,15 @@ namespace game {
       static Player * player();
 
       static std::string lowercase(const std::string &str);
+
+      Area * area(const std::string &name);
+      Keepable * item(const std::string &name);
 		private:
 			static std::default_random_engine generator;
 			static std::vector<std::uniform_int_distribution<int> > dices;
 
 			std::map<std::string,Area*> areas;
+      std::map<std::string,Keepable*> items;
 			std::vector<Character*> characters;
       Player * m_player;
 

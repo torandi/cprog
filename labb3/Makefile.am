@@ -20,6 +20,7 @@ cprog10l3_SOURCES = \
 	src/world_parser.cpp src/world_parser.hpp \
 	src/parse_node.cpp src/parse_node.hpp \
 	src/player.cpp src/player.hpp \
+	src/monster.cpp src/monster.hpp \
 	src/main.cpp
 
 cprog10l3_LDADD = ${yaml_LIBS}

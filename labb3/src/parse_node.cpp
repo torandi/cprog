@@ -19,28 +19,19 @@ namespace game {
     , m_func(func) {
   }
 
-  ParseEndNode::ParseEndNode(const std::string &cmd, std::function<void(ParseData data)> func)
-    : ParseNode(cmd, func) {
-  }
-
   void ParseNode::add_child(ParseNode * node) {
     m_children.push_back(node);
   }
 
   bool ParseNode::exec(ParseData data) const {
-    if(m_func != nullptr) m_func(data);
-
     for(ParseNode * node : m_children) {
       if(node->match(data.line)) {
          return node->exec(data);
       }
     }
-    return false;
-  }
+		if(m_func != nullptr) m_func(data);
 
-  bool ParseEndNode::exec(ParseData data) const {
-    m_func(data);
-    return true;
+    return m_children.size() > 0; /* leaf or not */
   }
 
   bool ParseNode::match(std::string &str)  const {

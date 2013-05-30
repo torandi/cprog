@@ -56,7 +56,11 @@ namespace game {
 
 		virtual void pick_up(Item * item);
 
-		static Character * from_config(const ConfigNode * node);
+		static Character * from_config(const ConfigNode * node, Area * location);
+		static Character * from_node(const ConfigNode * node, Area * location);
+
+		static std::map<std::string, int> parse_attributes(const ConfigNode * node);
+		static void parse_inventory(Character * character, const ConfigNode * node);
 
 		virtual ~Character();
 	protected:
@@ -65,6 +69,10 @@ namespace game {
 		int initiative_roll() const;
 		virtual void store(Keepable  * item) = 0;
 		virtual bool use_action(int hand);
+
+		virtual void die() = 0; //called when the character dies
+		virtual void hurt(int damage); //Apply damage (armor is applied)
+		virtual void reduce_armor(int amount); // Provided so that natural armor can be considered
 
 		const std::string m_name, m_description;
 		const faction_t m_faction;
@@ -87,6 +95,7 @@ namespace game {
 		static bool faction_standings[Character::NUM_FACTIONS][Character::NUM_FACTIONS];
 	private:
 		int m_base_actions[2] = {1, };
+		static std::map<std::string, std::function<Character*(const ConfigNode*, Area * location)> > tag_map;
 
 	};
 };

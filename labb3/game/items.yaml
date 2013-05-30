@@ -17,7 +17,7 @@ containers:
     storage_volume: !rnd 40,50
 
 items:
-  - !equipment
+  longsword: !equipment
     type: one_hand
     name: Longsword
     description: A blank metal sword, good for use with a shield.
@@ -30,7 +30,7 @@ items:
       damage_extra: !rnd 0,2
       damage_overpower: !rnd 9,10
       durability: 60
-  - !equipment
+  dagger: !equipment
     type: one_hand
     name: Dagger
     description: A small sharp dagger, dualwielding this would give you some preeetty nice attack speed
@@ -43,7 +43,7 @@ items:
       damage_extra: 0
       damage_overpower: 10
       durability: 20
-  - !equipment
+  two_hand_sword: !equipment
     type: two_hand
     name: Two Hand Sword
     description: A massive two hand sword. It looks brutal
@@ -56,7 +56,7 @@ items:
       damage_extra: !rnd 5,10
       damage_overpower: !rnd 6,9
       durability: 130
-  - !equipment
+  small_shield: !equipment
     type: off_hand
     name: Small Shield
     description: A small shield
@@ -68,7 +68,7 @@ items:
       weapon_actions: !rnd 1,3
       durability: !rnd 60,80
       passive_protection: !rnd 1,2
-  - !equipment
+  medium_shield: !equipment
     type: off_hand
     name: Medium Shield
     description: A shield
@@ -80,7 +80,7 @@ items:
       weapon_actions: !rnd 3,5
       durability: !rnd 90,120
       passive_protection: !rnd 3,4
-  - !equipment
+  large_shield: !equipment
     type: off_hand
     name: Large Shield
     description: A really large shield, just having it equipped increases your chances of not beeing hit
@@ -92,7 +92,7 @@ items:
       weapon_actions: !rnd 3,5
       durability: !rnd 150,200
       passive_protection: !rnd 5,8
-  - !equipment
+  armor: !equipment
     type: armor
     name: Armor
     description: Armor of some kind, it protects your nuts, cause nobody likes rosted nuts. (wat?)
@@ -101,7 +101,7 @@ items:
     effects:
       initiative: !rnd -5,5
       armor: !rnd 50,200
-  - !equipment
+  ring: !equipment
     type: ring
     name: Magic Ring
     description: A magic ring
@@ -112,7 +112,7 @@ items:
       life: !rnd -20, 5
       strength: !rnd -10, 10
       action_points: !rnd -1,5
-  - !equipment
+  backpack: !equipment
     type: backpack
     name: Backpack
     description: A backpack to put all your loot in
@@ -120,9 +120,20 @@ items:
     weight: 1
     effects:
       backpack_volume: !rnd 10,100
-  - !keepable
+  fish: !keepable
     name: A fish
     description: It's a dead fish.
     volume: 1
     weight: 1
+
+random_items:
+  - longsword
+  - dagger
+  - dagger
+  - dagger
+  - small_shield
+  - small_shield
+  - medium_shield
+  - backpack
+  - ring
 

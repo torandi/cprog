@@ -1,0 +1,52 @@
+bandit: !human
+  faction: bandit
+  name: Bandit
+  description: A nasty looking bandit
+  attributes:
+    action_points: 20
+    strength: !rnd 1,3
+    initiative: !rnd 2,3
+    life: !rnd 15,20
+  equipment:
+    - longsword
+    - armor
+shielded_bandit: !human
+  faction: bandit
+  name: Bandit
+  description: A nasty looking bandit. AND HE GOT A SHIELD. RUN.
+  attributes:
+    action_points: 20
+    strength: !rnd 1,3
+    initiative: !rnd 2,3
+    life: !rnd 15,20
+  equipment:
+    - longsword
+    - large_shield
+    - armor
+badass_bandit: !human
+  faction: bandit
+  name: Badass Bandit
+  description: O SHI. A badass Bandit. Let's kill it!
+  attributes:
+    action_points: 30
+    strength: !rnd 3,6
+    initiative: !rnd 6,8
+    life: !rnd 20,30
+  equipment:
+    - two_hand_sword
+    - armor
+    - ring
+old_man: !human
+  faction: civilian
+  name: Old Man
+  description: An old man with a long white beard
+  attributes:
+    initiative: !rnd 6,8
+    life: !rnd 5,10
+  equipment:
+    - ring
+  inventory:
+    - ring
+    - ring
+    - ring
+    - ring

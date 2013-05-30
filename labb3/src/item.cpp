@@ -23,9 +23,21 @@ namespace game {
 
 	}
 
+	Item * Item::from_node(const ConfigNode * node) {
+		if(node->type == ConfigNode::NODE_MAPPING) {
+			return from_config(node);
+		} else if(node->type == ConfigNode::NODE_SCALAR) {
+			std::string name = "/items/" + node->parse_string();
+			Config cfg = Config::from_filename("game/items.yaml");
+			return Item::from_config(&cfg[name]);
+		} else {
+			Logging::fatal("Item node must be mapping or a string naming the item id\n");
+		}
+	}
+
   Item * Item::from_config(const ConfigNode * node) {
     auto it = tag_map.find(node->tag());
-    if(it == tag_map.end()) Logging::fatal("Unknown keepable tag %s\n", node->tag().c_str());
+    if(it == tag_map.end()) Logging::fatal("Unknown item tag %s\n", node->tag().c_str());
     return (it->second)(node);
   }
 
@@ -35,4 +47,5 @@ namespace game {
     {"!container", &Container::from_config },
     {"!potion", &HealthPotion::from_config },
   };
+
 }

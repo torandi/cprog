@@ -35,12 +35,14 @@ namespace game {
 
       virtual std::map<std::string, int> attributes() const;
 			virtual int attribute(const std::string &attr) const;
-			virtual bool talk_to(Human * human) { return false; };
+			virtual bool talk_to(Human * human);
 			virtual bool drop(Keepable * item);
 			virtual bool equip(Equipment * item);
 			virtual bool equip(Equipment * item, slot_t slot);
 			virtual bool unequip(slot_t slot);
 
+			static Human * from_config(const ConfigNode * node, Area * location);
+			static void parse_equipment(Human * human, const ConfigNode * node);
 
 			virtual ~Human();
 		protected:
@@ -51,7 +53,12 @@ namespace game {
 			int m_used_inventory_volume = 0;
 			int m_inventory_weight = 0;
 
+
+			std::vector<std::string> m_dialog;
+			int m_next_dialog = 0;
+
 			virtual void store(Keepable * item);
+			virtual void die();
 
 	};
 

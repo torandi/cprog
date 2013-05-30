@@ -25,13 +25,9 @@ namespace game {
 
 		Config game_config = Config::from_filename("game/game.yaml");
 
-		std::map<std::string, int> player_attributes;
-
-		Area * player_location = game->areas[game_config["/player/start_location"].parse_string()];
-		for(auto attr : game_config["/player/attributes"].map()) {
-			player_attributes[attr.first] = attr.second->parse_int();
-		}
-		game->m_player = new Player(player_attributes, player_location);
+		Area * player_location = game->area(game_config["/player/location"].parse_string());
+		game->m_player = new Player(Character::parse_attributes(&game_config["/player/attributes"]), player_location);
+		Human::parse_equipment(game->m_player, game_config.find("/player/equipment", false));
 	}
 
 	void WorldParser::parse_areas(Game * game) {
@@ -42,7 +38,6 @@ namespace game {
 			Area * area = Area::from_config(node);
 			areas[(*node)["/id"].parse_string()] = area;
 		}
-
 
 		//Fix area exits
 		for(const ConfigNode * node : areas_config.root().list()) {
@@ -59,6 +54,20 @@ namespace game {
 				}
 				area->set_exits(exits);
 			}
+
+			const ConfigNode * items = node->find("/items");
+			if(items) {
+				for(const ConfigNode * i : items->list()) {
+					area->m_items.insert(Item::from_node(i));
+				}
+			}
+
+			const ConfigNode * npcs = node->find("/npcs");
+			if(npcs) {
+				for(const ConfigNode * npc : npcs->list()) {
+					area->m_characters.insert(Character::from_node(npc, area));
+				}
+			}
 		}
 	}
 
@@ -69,7 +78,8 @@ namespace game {
 		Config items_config = Config::from_filename("game/items.yaml");
 		std::map<std::string,Area*> &areas = game->areas;
 
-		std::vector<const ConfigNode*> items = items_config["/items"].list();
+
+		std::vector<const ConfigNode*> items = items_config["/random_items"].list();
 		std::vector<const ConfigNode*> containers = items_config["/containers"].list();
 		std::uniform_int_distribution<int> item_select(0, static_cast<int>(items.size()) - 1);
 		std::uniform_int_distribution<int> container_select(0, static_cast<int>(containers.size()) - 1);
@@ -90,7 +100,7 @@ namespace game {
 			if(item_count > 0) {
 				Container * container = Container::from_config(containers[container_select(generator)]);
 				for(int i=0; i < item_count; ++i) {
-					Keepable * item = dynamic_cast<Keepable*>(Item::from_config(items[item_select(generator)]));
+					Keepable * item = dynamic_cast<Keepable*>(Item::from_node(items[item_select(generator)]));
 					if(!container->put(item)) delete item;
 				}
 				area_items.insert(container);

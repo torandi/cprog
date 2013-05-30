@@ -6,6 +6,8 @@
   exits:
     north: bridge
     west: forest_pond
+  npcs:
+    - old_man
 - !area
   id: bridge
   name: A Bridge

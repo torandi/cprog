@@ -78,4 +78,22 @@ namespace game {
   Player * Game::player() {
     return Game::singleton->m_player;
   }
+
+  Area * Game::area(const std::string &name) {
+    auto it = areas.find(name);
+    if(it != areas.end()) {
+      return it->second;
+    } else {
+      return nullptr;
+    }
+  }
+
+  Keepable * Game::item(const std::string &name) {
+    auto it = items.find(name);
+    if(it != items.end()) {
+      return it->second;
+    } else {
+      return nullptr;
+    }
+  }
 }

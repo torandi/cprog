@@ -9,6 +9,7 @@ namespace game {
 
   struct ParseData {
     std::string line;
+		void * user_data = nullptr;
     std::vector<void*> data;
   };
 
@@ -32,13 +33,6 @@ namespace game {
       std::string m_cmd;
       std::vector<ParseNode*> m_children;
       std::function<void(ParseData data)> m_func;
-  };
-
-  class ParseEndNode : public ParseNode {
-    public:
-      ParseEndNode(const std::string &cmd, std::function<void(ParseData data)>);
-      virtual bool exec(ParseData data) const;
-      virtual ~ParseEndNode() {};
   };
 };
 

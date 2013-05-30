@@ -15,9 +15,9 @@ namespace game {
 			static void parse(Game * game);
 		private:
 
-			static void parse_item(Game * game, ConfigNode * node);
 			static void parse_areas(Game * game);
 			static void parse_items(Game * game);
+      static void parse_characters(Game * game);
       static std::default_random_engine generator;
 
 	};

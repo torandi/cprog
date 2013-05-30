@@ -24,6 +24,9 @@ namespace game {
 			virtual ~Item() {};
 
       static Item * from_config(const ConfigNode * node);
+
+			/* Node of either full item, or a id in game/items.yaml */
+			static Item * from_node(const ConfigNode * node);
 		protected:
 			Item(const std::string &name, const std::string &description);
 

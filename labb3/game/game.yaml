@@ -1,5 +1,6 @@
 player:
-  start_location: forest
+  faction: civilian
+  location: forest
   attributes:
     action_points: 20
     strength: !rnd 1,3
