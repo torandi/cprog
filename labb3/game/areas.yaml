@@ -16,6 +16,8 @@
   exits:
     south: forest
     north: castle
+  npcs:
+    - bandit
 - !area
   id: forest_pond
   name: Forest Pond
@@ -30,4 +32,6 @@
   name: Old Castle
   description: An old mossy castle, it looks haunted.
   movement_cost: 10
+  npcs:
+    - badass_bandit
 

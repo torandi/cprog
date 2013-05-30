@@ -34,7 +34,13 @@ namespace game {
       for(Item * i : a->items() ) {
         std::cout << i->name() << ": " << i->description() << std::endl;
       }
+			std::cout << std::endl;
+			std::cout << "Characters:" << std::endl;
+			for(const Character * c : a->characters() ) {
+				std::cout << c->name() << ": " << c->description() << std::endl;
+			}
       std::cout << std::endl;
+			std::cout << std::endl;
     }
 	}
 
