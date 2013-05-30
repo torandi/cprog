@@ -18,10 +18,10 @@ namespace game {
 			 * Returns true if item should be aquired, false if it should be deleted
 			 */
 			virtual bool aquire(Character * character) const = 0;
-			virtual const std::string &name() const;
-			virtual const std::string &description() const;
+			virtual std::string name() const;
+			virtual std::string description() const;
 
-			virtual ~Item() {};
+			virtual ~Item() { };
 
       static Item * from_config(const ConfigNode * node);
 

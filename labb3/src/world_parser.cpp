@@ -37,6 +37,20 @@ namespace game {
 		for(const ConfigNode * node : areas_config.root().list()) {
 			Area * area = Area::from_config(node);
 			areas[(*node)["/id"].parse_string()] = area;
+
+      const ConfigNode * items = node->find("/items");
+      if(items) {
+        for(const ConfigNode * i : items->list()) {
+          area->m_items.insert(Item::from_node(i));
+        }
+      }
+
+      const ConfigNode * npcs = node->find("/npcs");
+      if(npcs) {
+        for(const ConfigNode * npc : npcs->list()) {
+          area->m_characters.insert(Character::from_node(npc, area));
+        }
+      }
 		}
 
 		//Fix area exits
@@ -53,20 +67,6 @@ namespace game {
 					exits[exit.first] = e_area->second;
 				}
 				area->set_exits(exits);
-			}
-
-			const ConfigNode * items = node->find("/items");
-			if(items) {
-				for(const ConfigNode * i : items->list()) {
-					area->m_items.insert(Item::from_node(i));
-				}
-			}
-
-			const ConfigNode * npcs = node->find("/npcs");
-			if(npcs) {
-				for(const ConfigNode * npc : npcs->list()) {
-					area->m_characters.insert(Character::from_node(npc, area));
-				}
 			}
 		}
 	}

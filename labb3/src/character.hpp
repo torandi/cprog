@@ -33,8 +33,8 @@ namespace game {
 		virtual void regain_life(int life);
 
 		virtual faction_t faction() const;
-		virtual const std::string &name() const;
-		virtual const std::string &description() const;
+		virtual std::string name() const;
+		virtual std::string description() const;
 		state_t state() const;
 
 		Area* location() const;

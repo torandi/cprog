@@ -78,11 +78,11 @@ namespace game {
 		return m_faction;
 	}
 
-	const std::string &Character::name() const {
+	std::string Character::name() const {
 		return m_name;
 	}
 
-	const std::string &Character::description() const {
+	std::string Character::description() const {
 		return m_description;
 	}
 

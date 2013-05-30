@@ -15,13 +15,13 @@ namespace game {
       virtual int volume() const;
       virtual int weight() const;
 
-      virtual const std::string &description() const;
+      virtual std::string description() const;
 
-      virtual ~Keepable() {};
+      virtual ~Keepable() { };
 
       static Keepable * from_config(const ConfigNode * node);
-    protected:
       Keepable(const std::string & name, const std::string & description, int volume, int weight);
+      protected:
 
       int m_volume, m_weight;
 

@@ -10,10 +10,10 @@
 #include "health_potion.hpp"
 
 namespace game {
-	const std::string &Item::name() const {
+	std::string Item::name() const {
 		return m_name;
 	}
-	const std::string &Item::description() const {
+	std::string Item::description() const {
 		return m_description;
 	}
 
