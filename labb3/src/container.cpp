@@ -12,7 +12,8 @@ namespace game {
 
 	Container::Container(const std::string &name, const std::string &description, int storage_volume)
 		: Item(name, description)
-		, m_max_storage_volume(storage_volume) {
+		, m_max_storage_volume(storage_volume)
+		, m_storage_volume(storage_volume) {
 	}
 
 

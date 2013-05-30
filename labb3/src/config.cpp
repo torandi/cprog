@@ -191,7 +191,7 @@ Config Config::from_filename(const std::string &filename) {
 
 		Config config = parse(filename, data, size);
 
-		delete data;
+		delete[] data;
 
 		return config;
 	} else {
