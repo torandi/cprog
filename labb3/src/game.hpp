@@ -46,6 +46,11 @@ namespace game {
 
       Area * area(const std::string &name);
       Keepable * item(const std::string &name);
+
+      void add_character(Character * character);
+
+      void start_simulation();
+      void stop();
 		private:
 			static std::default_random_engine generator;
 			static std::vector<std::uniform_int_distribution<int> > dices;
@@ -54,6 +59,8 @@ namespace game {
       std::map<std::string,Keepable*> items;
 			std::vector<Character*> characters;
       Player * m_player;
+
+      bool m_run = true;
 
 			friend class WorldParser;
 

@@ -101,16 +101,17 @@ namespace game {
 		}
 	}
 
-	const int Character::initiative() const {
-		return attribute("initiative") + initiative_roll();
+  int Character::initiative() const {
+    return m_initiative;
+  }
+
+	void Character::roll_initiative() {
+		m_initiative = attribute("initiative") + Game::roll_dice(Game::T10, 10);
+    printf("%s: initiative: %d\n", name().c_str(), m_initiative);
 	}
 
 	int Character::armor_protection() const {
 		return attribute("armor") / 10;
-	}
-
-	int Character::initiative_roll() const {
-		return Game::roll_dice(Game::T10, 10);
 	}
 
 	void Character::do_action(int cost) {

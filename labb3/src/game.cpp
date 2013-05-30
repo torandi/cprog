@@ -29,19 +29,38 @@ namespace game {
 		WorldParser::parse(this);
     for(auto it : areas) {
       Area * a = it.second;
-      std::cout << a->name() << ": " << a->description() << std::endl;
-      std::cout << "Items:" << std::endl;
+      std::cerr << a->name() << ": " << a->description() << std::endl;
+      std::cerr << "Items:" << std::endl;
       for(Item * i : a->items() ) {
-        std::cout << i->name() << ": " << i->description() << std::endl;
+        std::cerr << i->name() << ": " << i->description() << std::endl;
       }
-			std::cout << std::endl;
-			std::cout << "Characters:" << std::endl;
+			std::cerr << std::endl;
+			std::cerr << "Characters:" << std::endl;
 			for(const Character * c : a->characters() ) {
 				std::cout << c->name() << ": " << c->description() << std::endl;
 			}
-      std::cout << std::endl;
-			std::cout << std::endl;
+      std::cerr << std::endl;
+			std::cerr << std::endl;
     }
+	}
+
+	void Game::stop() {
+		m_run = false;
+	}
+
+	void Game::start_simulation() {
+		using namespace std::placeholders;
+		while(m_run) {
+			//ROLL FOR INITIATIVE SUCKERS!
+			std::for_each(characters.begin(), characters.end(), std::bind(&Character::roll_initiative, _1));
+			std::sort(characters.begin(), characters.end(), [](Character * c1, Character * c2) { return c1->initiative() > c2->initiative(); } );
+
+			for(Character * c : characters) {
+				std::cout << c->name() << std::endl;
+				c->action();
+			}
+			std::cout << std::endl;
+		}
 	}
 
 	Game::~Game() {
@@ -52,7 +71,7 @@ namespace game {
 
 	int Game::roll_dice(Game::dice_t dice, int op) {
 		int value = dices[dice](generator);
-		if(op != -1 && value <= op) {
+		if(op != -1 && value >= op) {
 			return value + roll_dice(dice, op);
 		} else {
 			return value;
@@ -102,4 +121,9 @@ namespace game {
       return nullptr;
     }
   }
+
+	void Game::add_character(Character * character) {
+		characters.push_back(character);
+		character->location()->enter(character);
+	}
 }

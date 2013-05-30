@@ -28,6 +28,7 @@ namespace game {
 		Area * player_location = game->area(game_config["/player/location"].parse_string());
 		game->m_player = new Player(Character::parse_attributes(&game_config["/player/attributes"]), player_location);
 		Human::parse_equipment(game->m_player, game_config.find("/player/equipment", false));
+		game->add_character(game->m_player);
 	}
 
 	void WorldParser::parse_areas(Game * game) {
@@ -48,7 +49,7 @@ namespace game {
       const ConfigNode * npcs = node->find("/npcs");
       if(npcs) {
         for(const ConfigNode * npc : npcs->list()) {
-          area->m_characters.insert(Character::from_node(npc, area));
+          game->add_character(Character::from_node(npc, area));
         }
       }
 		}

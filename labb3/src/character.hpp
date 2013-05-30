@@ -39,7 +39,8 @@ namespace game {
 
 		Area* location() const;
 
-		virtual const int initiative() const;
+		virtual int initiative() const; /* Get's stored initiative */
+    virtual void roll_initiative(); /* Reroll initiative */
 
 		virtual void action();
 
@@ -66,7 +67,6 @@ namespace game {
 	protected:
 		Character(const std::string &name, const std::string &description, faction_t faction, std::map<std::string, int> attributes, Area * location);
 
-		int initiative_roll() const;
 		virtual void store(Keepable  * item) = 0;
 		virtual bool use_action(int hand);
 
@@ -82,6 +82,7 @@ namespace game {
 		int m_action_mod = 0;
 		int m_action_points = 0;
 		int m_remaining_actions[2] = {0, };
+    int m_initiative = 0;
 
 		int m_life;
 		state_t m_state = IDLE;
