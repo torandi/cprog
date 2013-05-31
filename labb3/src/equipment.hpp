@@ -23,6 +23,7 @@ namespace game {
 			};
 
 
+			virtual std::string description() const;
 			virtual const std::map<std::string, int> &effects() const;
 			virtual int effect(const std::string &attribute) const;
 			virtual std::string item_type() const { return "equipment"; } ;

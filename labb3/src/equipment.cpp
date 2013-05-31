@@ -5,6 +5,8 @@
 #include "equipment.hpp"
 #include "logging.hpp"
 
+#include <sstream>
+
 namespace game {
 
 	Equipment::Equipment(
@@ -69,6 +71,15 @@ namespace game {
 				type,
 				effects
 			);
+	}
+
+	std::string Equipment::description() const {
+		std::stringstream str;
+		str << Keepable::description() << std::endl;
+		for(auto e : m_effects) {
+			str << "\t" << e.first << ": " << e.second << std::endl;
+		}
+		return str.str();
 	}
 
 	std::map<std::string, Equipment::type_t> Equipment::type_string_map = {

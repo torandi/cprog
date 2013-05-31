@@ -74,7 +74,7 @@ namespace game {
 			}
 		}
 
-		if(slot == LEFT_HAND && m_equipments[RIGHT_HAND]->type() == Equipment::TWO_HAND) {
+		if(slot == LEFT_HAND && m_equipments[RIGHT_HAND] != nullptr && m_equipments[RIGHT_HAND]->type() == Equipment::TWO_HAND) {
 			Game::out(location()) << name() << " can't equip a item in the left hand while a two hand item is equipped in the right." << std::endl;
 			return false;
 		}

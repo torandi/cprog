@@ -52,6 +52,9 @@ namespace game {
 
 	static std::set<Item*> accessible_items() {
 		std::set<Item*> items = Game::player()->location()->all_items();
+		for(int i=0; i<Human::NUM_SLOTS; ++i) {
+			if(Game::player()->equipment(static_cast<Human::slot_t>(i)) != nullptr) items.insert(Game::player()->equipment(static_cast<Human::slot_t>(i)));
+		}
 		for(Keepable * i : Game::player()->inventory()) {
 			items.insert(i);
 		}
@@ -302,11 +305,15 @@ namespace game {
 			Equipment * e = dynamic_cast<Equipment*>(i);
 			if(e != nullptr) {
 				Human::slot_t slot = Equipment::default_slot(e->type());
-				if(d.line.find("right")) slot = Human::RIGHT_HAND;
-				else if(d.line.find("left")) slot = Human::LEFT_HAND;
+
+				if(d.line.find("right") != d.line.npos) slot = Human::RIGHT_HAND;
+				else if(d.line.find("left") != d.line.npos) slot = Human::LEFT_HAND;
+
+				if(c != nullptr) c->take(e);
+				else if(Game::player()->inventory().count(e) == 1) { }
+				else if(!Game::player()->location()->pick_up(Game::player(), i)) return;
 
 				if(Game::player()->equip(e, slot)) {
-					c->take(e);
 					std::cout << "You equipped " << e->name() << " in " << Human::slot_names[slot] << "." << std::endl;
 				}
 			} else {
@@ -387,6 +394,7 @@ namespace game {
 		static std::string lcased;
 		static std::vector<std::string> names;
 		if(!state) {
+			names.clear();
 			lcased = Game::lowercase(std::string(text));
 			last_index = 0;
 			len = strlen(text);
