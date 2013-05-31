@@ -73,13 +73,13 @@ namespace game {
 		}
 	}
 
-	bool Area::drop(Character * character, Keepable * item, bool force) {
-		if(item->drop(character) || force) {
-			m_items.insert(item);
-			return true;
-		} else {
-			return false;
+	bool Area::drop(Character * character, Item * item, bool force) {
+		if(!force) {
+			Keepable * k = dynamic_cast<Keepable*>(item);
+			if(!k->drop(character)) return false;
 		}
+		m_items.insert(item);
+		return true;
 	}
 
   const std::set<const Character*> &Area::characters() const {

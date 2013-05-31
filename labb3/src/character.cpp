@@ -144,6 +144,12 @@ namespace game {
 
 	void Character::take(Keepable * item, Container * from) {
 		if(from->take(item)) {
+			try {
+				do_action(5);
+			} catch (const char * err) {
+				from->put(item);
+				throw err;
+			}
 			Game::out(location()) << name() << " " << verb( "pick") << " up " << item->name() << " from " << from->name() << ". "<< std::endl;
 			if(item->aquire(this)) {
 				store(dynamic_cast<Keepable*>(item));
@@ -161,6 +167,12 @@ namespace game {
 
 	void Character::pick_up(Item * item) {
 		if(m_location->pick_up(this, item)) {
+			try {
+				do_action(5);
+			} catch (const char * err) {
+				m_location->drop(this, item, true);
+				throw err;
+			}
 			Game::out(location()) << name() << " " << verb( "pick") << " up " << item->name() << std::endl;
 			if(item->aquire(this)) {
 				store(dynamic_cast<Keepable*>(item));

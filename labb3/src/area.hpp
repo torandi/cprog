@@ -41,7 +41,7 @@ namespace game {
 			virtual const std::set<Item*> &items() const;
 
 			virtual bool pick_up(Character * character, Item * item);
-			virtual bool drop(Character * character, Keepable * item, bool force=true);
+			virtual bool drop(Character * character, Item * item, bool force=true);
 
 			void set_exits(const std::map<std::string, Area*> &exits);
 

@@ -52,11 +52,11 @@ namespace game {
 
 	static std::set<Item*> accessible_items() {
 		std::set<Item*> items = Game::player()->location()->all_items();
-		for(int i=0; i<Human::NUM_SLOTS; ++i) {
-			if(Game::player()->equipment(static_cast<Human::slot_t>(i)) != nullptr) items.insert(Game::player()->equipment(static_cast<Human::slot_t>(i)));
-		}
 		for(Keepable * i : Game::player()->inventory()) {
 			items.insert(i);
+		}
+		for(int i=0; i<Human::NUM_SLOTS; ++i) {
+			if(Game::player()->equipment(static_cast<Human::slot_t>(i)) != nullptr) items.insert(Game::player()->equipment(static_cast<Human::slot_t>(i)));
 		}
 		return items;
 	}
@@ -313,11 +313,38 @@ namespace game {
 				else if(Game::player()->inventory().count(e) == 1) { }
 				else if(!Game::player()->location()->pick_up(Game::player(), i)) return;
 
+				Game::player()->do_action(5);
+
 				if(Game::player()->equip(e, slot)) {
 					std::cout << "You equipped " << e->name() << " in " << Human::slot_names[slot] << "." << std::endl;
 				}
 			} else {
 				std::cout << "You try to equip " << i->name() << " a couple of times, but fail misserably." << std::endl;
+			}
+		} else {
+			std::cout << "For that to be possible, you first must find a " << d.line << "."  << std::endl;
+		}
+	}
+
+	static void cmd_unequip(ParseData &d) {
+		std::set<Item*> items;
+		for(int i=0; i<Human::NUM_SLOTS; ++i) {
+			Human::slot_t slot = static_cast<Human::slot_t>(i);
+			Equipment * e = Game::player()->equipment(slot);
+			if(e != nullptr) items.insert(e);
+		}
+		Item * item = detect_item(items, d.line);
+		if(item == nullptr) {
+			std::cout << "No " << d.line << " equipped." << std::endl;
+			return;
+		}
+		for(int i=0; i<Human::NUM_SLOTS; ++i) {
+			Human::slot_t slot = static_cast<Human::slot_t>(i);
+			Equipment * e = Game::player()->equipment(slot);
+			if(e == item) {
+				std::cout << "Unequipping " << Game::player()->equipment(slot)->name() << " from " << Human::slot_names[i] << "." << std::endl;
+				Game::player()->unequip(slot);
+				return;
 			}
 		}
 	}
@@ -349,7 +376,6 @@ namespace game {
 			ParseNode("describe", cmd_inspect, { }),
 			ParseNode("inspect", cmd_inspect, { }),
 			ParseNode("look at", cmd_inspect, { }),
-			ParseNode("go", cmd_go, { }),
 			ParseNode("open", cmd_open, { }),
 			ParseNode("close", cmd_close, { }),
 			ParseNode("next", [](ParseData &d) { Game::player()->next_turn(); }, { }),
@@ -361,8 +387,10 @@ namespace game {
 				ParseNode("from", cmd_take_from, {}),
 				ParseNode("", cmd_pick_up, {}),
 			}),
+			ParseNode("unequip", cmd_unequip, { }),
 			ParseNode("equip", cmd_equip, { }),
 			ParseNode("use", cmd_use, { }),
+			ParseNode("go", cmd_go, { }),
 			ParseNode("make", cmd_make, { }),
 		}),
 		ParseNode("", nullptr, { })

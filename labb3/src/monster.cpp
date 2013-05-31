@@ -1,5 +1,7 @@
 #include "monster.hpp"
 #include "area.hpp"
+#include "item.hpp"
+#include "keepable.hpp"
 
 namespace game {
 
