@@ -38,8 +38,14 @@ namespace game {
 
 	static void print_characters(const std::set<const Character*> &characters) {
 		for(const Character * c : characters) {
-			if(c != Game::player()) std::cout << c->name() << std::endl;
+			std::cout << c->name() << std::endl;
 		}
+	}
+
+	static std::set<const Character*> npcs() {
+		std::set<const Character*> npcs = Game::player()->location()->characters();
+		npcs.erase(Game::player());
+		return npcs;
 	}
 
 	static Item * detect_item(std::set<Item*> items, const std::string &str) {
@@ -72,6 +78,44 @@ namespace game {
 			}
 		}
 		return match;
+	}
+
+	static const Character * detect_character(std::set<const Character*> characters, const std::string &str) {
+		const Character * match = nullptr;
+		size_t current_match_pos = str.npos;
+		size_t current_match_len = 0;
+		size_t pos;
+
+		for(const Character * c : characters) {
+			std::vector<std::string> character_name = split(Game::lowercase(c->name()), " ");
+			size_t min_pos = str.npos;
+			size_t match_len = 0;
+			for(const std::string & n : character_name) {
+				if((pos = str.find(n)) != str.npos) {
+					min_pos = std::min(min_pos, pos);
+					match_len += n.length();
+				}
+			}
+
+			if(match_len > current_match_len) {
+				current_match_pos = min_pos;
+				current_match_len = match_len;
+				match = c;
+			} else if(current_match_len == match_len) {
+				if(min_pos < current_match_pos) {
+					current_match_pos = min_pos;
+					current_match_len = match_len;
+					match = c;
+				}
+			}
+		}
+		return match;
+	}
+
+	static void print_exits() {
+		for(auto ex : Game::player()->location()->exits()) {
+			std::cout << "To the " << ex.first << " lies " << ex.second->name() << "." << std::endl;
+		}
 	}
 
 	/* Functions */
@@ -117,25 +161,42 @@ namespace game {
 		return items;
 	}
 
-	static void cmd_inspect(ParseData &d) {
-		Item * item = detect_item(accessible_items(), d.line);
-		if(item != nullptr) {
-			std::cout << "You take a closer look at " << item->name() << ". " << item->description() << std::endl;
-		} else {
-			std::cout << "You can't find any " << d.line << "." << std::endl;
-		}
-	}
-
 	static void cmd_look_around(ParseData &d) {
 		Area * location =Game::player()->location();
 		std::cout << "You are standing in " << location->name() << ". " << location->description() << "." << std::endl;
+		print_exits();
 		if(location->items().size() > 0) {
 			std::cout << std::endl << "You can see the following item" << (location->items().size() > 1 ? "s" : "") << ": " << std::endl;
 			print_items(location->items());
 		}
 		if(location->characters().size() > 1) {
 			std::cout << std::endl << "You can see the following person" << (location->characters().size() > 2 ? "s" : "") << ": " << std::endl;
-			print_characters(location->characters());
+			print_characters(npcs());
+		}
+	}
+
+	static void cmd_inspect(ParseData &d) {
+		if(d.line.empty()) return cmd_look_around(d);
+		const Character * character = detect_character(npcs(), d.line);
+
+		if(character != nullptr) {
+			std::cout << character->description() << std::endl;
+		} else {
+			Item * item = detect_item(accessible_items(), d.line);
+			if(item != nullptr) {
+				std::cout << "You take a closer look at " << item->name() << ". " << item->description() << std::endl;
+			} else {
+				std::cout << "You can't find any " << d.line << "." << std::endl;
+			}
+		}
+	}
+
+	static void cmd_go(ParseData &d) {
+		if(Game::player()->go(d.line)) {
+			std::cout << "You go " << d.line << ". Your are now in " << Game::player()->location()->name() << ". " << std::endl;
+			print_exits();
+		} else {
+			std::cout << "You can't go that direction." << std::endl;
 		}
 	}
 
@@ -151,6 +212,7 @@ namespace game {
 			ParseNode("describe", cmd_inspect, { }),
 			ParseNode("inspect", cmd_inspect, { }),
 			ParseNode("look at", cmd_inspect, { }),
+			ParseNode("go", cmd_go, { }),
 			ParseNode("next", [](ParseData &d) { Game::player()->next_turn(); }, { }),
 		}),
 		ParseNode("", nullptr, { })

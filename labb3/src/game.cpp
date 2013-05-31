@@ -125,6 +125,6 @@ namespace game {
 
 	void Game::add_character(Character * character) {
 		characters.push_back(character);
-		character->location()->enter(character);
+		character->location()->m_characters.insert(character);
 	}
 }

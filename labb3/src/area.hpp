@@ -22,7 +22,6 @@ namespace game {
 
 			virtual ~Area();
 
-			virtual const std::vector<std::string> &directions() const;
 			virtual Area* neighbor(const std::string &direction) const;
 
 
@@ -33,6 +32,7 @@ namespace game {
 			virtual bool enter(Character * character); /* Return false if action is denied */
 			virtual bool leave(Character * character); /* Return false if action is denied */
 			virtual void stay(Character * character); /* A character stays idle in the location */
+			virtual const std::map<std::string, Area*> &exits() const;
 
       virtual const std::set<const Character*> &characters() const;
 
@@ -44,6 +44,7 @@ namespace game {
 			virtual bool drop(Character * character, Keepable * item, bool force=true);
 
 			void set_exits(const std::map<std::string, Area*> &exits);
+
 
 		protected:
 			Area(const std::string &name, const std::string &description, int movement_cost);
@@ -57,6 +58,7 @@ namespace game {
 			std::set<Item*> m_items;
 
       friend class WorldParser;
+			friend class Game;
     private:
       static std::map<std::string, std::function<Area*(const ConfigNode*)>  > tag_map;
       static Area * self_from_config(const ConfigNode * node);

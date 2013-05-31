@@ -9,6 +9,7 @@
 #include "keepable.hpp"
 #include "logging.hpp"
 #include "container.hpp"
+#include "player.hpp"
 
 #include <algorithm>
 
@@ -23,10 +24,6 @@ namespace game {
 
 	Area::~Area() {
 		std::for_each(m_items.begin(), m_items.end(), [](Item* i) { delete i; });
-	}
-
-	const std::vector<std::string> &Area::directions() const {
-		return m_directions;
 	}
 
 	int Area::movement_cost() const {
@@ -49,11 +46,13 @@ namespace game {
 
 	bool Area::enter(Character * character) {
 		m_characters.insert(character);
+		if(character != Game::player()) Game::out(this) << character->name() << " enters " << name() << std::endl;
 		return true;
 	}
 
 	bool Area::leave(Character * character) {
 		m_characters.erase(character);
+		if(character != Game::player()) Game::out(this) << character->name() << " leaves " << name() << std::endl;
 		return true;
 	}
 
@@ -101,6 +100,10 @@ namespace game {
 		}
 		return items;
   }
+
+	const std::map<std::string, Area*> &Area::exits() const {
+		return m_exits;
+	}
 
 	Area * Area::self_from_config(const ConfigNode * _node) {
 		const ConfigNode &node = *_node;

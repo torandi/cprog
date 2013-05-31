@@ -98,11 +98,17 @@ namespace game {
 		return m_location;
 	}
 
-	void Character::go(const std::string &direction) {
+	bool Character::go(const std::string &direction) {
 		Area * new_location = m_location->neighbor(direction);
-		if(new_location != nullptr) {
-			m_location = new_location;
+		if(new_location != nullptr && m_location->leave(this)) {
+			if(new_location->enter(this)) {
+				m_location = new_location;
+			} else {
+				m_location->enter(this);
+			}
+			return true;
 		}
+		return false;
 	}
 
   int Character::initiative() const {
