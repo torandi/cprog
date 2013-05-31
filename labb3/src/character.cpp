@@ -106,6 +106,7 @@ namespace game {
 	bool Character::go(const std::string &direction) {
 		Area * new_location = m_location->neighbor(direction);
 		if(new_location != nullptr && m_location->leave(this)) {
+			do_action(location()->movement_cost());
 			if(new_location->enter(this)) {
 				m_location = new_location;
 			} else {
@@ -132,7 +133,7 @@ namespace game {
 		if(m_action_points >= cost) {
 			m_action_points -= cost;
 		} else {
-			throw "More action points needed";
+			throw "More action points needed (type next to end your turn).";
 		}
 	}
 

@@ -18,6 +18,8 @@ namespace game {
 			sprintf(buffer, "[ap: %d] >> ", m_action_points);
 			Input::read(Input::DEFAULT, buffer);
 		}
+
+		if(Game::singleton->run()) std::cout << "Your turn ends." << std::endl;
   }
 
   void Player::incoming_attack(Character * character, int damage) {

@@ -467,7 +467,11 @@ namespace game {
 				}
 			}
 
-			res  = ParseNode::parse(parse_trees[tree], cmd, user_data);
+			try {
+				res = ParseNode::parse(parse_trees[tree], cmd, user_data);
+			} catch (const char * err) {
+				std::cout << err << std::endl;
+			}
 			if(!res && cmd.length() != 0) printf("Unknown command %s.\n", cmd.c_str());
 		} while(res == false);
 	}
