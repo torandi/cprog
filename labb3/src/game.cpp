@@ -27,6 +27,7 @@ namespace game {
 		dices.push_back(std::uniform_int_distribution<int>(1,20));
 
 		WorldParser::parse(this);
+		/*
     for(auto it : areas) {
       Area * a = it.second;
       std::cerr << a->name() << ": " << a->description() << std::endl;
@@ -42,6 +43,7 @@ namespace game {
       std::cerr << std::endl;
 			std::cerr << std::endl;
     }
+		*/
 	}
 
 	void Game::stop() {
@@ -95,7 +97,7 @@ namespace game {
 
   std::string Game::lowercase(const std::string &str) {
     std::string ret = str;
-    std::transform(ret.begin(), ret.begin(), ret.end(), [](const char c) { return (char)std::tolower(c); });
+    std::transform(ret.begin(), ret.end(), ret.begin(), [](const char c) { return (char)std::tolower(c); });
     return ret;
   }
 

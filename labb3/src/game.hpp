@@ -51,6 +51,8 @@ namespace game {
 
       void start_simulation();
       void stop();
+
+			bool run() const { return m_run; };
 		private:
 			static std::default_random_engine generator;
 			static std::vector<std::uniform_int_distribution<int> > dices;

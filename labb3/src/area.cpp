@@ -8,6 +8,7 @@
 #include "item.hpp"
 #include "keepable.hpp"
 #include "logging.hpp"
+#include "container.hpp"
 
 #include <algorithm>
 
@@ -86,8 +87,19 @@ namespace game {
     return m_characters;
   }
 
-  const std::set<Item*> &Area::items() const {
-    return m_items;
+	const std::set<Item*> &Area::items() const {
+		return m_items;
+	}
+
+  std::set<Item*> Area::all_items() const {
+		std::set<Item*> items = m_items;
+		for(Item * i : m_items) {
+			Container * c = dynamic_cast<Container*>(i);
+			if(c != nullptr && c->is_open()) {
+				std::for_each(c->content().begin(), c->content().end(), [&items](Keepable * k) { items.insert(k); });
+			}
+		}
+		return items;
   }
 
 	Area * Area::self_from_config(const ConfigNode * _node) {

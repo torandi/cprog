@@ -12,12 +12,22 @@ namespace game {
   }
 
   void Player::action() {
-		Input::read(Input::DEFAULT);
+		Human::action();
+		char buffer[16];
+		while(m_action_points > 0 && Game::singleton->run()) {
+			sprintf(buffer, "[ap: %d] >> ", m_action_points);
+			Input::read(Input::DEFAULT, buffer);
+		}
   }
 
   void Player::incoming_attack(Character * character, int damage) {
 
   }
+
+	void Player::next_turn() {
+		std::cout << "Proceding to next turn." << std::endl;
+		m_action_points = 0;
+	}
 
 	void Player::store(Keepable * item) {
 		bool store = true;

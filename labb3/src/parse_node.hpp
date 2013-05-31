@@ -33,6 +33,7 @@ namespace game {
 			const std::string &cmd() const;
 
       virtual ~ParseNode();
+
     protected:
       std::string m_cmd;
       std::vector<ParseNode> m_children;

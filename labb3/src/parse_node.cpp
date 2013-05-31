@@ -4,28 +4,10 @@
 
 #include "parse_node.hpp"
 #include "game.hpp"
+#include "string_utils.hpp"
 
 #include <algorithm>
 
-static std::string trim(std::string s) {
-	size_t begin_str = s.find_first_not_of(" \t\n\r");
-	if(begin_str != std::string::npos) {
-		size_t last = s.find_last_not_of(" \t\n\r");
-		if(last >= begin_str) {
-			std::string trimmed = s.substr(begin_str, last - begin_str + 1);
-			return trimmed;
-		} else {
-			return "";
-		}
-	} else {
-		return "";
-	}
-}
-
-static void erase_word(std::string &str, size_t pos, size_t len) {
-	str.erase(pos, str.find(" ", pos + len) - pos);
-	str = trim(str);
-}
 
 namespace game {
 

@@ -35,7 +35,10 @@ namespace game {
 			virtual void stay(Character * character); /* A character stays idle in the location */
 
       virtual const std::set<const Character*> &characters() const;
-      virtual const std::set<Item*> &items() const;
+
+			/* Returns all items acceable (including open containers) */
+      virtual std::set<Item*> all_items() const;
+			virtual const std::set<Item*> &items() const;
 
 			virtual bool pick_up(Character * character, Item * item);
 			virtual bool drop(Character * character, Keepable * item, bool force=true);

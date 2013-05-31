@@ -4,6 +4,8 @@
 #include "game.hpp"
 #include "player.hpp"
 #include "equipment.hpp"
+#include "string_utils.hpp"
+#include "area.hpp"
 
 #include <functional>
 #include <set>
@@ -32,6 +34,44 @@ namespace game {
 		for(Keepable * i : items) {
 			std::cout << i->name() << std::endl;
 		}
+	}
+
+	static void print_characters(const std::set<const Character*> &characters) {
+		for(const Character * c : characters) {
+			if(c != Game::player()) std::cout << c->name() << std::endl;
+		}
+	}
+
+	static Item * detect_item(std::set<Item*> items, const std::string &str) {
+		Item * match = nullptr;
+		size_t current_match_pos = str.npos;
+		size_t current_match_len = 0;
+		size_t pos;
+
+		for(Item * i : items) {
+			std::vector<std::string> item_name = split(Game::lowercase(i->name()), " ");
+			size_t min_pos = str.npos;
+			size_t match_len = 0;
+			for(const std::string & n : item_name) {
+				if((pos = str.find(n)) != str.npos) {
+					min_pos = std::min(min_pos, pos);
+					match_len += n.length();
+				}
+			}
+
+			if(match_len > current_match_len) {
+				current_match_pos = min_pos;
+				current_match_len = match_len;
+				match = i;
+			} else if(current_match_len == match_len) {
+				if(min_pos < current_match_pos) {
+					current_match_pos = min_pos;
+					current_match_len = match_len;
+					match = i;
+				}
+			}
+		}
+		return match;
 	}
 
 	/* Functions */
@@ -69,6 +109,36 @@ namespace game {
 		}
 	}
 
+	static std::set<Item*> accessible_items() {
+		std::set<Item*> items = Game::player()->location()->all_items();
+		for(Keepable * i : Game::player()->inventory()) {
+			items.insert(i);
+		}
+		return items;
+	}
+
+	static void cmd_inspect(ParseData &d) {
+		Item * item = detect_item(accessible_items(), d.line);
+		if(item != nullptr) {
+			std::cout << "You take a closer look at " << item->name() << ". " << item->description() << std::endl;
+		} else {
+			std::cout << "You can't find any " << d.line << "." << std::endl;
+		}
+	}
+
+	static void cmd_look_around(ParseData &d) {
+		Area * location =Game::player()->location();
+		std::cout << "You are standing in " << location->name() << ". " << location->description() << "." << std::endl;
+		if(location->items().size() > 0) {
+			std::cout << std::endl << "You can see the following item" << (location->items().size() > 1 ? "s" : "") << ": " << std::endl;
+			print_items(location->items());
+		}
+		if(location->characters().size() > 1) {
+			std::cout << std::endl << "You can see the following person" << (location->characters().size() > 2 ? "s" : "") << ": " << std::endl;
+			print_characters(location->characters());
+		}
+	}
+
 	/* Parse trees */
 
 	ParseNode Input::parse_trees[Input::NUM_PARSE_TREES] = {
@@ -77,6 +147,11 @@ namespace game {
 			ParseNode("attr", cmd_attributes, { }),
 			ParseNode("equipment", cmd_equipment, { }),
 			ParseNode("help", cmd_help_default, { }),
+			ParseNode("look around", cmd_look_around, { }),
+			ParseNode("describe", cmd_inspect, { }),
+			ParseNode("inspect", cmd_inspect, { }),
+			ParseNode("look at", cmd_inspect, { }),
+			ParseNode("next", [](ParseData &d) { Game::player()->next_turn(); }, { }),
 		}),
 		ParseNode("", nullptr, { })
 	};

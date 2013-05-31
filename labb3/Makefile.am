@@ -22,6 +22,7 @@ cprog10l3_SOURCES = \
 	src/player.cpp src/player.hpp \
 	src/monster.cpp src/monster.hpp \
 	src/input.cpp src/input.hpp \
+	src/string_utils.cpp scr/string_utils.hpp \
 	src/main.cpp
 
 cprog10l3_LDADD = -lreadline ${yaml_LIBS}

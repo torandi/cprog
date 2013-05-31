@@ -13,6 +13,8 @@ namespace game {
       virtual void incoming_attack(Character * character, int damage);
 
       virtual void action();
+
+			void next_turn();
 		protected:
 			void store(Keepable * item);
   };
