@@ -16,8 +16,8 @@ namespace game {
 			static void init();
 			static void cleanup();
 
-			static void read(parse_tree_t tree, const char * prompt = ">> ", bool accept_blank = false, void * user_data = nullptr);
-		private:
+			static void read(parse_tree_t tree, const char * prompt = ">> ", void * user_data = nullptr);
+
 			static ParseNode parse_trees[];
 
 	};

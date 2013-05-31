@@ -32,9 +32,11 @@ namespace game {
   std::map<std::string, int> Human::attributes() const {
     std::map<std::string, int> attributes = m_attributes;
     for(const Equipment * eq : m_equipments) {
-      for(auto e : eq->effects()) {
-        attributes[e.first] += e.second;
-      }
+			if(eq != nullptr) {
+				for(auto e : eq->effects()) {
+					attributes[e.first] += e.second;
+				}
+			}
     }
     return attributes;
   }

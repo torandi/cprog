@@ -36,7 +36,7 @@ namespace game {
 
 	/* Functions */
 
-	static void cmd_inventory(ParseData d) {
+	static void cmd_inventory(ParseData &d) {
 		std::cout << "Your inventory contains: " << std::endl;
 		print_items(Game::player()->inventory());
 		std::cout << "--------------------------" << std::endl;
@@ -44,7 +44,7 @@ namespace game {
 		std::cout << "Used weight: " << Game::player()->used_carrying_capacity() << "kg / " << Game::player()->carrying_capacity() << "kg" << std::endl;
 	}
 
-	static void cmd_attributes(ParseData d) {
+	static void cmd_attributes(ParseData &d) {
 		std::cout << "Your attributes (including effects from equipment): " << std::endl;
 		for(const auto it : Game::player()->attributes()) {
 			std::cout << it.first << ": " << it.second << std::endl;
@@ -54,11 +54,18 @@ namespace game {
 			"Carrying capacity: " << Game::player()->used_carrying_capacity() << "kg / " << Game::player()->carrying_capacity() <<  "kg" << std::endl;
 	}
 
-	static void cmd_equipment(ParseData d) {
+	static void cmd_equipment(ParseData &d) {
 		std::cout << "Your equipment: " << std::endl;
 		for(int i=0; i<Human::NUM_SLOTS; ++i) {
 			Equipment * e = Game::player()->equipment(static_cast<Human::slot_t>(i));
 			if(e != nullptr) std::cout << slot_names[i] << ": " << e->name() << std::endl;
+		}
+	}
+
+	static void cmd_help_default(ParseData &d) {
+		std::cout << "Available commands: \n" << std::endl;
+		for(const ParseNode & n : Input::parse_trees[Input::DEFAULT].children()) {
+			std::cout << n.cmd() << std::endl;
 		}
 	}
 
@@ -67,8 +74,9 @@ namespace game {
 	ParseNode Input::parse_trees[Input::NUM_PARSE_TREES] = {
 		ParseNode("", nullptr, {
 			ParseNode("inventory", cmd_inventory, { }),
-			ParseNode("attributes", cmd_attributes, { }),
+			ParseNode("attr", cmd_attributes, { }),
 			ParseNode("equipment", cmd_equipment, { }),
+			ParseNode("help", cmd_help_default, { }),
 		}),
 		ParseNode("", nullptr, { })
 	};
@@ -80,7 +88,7 @@ namespace game {
 
 	}
 
-	void Input::read(Input::parse_tree_t tree, const char * prompt, bool accept_blank, void * user_data) {
+	void Input::read(Input::parse_tree_t tree, const char * prompt, void * user_data) {
 		char * line = nullptr;
 		bool res;
 		do {
@@ -89,9 +97,8 @@ namespace game {
 				Game::singleton->stop();
 				return;
 			}
-			if(strlen(line) == 0 && accept_blank) return;
+			if(strlen(line) > 0) add_history(line);
 
-			add_history(line);
 			res  = ParseNode::parse(parse_trees[tree], std::string(line), user_data);
 			if(!res && strlen(line) != 0) printf("Unknown command %s\n", line);
 			free(line);
