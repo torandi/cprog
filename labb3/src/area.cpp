@@ -82,7 +82,7 @@ namespace game {
 		return true;
 	}
 
-  const std::set<const Character*> &Area::characters() const {
+  const std::set<Character*> &Area::characters() const {
     return m_characters;
   }
 

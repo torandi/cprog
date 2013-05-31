@@ -11,6 +11,7 @@
 #include <functional>
 #include <set>
 #include <cstring>
+#include <climits>
 
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -38,14 +39,14 @@ namespace game {
 		}
 	}
 
-	static void print_characters(const std::set<const Character*> &characters) {
-		for(const Character * c : characters) {
+	static void print_characters(const std::set<Character*> &characters) {
+		for(Character * c : characters) {
 			std::cout << c->name() << std::endl;
 		}
 	}
 
-	static std::set<const Character*> npcs() {
-		std::set<const Character*> npcs = Game::player()->location()->characters();
+	static std::set<Character*> npcs() {
+		std::set<Character*> npcs = Game::player()->location()->characters();
 		npcs.erase(Game::player());
 		return npcs;
 	}
@@ -101,13 +102,13 @@ namespace game {
 		return detect_item(new_items, str);
 	}
 
-	static const Character * detect_character(std::set<const Character*> characters, const std::string &str) {
-		const Character * match = nullptr;
+	static Character * detect_character(std::set<Character*> characters, const std::string &str) {
+		Character * match = nullptr;
 		size_t current_match_pos = str.npos;
 		size_t current_match_len = 0;
 		size_t pos;
 
-		for(const Character * c : characters) {
+		for(Character * c : characters) {
 			std::vector<std::string> character_name = split(Game::lowercase(c->name()), " ");
 			size_t min_pos = str.npos;
 			size_t match_len = 0;
@@ -169,6 +170,15 @@ namespace game {
 		return i;
 	}
 
+	static int find_number(const std::string &line) {
+		size_t pos = line.find_first_of("0123456789");
+		if(pos == line.npos) {
+			return INT_MIN;
+		} else {
+			return atoi(line.c_str() + pos);
+		}
+	}
+
 	/* Functions */
 
 	static void cmd_inventory(ParseData &d) {
@@ -221,7 +231,7 @@ namespace game {
 
 	static void cmd_inspect(ParseData &d) {
 		if(d.line.empty()) return cmd_look_around(d);
-		const Character * character = detect_character(npcs(), d.line);
+		Character * character = detect_character(npcs(), d.line);
 
 		if(character != nullptr) {
 			std::cout << character->description() << std::endl;
@@ -373,6 +383,21 @@ namespace game {
 		Game::singleton->stop();
 	}
 
+	static void cmd_attack(Human::slot_t slot, ParseData &d) {
+		int points = find_number(d.line);
+		if(points == INT_MIN) {
+			std::cout << "You must specifiy the number of action points to use on the attack." << std::endl;
+			return;
+		}
+		Character * character = detect_character(npcs(), d.line);
+		if(character == nullptr) character = Game::player()->in_fight_with();
+		if(character == nullptr) {
+			std::cout << "You must specify a character to attack if you are not currently in a fight." << std::endl;
+			return;
+		}
+		Game::player()->attack(character, points, slot);
+	}
+
 	/* Parse trees */
 
 	ParseNode Input::parse_trees[Input::NUM_PARSE_TREES] = {
@@ -389,6 +414,11 @@ namespace game {
 			ParseNode("open", cmd_open, { }),
 			ParseNode("close", cmd_close, { }),
 			ParseNode("drop", cmd_drop, { }),
+			ParseNode("attack", nullptr, {
+				ParseNode("right", std::bind(cmd_attack, Human::RIGHT_HAND, _1), {}),
+				ParseNode("left", std::bind(cmd_attack, Human::LEFT_HAND, _1), {}),
+				ParseNode("", std::bind(cmd_attack, Human::RIGHT_HAND, _1), {}),
+			}),
 			ParseNode("next", [](ParseData &d) { Game::player()->next_turn(); }, { }),
 			ParseNode("take", nullptr, {
 				ParseNode("from", cmd_take_from, {}),
@@ -443,7 +473,7 @@ namespace game {
 			for(Item * i : accessible_items()) {
 				names.push_back(Game::lowercase(i->name()));
 			}
-			for(const Character * c : npcs()) {
+			for(Character * c : npcs()) {
 				names.push_back(Game::lowercase(c->name()));
 			}
 		}
@@ -523,7 +553,7 @@ namespace game {
 					std::cout << std::endl;
 					Game::player()->next_turn();
 				} else {
-					std::cout << "Type next to end your turn." << std::endl;
+					std::cout << " Type next to end your turn." << std::endl;
 				}
 			}
 			if(!res && cmd.length() != 0) printf("Unknown command %s.\n", cmd.c_str());

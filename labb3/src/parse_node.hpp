@@ -10,7 +10,6 @@ namespace game {
   struct ParseData {
     std::string line;
 		void * user_data;
-    std::vector<void*> data;
   };
 
   class ParseNode {

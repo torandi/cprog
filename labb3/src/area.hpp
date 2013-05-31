@@ -34,7 +34,7 @@ namespace game {
 			virtual void stay(Character * character); /* A character stays idle in the location */
 			virtual const std::map<std::string, Area*> &exits() const;
 
-      virtual const std::set<const Character*> &characters() const;
+      virtual const std::set<Character*> &characters() const;
 
 			/* Returns all items acceable (including open containers) */
       virtual std::set<Item*> all_items() const;
@@ -54,7 +54,7 @@ namespace game {
 			std::map<std::string, Area*> m_exits;
 			std::vector<std::string> m_directions;
 
-			std::set<const Character*> m_characters;
+			std::set<Character*> m_characters;
 			std::set<Item*> m_items;
 
       friend class WorldParser;

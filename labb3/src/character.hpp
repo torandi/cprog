@@ -69,6 +69,8 @@ namespace game {
 
 		virtual std::string verb(const std::string &verb) const;
 
+		Character * in_fight_with() const;
+
 		virtual ~Character();
 	protected:
 		Character(const std::string &name, const std::string &description, faction_t faction, std::map<std::string, int> attributes, Area * location);

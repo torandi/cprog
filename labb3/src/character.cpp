@@ -238,6 +238,10 @@ namespace game {
 		}
 	}
 
+	Character * Character::in_fight_with() const {
+		return m_in_fight;
+	}
+
 	std::map<std::string, std::function<Character*(const ConfigNode*, Area*)> > Character::tag_map = {
 		{"!human", &Human::from_config },
 		{"!monster", &Monster::from_config },
