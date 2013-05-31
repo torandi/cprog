@@ -14,7 +14,7 @@
 namespace game {
 
 	int Human::backpack_volume() const {
-		return 5 + attribute("backpack_volume");
+		return attribute("backpack_volume");
 	}
 
 	int Human::carrying_capacity() const {
@@ -99,23 +99,9 @@ namespace game {
 	}
 
 	void Human::store(Keepable * item) {
-		bool store = true;
-		if(backpack_volume() - m_used_inventory_volume < item->volume()) {
-			Game::out(location()) << name() << " can't store " << item->name() << ", not enought space in backpack." << std::endl;
-			store = false;
-		} else if(carrying_capacity() - m_inventory_weight < item->weight()) {
-			Game::out(location()) << name() << " can't store " << item->name() << ", carrying to much weight." << std::endl;
-			store = false;
-		}
-
-		if(store) {
-			m_inventory_weight += item->weight();
-			m_used_inventory_volume += item->volume();
-			m_inventory.insert(item);
-		} else {
-			location()->drop(this, item, true);
-		}
-
+		m_inventory_weight += item->weight();
+		m_used_inventory_volume += item->volume();
+		m_inventory.insert(item);
 	}
 
 	int Human::used_backpack_volume() const {
@@ -132,6 +118,10 @@ namespace game {
 
 	const std::set<Keepable*> &Human::inventory() const {
 		return m_inventory;
+	}
+
+	Equipment * Human::equipment(Human::slot_t slot) const {
+		return m_equipments[slot];
 	}
 
   void Human::action() {

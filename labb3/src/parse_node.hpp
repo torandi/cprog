@@ -27,7 +27,7 @@ namespace game {
 
 			void set_func(std::function<void(ParseData data)> func);
 
-      static void parse(const ParseNode &parse_tree_root, const std::string &line, void * user_data = nullptr);
+      static bool parse(const ParseNode &parse_tree_root, const std::string &line, void * user_data = nullptr);
 
       virtual ~ParseNode();
     protected:

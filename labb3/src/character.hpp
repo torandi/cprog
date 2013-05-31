@@ -49,6 +49,7 @@ namespace game {
 		virtual void go(const std::string &direction);
 
 		virtual int attribute(const std::string &attr) const;
+		virtual int extra_damage() const; /* extra damage from strength (and possibly other things) */
 
 		virtual void do_action(int cost);
 		virtual Game::try_result_t try_do_action(int cost);

@@ -56,7 +56,6 @@ namespace game {
 			std::sort(characters.begin(), characters.end(), [](Character * c1, Character * c2) { return c1->initiative() > c2->initiative(); } );
 
 			for(Character * c : characters) {
-				std::cout << c->name() << std::endl;
 				c->action();
 			}
 			std::cout << std::endl;

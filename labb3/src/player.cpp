@@ -1,4 +1,8 @@
 #include "player.hpp"
+#include "keepable.hpp"
+#include "game.hpp"
+#include "area.hpp"
+#include "input.hpp"
 
 namespace game {
 
@@ -8,11 +12,31 @@ namespace game {
   }
 
   void Player::action() {
-
+		Input::read(Input::DEFAULT);
   }
 
   void Player::incoming_attack(Character * character, int damage) {
 
   }
+
+	void Player::store(Keepable * item) {
+		bool store = true;
+		if(backpack_volume() - m_used_inventory_volume < item->volume()) {
+			Game::out(location()) << name() << " can't store " << item->name() << ", not enought space in backpack." << std::endl;
+			store = false;
+		} else if(carrying_capacity() - m_inventory_weight < item->weight()) {
+			Game::out(location()) << name() << " can't store " << item->name() << ", carrying to much weight." << std::endl;
+			store = false;
+		}
+
+		if(store) {
+			m_inventory_weight += item->weight();
+			m_used_inventory_volume += item->volume();
+			m_inventory.insert(item);
+		} else {
+			location()->drop(this, item, true);
+		}
+
+	}
 
 }

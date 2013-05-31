@@ -35,6 +35,7 @@ namespace game {
 
       virtual std::map<std::string, int> attributes() const;
 			virtual int attribute(const std::string &attr) const;
+			virtual Equipment * equipment(slot_t slot) const;
 			virtual bool talk_to(Human * human);
 			virtual bool drop(Keepable * item);
 			virtual bool equip(Equipment * item);

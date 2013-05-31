@@ -42,6 +42,10 @@ namespace game {
 		}
 	}
 
+	int Character::extra_damage() const {
+		return attribute("strength") / 10;
+	}
+
 	void Character::action() {
 		m_action_points = attribute("action_points");
 		m_remaining_actions[0] = m_base_actions[0];
@@ -107,7 +111,6 @@ namespace game {
 
 	void Character::roll_initiative() {
 		m_initiative = attribute("initiative") + Game::roll_dice(Game::T10, 10);
-    printf("%s: initiative: %d\n", name().c_str(), m_initiative);
 	}
 
 	int Character::armor_protection() const {

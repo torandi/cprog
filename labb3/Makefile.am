@@ -24,4 +24,4 @@ cprog10l3_SOURCES = \
 	src/input.cpp src/input.hpp \
 	src/main.cpp
 
-cprog10l3_LDADD = ${yaml_LIBS}
+cprog10l3_LDADD = -lreadline ${yaml_LIBS}

@@ -27,7 +27,7 @@ namespace game {
     }
 		if(m_func != nullptr) m_func(data);
 
-    return m_children.size() > 0; /* leaf or not */
+    return m_children.size() == 0; /* leaf or not */
   }
 
   bool ParseNode::match(std::string &str)  const {
@@ -44,11 +44,11 @@ namespace game {
 		m_func = func;
 	}
 
-  void ParseNode::parse(const ParseNode &parse_tree_root, const std::string &line, void * user_data) {
+  bool ParseNode::parse(const ParseNode &parse_tree_root, const std::string &line, void * user_data) {
     ParseData data;
     data.line = Game::lowercase(line);
 		data.user_data = user_data;
-    parse_tree_root.exec(data);
+    return parse_tree_root.exec(data);
   }
 
   ParseNode::~ParseNode() {
