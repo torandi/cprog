@@ -50,7 +50,7 @@ namespace game {
 		return npcs;
 	}
 
-	static std::set<Item*> accessible_items() {
+	static std::set<Item*> accessible_items(bool include_equipped=true) {
 		std::set<Item*> items = Game::player()->location()->all_items();
 		for(Keepable * i : Game::player()->inventory()) {
 			items.insert(i);
@@ -148,9 +148,9 @@ namespace game {
 		return ret;
 	}
 
-	static Item * find_item_and_container(const std::string &str, Container ** container) {
+	static Item * find_item_and_container(std::set<Item*> items,const std::string &str, Container ** container) {
 		*container = nullptr;
-		Item * i = detect_item(accessible_items(), str);
+		Item * i = detect_item(items, str);
 		if(i != nullptr) {
 			if(Game::player()->location()->items().count(i) == 0) {
 				/* from chest */
@@ -246,7 +246,7 @@ namespace game {
 
 	static void cmd_pick_up(ParseData &d) {
 		Container * c= nullptr;
-		Item * i = find_item_and_container(d.line, &c);
+		Item * i = find_item_and_container(Game::player()->location()->all_items(),d.line, &c);
 
 		if(i != nullptr && c == nullptr) {
 				Game::player()->pick_up(i);
@@ -298,9 +298,18 @@ namespace game {
 		}
 	}
 
+	static void cmd_drop(ParseData &d) {
+		Keepable * k = dynamic_cast<Keepable*>(detect_item(Game::player()->inventory(), d.line));
+		if(k != nullptr) {
+			if(Game::player()->drop(k)) std::cout << "You dropped " << k->name() << std::endl;
+		} else {
+			std::cout << "Well, if you want to drop " << d.line << " you will have to pick it up first." << std::endl;
+		}
+	}
+
 	static void cmd_equip(ParseData &d) {
 		Container * c = nullptr;
-		Item * i = find_item_and_container(d.line, &c);
+		Item * i = find_item_and_container(accessible_items(false), d.line, &c);
 		if(i != nullptr) {
 			Equipment * e = dynamic_cast<Equipment*>(i);
 			if(e != nullptr) {
@@ -309,11 +318,11 @@ namespace game {
 				if(d.line.find("right") != d.line.npos) slot = Human::RIGHT_HAND;
 				else if(d.line.find("left") != d.line.npos) slot = Human::LEFT_HAND;
 
+				Game::player()->do_action(5);
+
 				if(c != nullptr) c->take(e);
 				else if(Game::player()->inventory().count(e) == 1) { }
 				else if(!Game::player()->location()->pick_up(Game::player(), i)) return;
-
-				Game::player()->do_action(5);
 
 				if(Game::player()->equip(e, slot)) {
 					std::cout << "You equipped " << e->name() << " in " << Human::slot_names[slot] << "." << std::endl;
@@ -369,7 +378,8 @@ namespace game {
 	ParseNode Input::parse_trees[Input::NUM_PARSE_TREES] = {
 		ParseNode("", nullptr, {
 			ParseNode("inventory", cmd_inventory, { }),
-			ParseNode("attr", cmd_attributes, { }),
+			ParseNode("backpack", cmd_inventory, { }),
+			ParseNode("attributes", cmd_attributes, { }),
 			ParseNode("equipment", cmd_equipment, { }),
 			ParseNode("help", cmd_help_default, { }),
 			ParseNode("look around", cmd_look_around, { }),
@@ -378,6 +388,7 @@ namespace game {
 			ParseNode("look at", cmd_inspect, { }),
 			ParseNode("open", cmd_open, { }),
 			ParseNode("close", cmd_close, { }),
+			ParseNode("drop", cmd_drop, { }),
 			ParseNode("next", [](ParseData &d) { Game::player()->next_turn(); }, { }),
 			ParseNode("take", nullptr, {
 				ParseNode("from", cmd_take_from, {}),

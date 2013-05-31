@@ -20,7 +20,7 @@ namespace game {
 
 	std::string HealthPotion::name() const {
 		std::stringstream str;
-		str << Item::name() << " [HP: " << m_hp << "]";
+		str << Keepable::name() << " [HP: " << m_hp << "]";
 		return str.str();
 	}
 };

@@ -72,6 +72,8 @@ namespace game {
 			} else {
 				m_inventory_weight += item->weight();
 			}
+		} else {
+			m_used_inventory_volume -= item->volume();
 		}
 
 		if(slot == LEFT_HAND && m_equipments[RIGHT_HAND] != nullptr && m_equipments[RIGHT_HAND]->type() == Equipment::TWO_HAND) {
@@ -227,7 +229,6 @@ namespace game {
 			Equipment * eq = dynamic_cast<Equipment*>(item);
 
 			if(eq != nullptr) {
-				human->m_inventory.insert(eq);
 				slot_t slot = Equipment::default_slot(eq->type());
 				if(i->type == ConfigNode::NODE_MAPPING) {
 					const ConfigNode * hand = i->find("/hand", false);
