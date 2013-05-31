@@ -13,6 +13,7 @@ namespace game {
       virtual void incoming_attack(Character * character, int damage);
 
       virtual void action();
+			virtual std::string verb(const std::string &verb) const;
 
 			void next_turn();
 		protected:

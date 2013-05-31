@@ -64,6 +64,8 @@ namespace game {
 		static std::map<std::string, int> parse_attributes(const ConfigNode * node);
 		static void parse_inventory(Character * character, const ConfigNode * node);
 
+		virtual std::string verb(const std::string &verb) const;
+
 		virtual ~Character();
 	protected:
 		Character(const std::string &name, const std::string &description, faction_t faction, std::map<std::string, int> attributes, Area * location);

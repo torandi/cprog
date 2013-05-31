@@ -9,6 +9,7 @@
 
 #include <functional>
 #include <set>
+#include <cstring>
 
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -200,6 +201,15 @@ namespace game {
 		}
 	}
 
+	static void cmd_pick_up(ParseData &d) {
+		Item * i = detect_item(Game::player()->location()->items(), d.line);
+		if(i != nullptr) {
+			Game::player()->pick_up(i);
+		} else {
+			std::cout << "You try to find some " << d.line << " to pick up, but you don't find any." << std::endl;
+		}
+	}
+
 	/* Parse trees */
 
 	ParseNode Input::parse_trees[Input::NUM_PARSE_TREES] = {
@@ -214,11 +224,75 @@ namespace game {
 			ParseNode("look at", cmd_inspect, { }),
 			ParseNode("go", cmd_go, { }),
 			ParseNode("next", [](ParseData &d) { Game::player()->next_turn(); }, { }),
+			ParseNode("pick up", cmd_pick_up, { }),
 		}),
 		ParseNode("", nullptr, { })
 	};
 
+	static std::vector<std::string> commands[Input::NUM_PARSE_TREES];
+	static Input::parse_tree_t active_parse_tree;
+
+	char *cmd_completion(const char *text, int state) {
+		static size_t last_index, len;
+		static std::string lcased;
+		if(!state) {
+			lcased = Game::lowercase(std::string(text));
+			last_index = 0;
+			len = strlen(text);
+		}
+
+		while(last_index < commands[active_parse_tree].size()) {
+			std::string name = commands[active_parse_tree][last_index++];
+			if(strncmp(name.c_str(), lcased.c_str(), len) == 0) return strdup(name.c_str());
+		}
+
+		return nullptr;
+	}
+
+	char *stuff_completion(const char *text, int state) {
+		static size_t last_index, len;
+		static std::string lcased;
+		static std::vector<std::string> names;
+		if(!state) {
+			lcased = Game::lowercase(std::string(text));
+			last_index = 0;
+			len = strlen(text);
+			for(const auto & exit : Game::player()->location()->exits()) {
+				names.push_back(Game::lowercase(exit.first));
+			}
+			for(Item * i : accessible_items()) {
+				names.push_back(Game::lowercase(i->name()));
+			}
+			for(const Character * c : npcs()) {
+				names.push_back(Game::lowercase(c->name()));
+			}
+		}
+
+		while(last_index < names.size()) {
+			std::string name = names[last_index++];
+			if(strncmp(name.c_str(), lcased.c_str(), len) == 0) return strdup(name.c_str());
+		}
+
+		return nullptr;
+	}
+
+	static char ** completion_func(const char * text, int start, int end) {
+		char ** matches = NULL;
+		if(start == 0) {
+			matches = rl_completion_matches(text, cmd_completion);
+		} else {
+			matches = rl_completion_matches(text, stuff_completion);
+		}
+		return matches;
+	}
+
 	void Input::init() {
+		for(int tree=0; tree < NUM_PARSE_TREES; ++tree) {
+			for(const ParseNode & n : Input::parse_trees[tree].children()) {
+				commands[tree].push_back(Game::lowercase(n.cmd()));
+			}
+		}
+		rl_attempted_completion_function = completion_func;
 	}
 
 	void Input::cleanup() {
@@ -228,6 +302,7 @@ namespace game {
 	void Input::read(Input::parse_tree_t tree, const char * prompt, void * user_data) {
 		char * line = nullptr;
 		bool res;
+		active_parse_tree = tree;
 		do {
 			line = readline(prompt);
 			if(line == nullptr) {

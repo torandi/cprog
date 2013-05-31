@@ -49,4 +49,8 @@ namespace game {
 
 	}
 
+	std::string Player::verb(const std::string &verb) const {
+		return verb;
+	}
+
 }

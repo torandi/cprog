@@ -72,9 +72,13 @@ namespace game {
 		return attribute("life");
 	}
 
+	std::string Character::verb(const std::string &verb) const {
+		return verb + "s";
+	}
+
 	void Character::regain_life(int life) {
 		int l = std::min(life, max_life() - m_life);
-		Game::out(location()) << name() << " regains " << l << " hp." << std::endl;
+		Game::out(location()) << name() << " " << verb("regain") << " " << l << " hp." << std::endl;
 		m_life += l;
 	}
 
@@ -138,7 +142,7 @@ namespace game {
 
 	void Character::pick_up(Item * item) {
 		if(m_location->pick_up(this, item)) {
-			Game::out(location()) << name() << " picks up " << item->name() << std::endl;
+			Game::out(location()) << name() << " " << verb( "pick") << " up " << item->name() << std::endl;
 			if(item->aquire(this)) {
 				store(dynamic_cast<Keepable*>(item));
 			} else {
@@ -165,7 +169,7 @@ namespace game {
 		int protection_prev = armor_protection();
 		m_attributes["armor"] = std::max(0, m_attributes["armor"] - amount);
 		int diff = protection_prev - armor_protection();
-		if(diff > 0) Game::out(location()) << name() << " loses " << diff << " points of armor protection." << std::endl;
+		if(diff > 0) Game::out(location()) << name() << " " << verb("loses") << " " << diff << " points of armor protection." << std::endl;
 	}
 
 	void Character::hurt(int damage) {

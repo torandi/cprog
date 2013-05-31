@@ -10,6 +10,7 @@ namespace game {
       virtual bool aquire(Character * character) const;
 
       static HealthPotion * from_config(const ConfigNode * node);
+			virtual std::string name() const;
 
       virtual ~HealthPotion() {};
     protected:

@@ -1,5 +1,6 @@
 #include "health_potion.hpp"
 #include "character.hpp"
+#include <sstream>
 
 namespace game {
   HealthPotion::HealthPotion(int hp)
@@ -14,4 +15,10 @@ namespace game {
   HealthPotion * HealthPotion::from_config(const ConfigNode * node) {
     return new HealthPotion((*node)["/hp"].parse_int());
   }
+
+	std::string HealthPotion::name() const {
+		std::stringstream str;
+		str << Item::name() << " [HP: " << m_hp << "]";
+		return str.str();
+	}
 };
