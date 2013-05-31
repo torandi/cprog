@@ -15,7 +15,7 @@ namespace game {
 		Human::action();
 		char buffer[16];
 		while(m_action_points > 0 && Game::singleton->run()) {
-			sprintf(buffer, "[ap: %d] >> ", m_action_points);
+			sprintf(buffer, "[AP: %d] >> ", m_action_points);
 			Input::read(Input::DEFAULT, buffer);
 		}
 
