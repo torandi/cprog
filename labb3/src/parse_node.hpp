@@ -9,15 +9,14 @@ namespace game {
 
   struct ParseData {
     std::string line;
-		void * user_data = nullptr;
+		void * user_data;
     std::vector<void*> data;
   };
 
   class ParseNode {
     public:
-      ParseNode(const std::string &cmd);
-      ParseNode(const std::string &cmd, std::function<void(ParseData data)>);
-      void add_child(ParseNode * node);
+			ParseNode(const std::string &cmd, std::function<void(ParseData data)> func, const std::vector<ParseNode> &children);
+      void add_child(const ParseNode &node);
 
       /* Matches string for things in this node,
        * removes the match from the string if found
@@ -26,12 +25,14 @@ namespace game {
 
       virtual bool exec(ParseData data) const;
 
-      static void parse(const ParseNode &parse_tree_root, const std::string &line);
+			void set_func(std::function<void(ParseData data)> func);
+
+      static void parse(const ParseNode &parse_tree_root, const std::string &line, void * user_data = nullptr);
 
       virtual ~ParseNode();
     protected:
       std::string m_cmd;
-      std::vector<ParseNode*> m_children;
+      std::vector<ParseNode> m_children;
       std::function<void(ParseData data)> m_func;
   };
 };

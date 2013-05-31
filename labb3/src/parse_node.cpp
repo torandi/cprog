@@ -9,24 +9,20 @@
 
 namespace game {
 
-  ParseNode::ParseNode(const std::string &cmd)
+	ParseNode::ParseNode(const std::string &cmd, std::function<void(ParseData data)> func, const std::vector<ParseNode> &children)
     : m_cmd(Game::lowercase(cmd))
-    , m_func(nullptr) {
-  }
-
-  ParseNode::ParseNode(const std::string &cmd, std::function<void(ParseData data)> func)
-    : m_cmd(Game::lowercase(cmd))
+		, m_children(children)
     , m_func(func) {
   }
 
-  void ParseNode::add_child(ParseNode * node) {
+  void ParseNode::add_child(const ParseNode &node) {
     m_children.push_back(node);
   }
 
   bool ParseNode::exec(ParseData data) const {
-    for(ParseNode * node : m_children) {
-      if(node->match(data.line)) {
-         return node->exec(data);
+    for(const ParseNode &node : m_children) {
+      if(node.match(data.line)) {
+         return node.exec(data);
       }
     }
 		if(m_func != nullptr) m_func(data);
@@ -44,13 +40,18 @@ namespace game {
     }
   }
 
-  void ParseNode::parse(const ParseNode &parse_tree_root, const std::string &line) {
+	void ParseNode::set_func(std::function<void(ParseData data)> func) {
+		m_func = func;
+	}
+
+  void ParseNode::parse(const ParseNode &parse_tree_root, const std::string &line, void * user_data) {
     ParseData data;
     data.line = Game::lowercase(line);
+		data.user_data = user_data;
     parse_tree_root.exec(data);
   }
 
   ParseNode::~ParseNode() {
-    std::for_each(m_children.begin(), m_children.end(), [](ParseNode * n) { delete n; });
+    //std::for_each(m_children.begin(), m_children.end(), [](ParseNode * n) { delete n; });
   }
 };
