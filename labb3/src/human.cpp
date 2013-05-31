@@ -58,10 +58,13 @@ namespace game {
 	}
 
 	bool Human::equip(Equipment * item, Human::slot_t slot) {
-
-		if(m_inventory.count(dynamic_cast<Keepable*>(item)) == 0) {
-			Game::out(location()) << name() << " can't equip " << item->name() << " since it's not in inventory." << std::endl;
-			return false;
+		if(m_inventory.count(item) == 0) {
+			if(carrying_capacity() - m_inventory_weight < item->weight()) {
+				Game::out(location()) << name() << " can't store " << item->name() << ", carrying to much weight." << std::endl;
+				return false;
+			} else {
+				m_inventory_weight += item->weight();
+			}
 		}
 
 		if(slot == LEFT_HAND && m_equipments[RIGHT_HAND]->type() == Equipment::TWO_HAND) {

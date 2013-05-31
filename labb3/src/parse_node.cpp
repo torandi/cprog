@@ -33,6 +33,8 @@ namespace game {
   }
 
   bool ParseNode::match(std::string &str)  const {
+		if(m_cmd.length() == 0) return true;
+
     size_t pos = str.find(m_cmd);
     if(pos != str.npos) {
 			erase_word(str, pos, m_cmd.length());

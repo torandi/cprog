@@ -6,6 +6,7 @@
 #include "equipment.hpp"
 #include "string_utils.hpp"
 #include "area.hpp"
+#include "container.hpp"
 
 #include <functional>
 #include <set>
@@ -49,6 +50,14 @@ namespace game {
 		return npcs;
 	}
 
+	static std::set<Item*> accessible_items() {
+		std::set<Item*> items = Game::player()->location()->all_items();
+		for(Keepable * i : Game::player()->inventory()) {
+			items.insert(i);
+		}
+		return items;
+	}
+
 	static Item * detect_item(std::set<Item*> items, const std::string &str) {
 		Item * match = nullptr;
 		size_t current_match_pos = str.npos;
@@ -79,6 +88,14 @@ namespace game {
 			}
 		}
 		return match;
+	}
+
+	static Item * detect_item(std::set<Keepable*> items, const std::string &str) {
+		std::set<Item*> new_items;
+		for(Keepable * k : items) {
+			new_items.insert(k);
+		}
+		return detect_item(new_items, str);
 	}
 
 	static const Character * detect_character(std::set<const Character*> characters, const std::string &str) {
@@ -119,6 +136,36 @@ namespace game {
 		}
 	}
 
+	static std::set<Item*> filter_list(const std::set<Item*> & list, std::function<Item*(Item*)> func) {
+		std::set<Item*> ret;
+		for(Item * i : list) {
+			Item * t = func(i);
+			if(t != nullptr) ret.insert(i);
+		}
+		return ret;
+	}
+
+	static Item * find_item_and_container(const std::string &str, Container ** container) {
+		*container = nullptr;
+		Item * i = detect_item(accessible_items(), str);
+		if(i != nullptr) {
+			if(Game::player()->location()->items().count(i) == 0) {
+				/* from chest */
+				Keepable * k = dynamic_cast<Keepable*>(i);
+				if(k != nullptr) {
+					std::set<Item*> chests = filter_list(Game::player()->location()->items(), [](Item* i){
+							return dynamic_cast<Container*>(i);
+							});
+					for(Item * c : chests) {
+						Container * chest = dynamic_cast<Container*>(c);
+						if(chest->content().count(k) == 1) *container = chest;
+					}
+				}
+			}
+		}
+		return i;
+	}
+
 	/* Functions */
 
 	static void cmd_inventory(ParseData &d) {
@@ -150,16 +197,9 @@ namespace game {
 	static void cmd_help_default(ParseData &d) {
 		std::cout << "Available commands: \n" << std::endl;
 		for(const ParseNode & n : Input::parse_trees[Input::DEFAULT].children()) {
+			if(n.cmd() == "make") continue;
 			std::cout << n.cmd() << std::endl;
 		}
-	}
-
-	static std::set<Item*> accessible_items() {
-		std::set<Item*> items = Game::player()->location()->all_items();
-		for(Keepable * i : Game::player()->inventory()) {
-			items.insert(i);
-		}
-		return items;
 	}
 
 	static void cmd_look_around(ParseData &d) {
@@ -185,7 +225,7 @@ namespace game {
 		} else {
 			Item * item = detect_item(accessible_items(), d.line);
 			if(item != nullptr) {
-				std::cout << "You take a closer look at " << item->name() << ". " << item->description() << std::endl;
+				std::cout << item->description() << std::endl;
 			} else {
 				std::cout << "You can't find any " << d.line << "." << std::endl;
 			}
@@ -202,12 +242,91 @@ namespace game {
 	}
 
 	static void cmd_pick_up(ParseData &d) {
-		Item * i = detect_item(Game::player()->location()->items(), d.line);
-		if(i != nullptr) {
-			Game::player()->pick_up(i);
+		Container * c= nullptr;
+		Item * i = find_item_and_container(d.line, &c);
+
+		if(i != nullptr && c == nullptr) {
+				Game::player()->pick_up(i);
+		} else if(i != nullptr) {
+			Game::player()->take(dynamic_cast<Keepable*>(i), c);
 		} else {
 			std::cout << "You try to find some " << d.line << " to pick up, but you don't find any." << std::endl;
 		}
+	}
+
+	static void cmd_take_from(ParseData &d) {
+		Container * c = dynamic_cast<Container*>(detect_item(filter_list(Game::player()->location()->items(), [](Item*i){
+						return dynamic_cast<Container*>(i);
+			}), d.line));
+		if(c != nullptr) {
+			Keepable * i = dynamic_cast<Keepable*>(detect_item(c->content(), d.line));
+			if(i != nullptr) {
+				Game::player()->take(i, c);
+			} else {
+				std::cout << "You can't find that in " << c->name() << "." << std::endl;
+			}
+		} else {
+			std::cout << "What from what did you say?" << std::endl;
+		}
+	}
+
+	static void cmd_open(ParseData &d) {
+		Item * i = detect_item(Game::player()->location()->items(), d.line);
+		Container * c = dynamic_cast<Container*>(i);
+		if(c != nullptr) {
+			if(c->open(Game::player())) {
+				std::cout << "You open " << c->name() << ". Inside you see: " << std::endl;
+				print_items(c->content());
+			} else {
+				std::cout << "You try to open " << c->name() << " but the lid just won't give way." << std::endl;
+			}
+		} else {
+			std::cout << "You can't find any " << d.line << " to open." << std::endl;
+		}
+	}
+
+	static void cmd_close(ParseData &d) {
+		Item * i = detect_item(Game::player()->location()->items(), d.line);
+		Container * c = dynamic_cast<Container*>(i);
+		if(c != nullptr) {
+			if(c->close(Game::player())) std::cout << "You close " << c->name() << "." << std::endl;
+		} else {
+			std::cout << "You can't find any " << d.line << " to open." << std::endl;
+		}
+	}
+
+	static void cmd_equip(ParseData &d) {
+		Container * c = nullptr;
+		Item * i = find_item_and_container(d.line, &c);
+		if(i != nullptr) {
+			Equipment * e = dynamic_cast<Equipment*>(i);
+			if(e != nullptr) {
+				Human::slot_t slot = Equipment::default_slot(e->type());
+				if(d.line.find("right")) slot = Human::RIGHT_HAND;
+				else if(d.line.find("left")) slot = Human::LEFT_HAND;
+				if(Game::player()->equip(e, slot)) {
+					c->take(e);
+					std::cout << "You equipped " << e->name() << "." << std::endl;
+				}
+			} else {
+				std::cout << "You try to equip " << i->name() << " a couple of times, but fail misserably." << std::endl;
+			}
+		}
+	}
+
+	static void cmd_use(ParseData &d) {
+		Item * i = detect_item(accessible_items(), d.line);
+		if(i != nullptr) {
+			i->use(Game::player());
+		} else {
+			std::cout << "You are sure that you saw a " << d.line << " to use just a moment ago, but it seems to be totaly gone. Or you know, maybe you should learn to type." << std::endl;
+		}
+	}
+
+	static void cmd_make(ParseData &d) {
+		std::cout << "Suck. Hur svårt ska det vara. Avsluta innan du bygger." << std::endl;
+		system("make");
+		Game::singleton->stop();
 	}
 
 	/* Parse trees */
@@ -223,8 +342,20 @@ namespace game {
 			ParseNode("inspect", cmd_inspect, { }),
 			ParseNode("look at", cmd_inspect, { }),
 			ParseNode("go", cmd_go, { }),
+			ParseNode("open", cmd_open, { }),
+			ParseNode("close", cmd_close, { }),
 			ParseNode("next", [](ParseData &d) { Game::player()->next_turn(); }, { }),
-			ParseNode("pick up", cmd_pick_up, { }),
+			ParseNode("take", nullptr, {
+				ParseNode("from", cmd_take_from, {}),
+				ParseNode("", cmd_pick_up, {}),
+			}),
+			ParseNode("pick up", nullptr, {
+				ParseNode("from", cmd_take_from, {}),
+				ParseNode("", cmd_pick_up, {}),
+			}),
+			ParseNode("equip", cmd_equip, { }),
+			ParseNode("use", cmd_use, { }),
+			ParseNode("make", cmd_make, { }),
 		}),
 		ParseNode("", nullptr, { })
 	};
@@ -243,6 +374,7 @@ namespace game {
 
 		while(last_index < commands[active_parse_tree].size()) {
 			std::string name = commands[active_parse_tree][last_index++];
+			if(name == "make") continue;
 			if(strncmp(name.c_str(), lcased.c_str(), len) == 0) return strdup(name.c_str());
 		}
 
@@ -305,15 +437,38 @@ namespace game {
 		active_parse_tree = tree;
 		do {
 			line = readline(prompt);
+
 			if(line == nullptr) {
 				Game::singleton->stop();
 				return;
 			}
 			if(strlen(line) > 0) add_history(line);
 
-			res  = ParseNode::parse(parse_trees[tree], std::string(line), user_data);
-			if(!res && strlen(line) != 0) printf("Unknown command %s\n", line);
+			std::string cmd = std::string(line);
 			free(line);
+
+			/* Fulhack alias för nswe */
+			if(cmd.length() == 1) {
+				switch(cmd[0]) {
+					case 'n':
+						cmd = "go north";
+						break;
+					case 's':
+						cmd = "go south";
+						break;
+					case 'w':
+						cmd = "go west";
+						break;
+					case 'e':
+						cmd = "go east";
+						break;
+					default:
+						break;
+				}
+			}
+
+			res  = ParseNode::parse(parse_trees[tree], cmd, user_data);
+			if(!res && cmd.length() != 0) printf("Unknown command %s.\n", cmd.c_str());
 		} while(res == false);
 	}
 

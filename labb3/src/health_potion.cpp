@@ -4,13 +4,15 @@
 
 namespace game {
   HealthPotion::HealthPotion(int hp)
-    : Item("health potion", "restores some health")
+    : Keepable("Health potion", "restores some health", 1, 0)
     , m_hp(hp) {
   }
-  bool HealthPotion::aquire(Character * character) const {
-    character->regain_life(m_hp);
-    return false;
-  }
+
+	bool HealthPotion::use(Character * character) const {
+		Game::out(character->location()) << character->name() << " " << character->verb("use") << " " << name() << std::endl;
+		character->regain_life(m_hp);
+		return true;
+	}
 
   HealthPotion * HealthPotion::from_config(const ConfigNode * node) {
     return new HealthPotion((*node)["/hp"].parse_int());

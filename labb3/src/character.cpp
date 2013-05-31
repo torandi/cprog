@@ -3,6 +3,7 @@
 #endif
 
 #include "character.hpp"
+#include "container.hpp"
 #include "game.hpp"
 #include "area.hpp"
 #include "item.hpp"
@@ -138,6 +139,23 @@ namespace game {
 	Game::try_result_t Character::try_do_action(int cost) {
 		do_action(cost);
 		return Game::try_action(cost + m_action_mod);
+	}
+
+	void Character::take(Keepable * item, Container * from) {
+		if(from->take(item)) {
+			Game::out(location()) << name() << " " << verb( "pick") << " up " << item->name() << " from " << from->name() << ". "<< std::endl;
+			if(item->aquire(this)) {
+				store(dynamic_cast<Keepable*>(item));
+			} else {
+				delete item;
+			}
+		}
+	}
+
+	void Character::use(Item * item) {
+		if(item->use(this)) {
+			delete item;
+		}
 	}
 
 	void Character::pick_up(Item * item) {

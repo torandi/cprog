@@ -9,6 +9,7 @@ namespace game {
 	class Area;
 	class Item;
 	class Keepable;
+	class Container;
 
 	class Character {
 	public:
@@ -57,6 +58,8 @@ namespace game {
 		virtual int armor_protection() const;
 
 		virtual void pick_up(Item * item);
+		virtual void use(Item * item);
+		virtual void take(Keepable * item, Container * from_container);
 
 		static Character * from_config(const ConfigNode * node, Area * location);
 		static Character * from_node(const ConfigNode * node, Area * location);

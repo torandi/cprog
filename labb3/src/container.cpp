@@ -7,6 +7,7 @@
 #include "keepable.hpp"
 #include "logging.hpp"
 #include "item.hpp"
+#include <sstream>
 
 namespace game {
 
@@ -71,5 +72,23 @@ namespace game {
     }
     return container;
   }
+
+	std::string Container::description() const {
+		if(m_open) {
+			std::stringstream str;
+			str << Item::description() << " It's open";
+			if(m_content.size() > 0) {
+				str << ", and you see:" << std::endl;
+				for(Keepable * item : m_content) {
+					str << item->name() << std::endl;
+				}
+			} else {
+				str << " and there seems to be nothing inside.";
+			}
+			return str.str();
+		} else {
+			return Item::description();
+		}
+	}
 
 }

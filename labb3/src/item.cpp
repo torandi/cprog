@@ -41,6 +41,11 @@ namespace game {
     return (it->second)(node);
   }
 
+	bool Item::use(Character * character) const {
+		Game::out(character->location()) << character->name() << " can't use " << name() << "." << std::endl;
+		return false;
+	}
+
   std::map<std::string, std::function<Item*(const ConfigNode*)> > Item::tag_map = {
     {"!keepable", &Keepable::from_config },
     {"!equipment", &Equipment::from_config },

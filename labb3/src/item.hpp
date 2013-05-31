@@ -21,6 +21,8 @@ namespace game {
 			virtual std::string name() const;
 			virtual std::string description() const;
 
+			virtual bool use(Character * character) const;
+
 			virtual ~Item() { };
 
       static Item * from_config(const ConfigNode * node);

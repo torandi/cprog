@@ -91,11 +91,13 @@ namespace game {
 	}
 
   std::set<Item*> Area::all_items() const {
-		std::set<Item*> items = m_items;
+		std::set<Item*> items(m_items);
 		for(Item * i : m_items) {
 			Container * c = dynamic_cast<Container*>(i);
 			if(c != nullptr && c->is_open()) {
-				std::for_each(c->content().begin(), c->content().end(), [&items](Keepable * k) { items.insert(k); });
+				for(Keepable * k : c->content()) {
+						items.insert(k);
+				}
 			}
 		}
 		return items;

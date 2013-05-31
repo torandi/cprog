@@ -18,6 +18,7 @@ namespace game {
 
 			virtual int storage_volume() const;
 			virtual int max_storage_volume() const;
+			virtual std::string description() const;
 
 			virtual const std::set<Keepable*> &content() const;
 			virtual bool put(Keepable * item);
