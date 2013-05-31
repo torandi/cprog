@@ -19,6 +19,8 @@ namespace game {
 				NUM_SLOTS
 			};
 
+			static std::string slot_names[NUM_SLOTS];
+
 
 			virtual const std::set<Keepable*> &inventory() const;
 

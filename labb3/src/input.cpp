@@ -304,9 +304,10 @@ namespace game {
 				Human::slot_t slot = Equipment::default_slot(e->type());
 				if(d.line.find("right")) slot = Human::RIGHT_HAND;
 				else if(d.line.find("left")) slot = Human::LEFT_HAND;
+
 				if(Game::player()->equip(e, slot)) {
 					c->take(e);
-					std::cout << "You equipped " << e->name() << "." << std::endl;
+					std::cout << "You equipped " << e->name() << " in " << Human::slot_names[slot] << "." << std::endl;
 				}
 			} else {
 				std::cout << "You try to equip " << i->name() << " a couple of times, but fail misserably." << std::endl;
@@ -470,7 +471,13 @@ namespace game {
 			try {
 				res = ParseNode::parse(parse_trees[tree], cmd, user_data);
 			} catch (const char * err) {
-				std::cout << err << std::endl;
+				std::cout << err;
+				if(Game::player()->state() != Character::IN_FIGHT) {
+					std::cout << std::endl;
+					Game::player()->next_turn();
+				} else {
+					std::cout << "Type next to end your turn." << std::endl;
+				}
 			}
 			if(!res && cmd.length() != 0) printf("Unknown command %s.\n", cmd.c_str());
 		} while(res == false);

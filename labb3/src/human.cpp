@@ -12,6 +12,13 @@
 #include <algorithm>
 
 namespace game {
+	std::string Human::slot_names[Human::NUM_SLOTS] = {
+		"right hand",
+		"left hand",
+		"armor slot",
+		"ring slot",
+		"backpack slot"
+	};
 
 	int Human::backpack_volume() const {
 		return attribute("backpack_volume");
@@ -73,7 +80,7 @@ namespace game {
 		}
 
 		if(slot != Equipment::default_slot(item->type()) && ! (slot == LEFT_HAND && item->type() == Equipment::ONE_HAND)) {
-			Game::out(location()) << name() << " can't equip " << item->name() << " in that slot." << std::endl;
+			Game::out(location()) << name() << " can't equip " << item->name() << " in " << slot_names[item->type()] << "." << std::endl;
 			return false;
 		}
 

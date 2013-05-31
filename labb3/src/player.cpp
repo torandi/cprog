@@ -27,7 +27,6 @@ namespace game {
   }
 
 	void Player::next_turn() {
-		std::cout << "Proceding to next turn." << std::endl;
 		m_action_points = 0;
 	}
 

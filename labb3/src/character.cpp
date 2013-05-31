@@ -133,7 +133,7 @@ namespace game {
 		if(m_action_points >= cost) {
 			m_action_points -= cost;
 		} else {
-			throw "More action points needed (type next to end your turn).";
+			throw "More action points needed.";
 		}
 	}
 
