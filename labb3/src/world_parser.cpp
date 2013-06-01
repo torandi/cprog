@@ -23,11 +23,11 @@ namespace game {
 		parse_areas(game);
 		parse_items(game);
 
-		Config game_config = Config::from_filename("game/game.yaml");
+		Config player_config = Config::from_filename("game/player.yaml");
 
-		Area * player_location = game->area(game_config["/player/location"].parse_string());
-		game->m_player = new Player(Character::parse_attributes(&game_config["/player/attributes"]), player_location);
-		Human::parse_equipment(game->m_player, game_config.find("/player/equipment", false));
+		Area * player_location = game->area(player_config["/location"].parse_string());
+		game->m_player = new Player(Character::parse_attributes(&player_config["/attributes"]), player_location);
+		Human::parse_equipment(game->m_player, player_config.find("/equipment", false));
 		game->add_character(game->m_player);
 	}
 

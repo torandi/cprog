@@ -1,0 +1,19 @@
+faction: civilian
+location: forest
+attributes:
+  action_points: 20
+  strength: !rnd 1,3
+  initiative: !rnd 2,3
+  life: !rnd 25,30
+equipment:
+  - !equipment
+    type: backpack
+    name: Tiny Backpack
+    description: A backpack to put some loot in
+    volume: 1
+    weight: 1
+    effects:
+      backpack_volume: !rnd 5,15
+  - longsword
+  - pelt_armor
+  - small_shield
