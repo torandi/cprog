@@ -3,6 +3,8 @@
 
 #include "human.hpp"
 
+typedef std::pair<int, int> player_block_ret_t;
+
 namespace game {
   class Area;
   class Player : public Human {
@@ -22,6 +24,11 @@ namespace game {
 		protected:
 			void store(Keepable * item);
 			virtual void die();
+
+			virtual void pre_damage(Character * character);
+		private:
+			player_block_ret_t m_block_decision;
+			bool m_next_turn;
   };
 
 };

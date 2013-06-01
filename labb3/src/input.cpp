@@ -22,6 +22,7 @@ using namespace std::placeholders;
 namespace game {
 
 	static int default_attack = INT_MIN;
+	static int default_block = INT_MIN;
 
 	/* Helper mappings */
 
@@ -398,14 +399,23 @@ namespace game {
 		}
 		default_attack = points;
 		std::cout << "Default attack set to " << points << std::endl;
+	}
 
+	static void cmd_set_default_block(ParseData &d) {
+		int points = find_number(d.line);
+		if(points == INT_MIN) {
+			std::cout << "Missing argument: Number of points for default block" << std::endl;
+			return;
+		}
+		default_block = points;
+		std::cout << "Default block set to " << points << std::endl;
 	}
 
 	static void cmd_attack(Human::slot_t slot, ParseData &d) {
 		int points = find_number(d.line);
 		if(points == INT_MIN) points = default_attack;
 		if(points == INT_MIN) {
-			std::cout << "You must specify the number of action points to use on the attack. (Set default attack with 'default attack [number]')." << std::endl;
+			std::cout << "You must specify the number of action points to use on the attack. (Set default attack with 'defaultattack [number]')." << std::endl;
 			return;
 		}
 		if(points < 0) {
@@ -420,6 +430,40 @@ namespace game {
 			return;
 		}
 		Game::player()->attack(character, points, slot);
+	}
+
+	static void cmd_block(int slot, ParseData &d) {
+		int points = find_number(d.line);
+		if(points == INT_MIN) points = default_block;
+		if(points == INT_MIN) {
+			std::cout << "You must specify the number of action points to for the block. (Set default block with 'defaultblock [number]')." << std::endl;
+			return;
+		}
+		if(points < 0) {
+			std::cout << "Number of points for block for can't be negative." << std::endl;
+			return;
+		}
+		if(slot == -1) {
+			if(Game::player()->equipment(Human::LEFT_HAND) != nullptr && Game::player()->remaining_actions(Human::LEFT_HAND)) {
+				slot = Human::LEFT_HAND;
+			} else {
+				slot = Human::RIGHT_HAND;
+			}
+		}
+		player_block_ret_t *ret = (player_block_ret_t*) d.user_data;
+		ret->first = slot;
+		ret->second = points;
+	}
+
+	static void cmd_no_block(ParseData &d) {
+		player_block_ret_t *ret = (player_block_ret_t*) d.user_data;
+		if(d.line.empty()) {
+			std::cout << "You decide to not block." << std::endl;
+			ret->first = -1;
+			ret->second = 0;
+		} else {
+			ret->first = -2;
+		}
 	}
 
 	static void cmd_life(ParseData &d) {
@@ -442,7 +486,8 @@ namespace game {
 			ParseNode("open", cmd_open, { }),
 			ParseNode("close", cmd_close, { }),
 			ParseNode("drop", cmd_drop, { }),
-			ParseNode("default attack", cmd_set_default_attack, { } ),
+			ParseNode("defaultattack", cmd_set_default_attack, { } ),
+			ParseNode("defaultblock", cmd_set_default_block, { } ),
 			ParseNode("attack", nullptr, {
 				ParseNode("right", std::bind(cmd_attack, Human::RIGHT_HAND, _1), {}),
 				ParseNode("left", std::bind(cmd_attack, Human::LEFT_HAND, _1), {}),
@@ -464,7 +509,15 @@ namespace game {
 			ParseNode("go", cmd_go, { }),
 			ParseNode("make", cmd_make, { }),
 		}),
-		ParseNode("", nullptr, { })
+		ParseNode("", nullptr, {
+			ParseNode("block", nullptr, {
+				ParseNode("right", std::bind(cmd_block, Human::RIGHT_HAND, _1), {}),
+				ParseNode("left", std::bind(cmd_block, Human::LEFT_HAND, _1), {}),
+				ParseNode("", std::bind(cmd_block, -1 , _1), {}),
+			}),
+			ParseNode("defaultblock", cmd_set_default_block, { } ),
+			ParseNode("", cmd_no_block, {}),
+		})
 	};
 
 	static std::vector<std::string> commands[Input::NUM_PARSE_TREES];
@@ -520,7 +573,7 @@ namespace game {
 		char ** matches = NULL;
 		if(start == 0) {
 			matches = rl_completion_matches(text, cmd_completion);
-		} else {
+		} else if(active_parse_tree == Input::DEFAULT) {
 			matches = rl_completion_matches(text, stuff_completion);
 		}
 		return matches;
@@ -533,6 +586,7 @@ namespace game {
 			}
 		}
 		rl_attempted_completion_function = completion_func;
+		rl_completion_entry_function = cmd_completion;
 	}
 
 	void Input::cleanup() {

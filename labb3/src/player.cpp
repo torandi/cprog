@@ -13,7 +13,8 @@ namespace game {
 
   void Player::action() {
 		char buffer[16];
-		while(m_action_points > 0 && Game::singleton->run()) {
+		m_next_turn = false;
+		while(!m_next_turn && m_action_points > 0 && Game::singleton->run()) {
 			sprintf(buffer, "[AP: %d] >> ", m_action_points);
 			Input::read(Input::DEFAULT, buffer);
 		}
@@ -24,11 +25,24 @@ namespace game {
   void Player::incoming_attack(Character * character, int damage) {
 		m_state = IN_FIGHT;
 		m_in_fight = character;
+
+		if(m_block_decision.first > -1) {
+			if(block(damage, m_block_decision.second /* points */, static_cast<Human::slot_t>(m_block_decision.first) /* weapon hand */)) return;
+		}
 		hurt(damage);
+	}
+
+	void Player::pre_damage(Character * character) {
+		char buffer[32];
+		sprintf(buffer, "[AP: %d] block? >> ", m_action_points);
+		std::cout << "You are being attacked by " << character->name() << "." << std::endl;
+
+		m_block_decision.first = -2;
+		while(Game::singleton->run() && m_block_decision.first == -2) Input::read(Input::DEFEND, buffer, (void*)&m_block_decision);
   }
 
 	void Player::next_turn() {
-		m_action_points = 0;
+		m_next_turn = true;
 	}
 
 	void Player::store(Keepable * item) {

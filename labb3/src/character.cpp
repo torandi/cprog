@@ -258,9 +258,11 @@ namespace game {
 		return m_attributes;
 	}
 
+	int Character::remaining_actions(int hand) const {
+		return m_remaining_actions[hand];
+	}
+
 	void Character::incoming_attack(Character * character, int damage) {
-		m_state = IN_FIGHT;
-		m_in_fight = character;
 		hurt(damage);
 	}
 
@@ -287,6 +289,11 @@ namespace game {
 		}
 	}
 
+	void Character::start_fight(Character * character) {
+		m_state = IN_FIGHT;
+		m_in_fight = character;
+	}
+
 	void Character::end_fight(Character * character) {
 		if(m_in_fight == character && m_state == IN_FIGHT) {
 			m_in_fight = nullptr;
@@ -295,8 +302,8 @@ namespace game {
 	}
 
 	void Character::roll_attack(Game::dice_t dice, int points, Character * character, int op, int extra, const std::string &weapon_text) {
-		m_state = IN_FIGHT;
-		m_in_fight = character;
+		start_fight(character);
+		character->start_fight(this);
 
 		Game::try_result_t roll = try_do_action(points);
 
@@ -309,7 +316,9 @@ namespace game {
 				dmg += Game::roll_dice(dice, op);
 				extra = " Critical hit!";
 			}
-			Game::out(location()) << name() << " " << verb("attack") << " "<< character->name() << weapon_text << " for " << dmg << " damage." << extra << std::endl;
+			character->pre_damage(this);
+
+			Game::out(location()) << genitive() << " " << verb("attack") << " on "<< character->name() << weapon_text << " deal " << dmg << " damage." << extra << std::endl;
 
 			character->incoming_attack(this, dmg);
 		} else if(roll == Game::FATAL) {

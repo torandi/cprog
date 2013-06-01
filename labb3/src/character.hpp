@@ -64,6 +64,7 @@ namespace game {
 		virtual void use(Item * item);
 		virtual void take(Keepable * item, Container * from_container);
 
+		virtual void start_fight(Character * character);
 		virtual void end_fight(Character * character);
 
 		static Character * from_config(const ConfigNode * node, Area * location);
@@ -73,6 +74,8 @@ namespace game {
 		static void parse_inventory(Character * character, const ConfigNode * node);
 
 		virtual std::string verb(const std::string &verb) const;
+
+		virtual int remaining_actions(int hand) const;
 
 		Character * in_fight_with() const;
 
@@ -89,6 +92,8 @@ namespace game {
 
 		virtual void hurt(int damage); //Apply damage (armor is applied)
 		virtual void reduce_armor(int amount) = 0; // Should reduce armor by given amount
+
+		virtual void pre_damage(Character * character) {}; // Called before damage text are printed, used for player to decide if he should block
 
 		void search_for_enemy();
 
