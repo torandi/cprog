@@ -603,6 +603,7 @@ namespace game {
 
 			if(line == nullptr) {
 				Game::singleton->stop();
+				free(line);
 				return;
 			}
 			if(strlen(line) > 0) add_history(line);
