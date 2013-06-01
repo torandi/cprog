@@ -1,4 +1,4 @@
-AC_INIT([cprog10l3],[1],[torandi@gmail.com])
+AC_INIT([textrpg],[1],[torandi@gmail.com])
 
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([foreign subdir-objects -Wall -Werror])

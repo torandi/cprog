@@ -3,9 +3,9 @@ AM_DEFAULT_SOURCE_EXT = .cpp
 
 AM_CXXFLAGS = -Wall -Woverloaded-virtual -Wvla -Wconversion ${yaml_CFLAGS} -I${top_srcdir}/src
 
-bin_PROGRAMS = cprog10l3
+bin_PROGRAMS = textrpg
 
-cprog10l3_SOURCES = \
+textrpg_SOURCES = \
 	src/area.cpp src/area.hpp \
 	src/game.cpp src/game.hpp \
 	src/item.cpp src/item.hpp \
@@ -25,4 +25,4 @@ cprog10l3_SOURCES = \
 	src/string_utils.cpp scr/string_utils.hpp \
 	src/main.cpp
 
-cprog10l3_LDADD = -lreadline ${yaml_LIBS}
+textrpg_LDADD = -lreadline ${yaml_LIBS}
