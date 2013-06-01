@@ -159,7 +159,7 @@ namespace game {
 
 	Game::try_result_t Character::try_do_action(int cost) {
 		do_action(cost);
-		return Game::try_action(cost + m_action_mod);
+		return Game::try_action(cost + m_action_mod + attribute("action_mod"));
 	}
 
 	void Character::take(Keepable * item, Container * from) {
@@ -216,13 +216,6 @@ namespace game {
 		return (it->second)(node, location);
 	}
 
-	void Character::reduce_armor(int amount) {
-		int protection_prev = armor_protection();
-		m_attributes["armor"] = std::max(0, m_attributes["armor"] - amount);
-		int diff = protection_prev - armor_protection();
-		if(diff > 0) Game::out(location()) << genitive() << " armor lost " << diff << " points of armor protection." << std::endl;
-	}
-
 	void Character::hurt(int damage) {
 		if(m_state == DEAD) return;
 		damage = std::max(0, damage - armor_protection());
@@ -233,12 +226,15 @@ namespace game {
 			Game::out(location()) << genitive() << " armor absorbs " << armor_protection() << " damage." << std::endl;
 		}
 
+		Game::out(location()) << name() << " " << verb("take") << " " << damage << " damage." << std::endl;
+
 		reduce_armor(damage);
 		m_life -= damage;
 		if(m_life <= 0) {
 			m_life = 0;
 			m_state = DEAD;
 			die();
+			Game::singleton->character_dies(this);
 		}
 	}
 
@@ -293,9 +289,13 @@ namespace game {
 			int dmg = extra + extra_damage();
 			dmg += Game::roll_dice(dice, op);
 
-			if(roll == Game::PERFECT) dmg += Game::roll_dice(dice, op);
+			std::string extra = "";
+			if(roll == Game::PERFECT) {
+				dmg += Game::roll_dice(dice, op);
+				extra = " Critical hit!";
+			}
+			Game::out(location()) << name() << " " << verb("attack") << " "<< character->name() << weapon_text << " for " << dmg << " damage." << extra << std::endl;
 
-			Game::out(location()) << name() << " attack "<< character->name() << weapon_text << " for " << dmg << " damage." << std::endl;
 			character->incoming_attack(this, dmg);
 		} else if(roll == Game::FATAL) {
 			Game::out(location()) << name() << " " << verb("miss") << " " << character->name() << " fataly. Next attack have -5 to succeed." << std::endl;
@@ -308,10 +308,6 @@ namespace game {
 
 	Character * Character::in_fight_with() const {
 		return m_in_fight;
-	}
-
-	void Character::die() {
-		Game::singleton->character_dies(this);
 	}
 
 	std::map<std::string, std::function<Character*(const ConfigNode*, Area*)> > Character::tag_map = {

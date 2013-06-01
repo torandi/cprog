@@ -86,11 +86,11 @@ namespace game {
 		/* Called first in action to initialize values for the round */
 		virtual void init_round();
 
-		virtual void die(); //called when the character dies
+		virtual void die() = 0; //called when the character dies
 		virtual void roll_attack(Game::dice_t dice, int points, Character * on_character, int op, int extra, const std::string &weapon_text = "");
 
 		virtual void hurt(int damage); //Apply damage (armor is applied)
-		virtual void reduce_armor(int amount); // Provided so that natural armor can be considered
+		virtual void reduce_armor(int amount) = 0; // Should reduce armor by given amount
 
 		const std::string m_name, m_description;
 		const faction_t m_faction;

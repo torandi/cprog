@@ -3,6 +3,8 @@
 #include "item.hpp"
 #include "keepable.hpp"
 
+#include <algorithm>
+
 namespace game {
 
 	Monster::Monster(const std::string &name, const std::string &description, std::map<std::string, int> attributes, Area * location)
@@ -16,9 +18,13 @@ namespace game {
 		std::map<std::string, int> attributes = Character::parse_attributes(&(*node)["/attributes"]);
 
 		Monster * monster = new Monster(name, description, attributes, location);
-		Character::parse_inventory(monster, node->find("/inventory", false));
+		Character::parse_inventory(monster, node->find("/loot", false));
 		return monster;
 	}
+
+  Monster::~Monster() {
+    std::for_each(m_loot.begin(), m_loot.end(), [](Keepable * i) { delete i; });
+  }
 
   void Monster::action() {
     init_round();
@@ -37,10 +43,12 @@ namespace game {
 	}
 
 	void Monster::die() {
-    Character::die();
 		Game::out(location()) << name() << " dies in a pool of blood." << std::endl;
-		for(Keepable * item : m_loot) {
-			location()->drop(this, item, true);
+    for(auto it = m_loot.begin(); it != m_loot.end(); ++it) {
+      if(location()->drop(this, *it)) {
+        Game::out(location()) << name() << " " << verb("drop") << " " << (*it)->name() << std::endl;
+        m_loot.erase(it);
+      }
 		}
 	}
 

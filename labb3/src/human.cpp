@@ -51,6 +51,7 @@ namespace game {
 
 	bool Human::drop(Keepable * item) {
 		if(location()->drop(this, item)) {
+			Game::out(location()) << name() << " " << verb("drop") << " " << item->name() << std::endl;
 			m_inventory.erase(item);
 			m_inventory_weight -= item->weight();
 			m_used_inventory_volume -= item->volume();
@@ -183,6 +184,11 @@ namespace game {
 			return;
 		}
 
+		if(m_action_points < points) {
+			throw "More action points needed.";
+		}
+
+
     if(!use_action(slot)) {
 			Game::out(location()) << name() << " " << verb("don't") << " have any actions left in " << slot_names[slot] << "." << std::endl;
 			return;
@@ -260,15 +266,25 @@ namespace game {
 		}
 	}
 
+	void Human::reduce_armor(int amount) {
+		if(m_equipments[ARMOR] != nullptr) {
+			int protection_prev = armor_protection();
+			m_equipments[ARMOR]->reduce("armor", amount);
+			int diff = protection_prev - armor_protection();
+			if(diff > 0) Game::out(location()) << genitive() << " armor lost " << diff << " point" <<
+				(diff > 1 ? "s" : "")
+				<< " of armor protection." << std::endl;
+		}
+	}
+
 	void Human::die() {
-		Character::die();
 		Game::out(location()) << name() << " gives up a cough of blood and drops dead." << std::endl;
 		for(int i=0; i<NUM_SLOTS; ++i) {
 			unequip(static_cast<slot_t>(i));
 		}
-		for(Keepable * item : m_inventory) {
-			location()->drop(this, item, true);
-		}
+		std::for_each(m_inventory.begin(), m_inventory.end(), [&](Keepable * k) {
+			drop(k);
+		});
 	}
 
 	bool Human::talk_to(Human * human) {

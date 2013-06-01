@@ -22,6 +22,13 @@ namespace game {
 		return m_effects;
 	}
 
+  void Equipment::reduce(const std::string &attribute, int amount) {
+    auto it = m_effects.find(attribute);
+    if(it != m_effects.end()) {
+      m_effects[attribute] = std::max(0, it->second - amount);
+    }
+  }
+
 	int Equipment::effect(const std::string &attr, int default_value) const {
 		auto it = m_effects.find(attr);
 		if(it != m_effects.end()) {

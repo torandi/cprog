@@ -12,6 +12,8 @@ namespace game {
 			virtual void attack(Character * character, int points);
 
 			static Monster * from_config(const ConfigNode * node, Area * location);
+
+      virtual ~Monster();
 		protected:
 			Monster(const std::string &name, const std::string &description, std::map<std::string, int> attributes, Area * location);
 			virtual void store(Keepable * item);

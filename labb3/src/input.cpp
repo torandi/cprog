@@ -430,7 +430,7 @@ namespace game {
 		ParseNode("", nullptr, {
 			ParseNode("inventory", cmd_inventory, { }),
 			ParseNode("backpack", cmd_inventory, { }),
-			ParseNode("attributes", cmd_attributes, { }),
+			ParseNode("show attributes", cmd_attributes, { }),
 			ParseNode("equipment", cmd_equipment, { }),
 			ParseNode("help", cmd_help_default, { }),
 			ParseNode("look around", cmd_look_around, { }),

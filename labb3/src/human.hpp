@@ -64,6 +64,7 @@ namespace game {
 			virtual void store(Keepable * item);
 			virtual void init_round();
 			virtual void die();
+			virtual void reduce_armor(int amount);
 
 	};
 

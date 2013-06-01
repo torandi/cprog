@@ -29,6 +29,8 @@ namespace game {
 			virtual std::string item_type() const { return "equipment"; } ;
 			virtual type_t type() const;
 
+      virtual void reduce(const std::string &attribute, int amount);
+
 
 			virtual ~Equipment() {};
 
@@ -38,7 +40,7 @@ namespace game {
 		protected:
 			Equipment(const std::string & name, const std::string & description, int volume, int weight, type_t type, const std::map<std::string, int> effects);
 
-			const std::map<std::string, int> m_effects;
+			std::map<std::string, int> m_effects;
 			const type_t m_type;
 
 			static std::map<std::string, type_t> type_string_map;
