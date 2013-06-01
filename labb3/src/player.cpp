@@ -12,7 +12,7 @@ namespace game {
   }
 
   void Player::action() {
-		Human::action();
+		init_round();
 		char buffer[16];
 		while(m_action_points > 0 && Game::singleton->run()) {
 			sprintf(buffer, "[AP: %d] >> ", m_action_points);
@@ -50,8 +50,31 @@ namespace game {
 
 	}
 
+	void Player::attack(Character * character, int points) {
+		if(m_remaining_actions[RIGHT_HAND] > 0) {
+			attack(character, points, RIGHT_HAND);
+		} else if(m_remaining_actions[LEFT_HAND] > 0) {
+			attack(character, points, LEFT_HAND);
+		} else {
+			std::cout << "You don't have any weapon actions left this turn." << std::endl;
+		}
+	}
+
+	void Player::attack(Character * character, int points, slot_t weapon_hand) {
+		Human::attack(character, points, weapon_hand);
+	}
+
 	std::string Player::verb(const std::string &verb) const {
 		return verb;
+	}
+
+	std::string Player::genitive() const {
+		return "Your";
+	}
+
+	void Player::die() {
+		std::cout << "You are dead. Game over." << std::endl;
+		Game::singleton->stop();
 	}
 
 }

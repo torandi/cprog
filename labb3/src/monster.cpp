@@ -20,6 +20,10 @@ namespace game {
 		return monster;
 	}
 
+  void Monster::action() {
+    init_round();
+  }
+
 	void Monster::store(Keepable * item) {
 		m_loot.push_back(item);
 	}
@@ -28,15 +32,12 @@ namespace game {
 
 	}
 
-	void Monster::incoming_attack(Character * character, int damage) {
-
-	}
-
 	void Monster::reduce_armor(int amount) {
 		return; /* Monster's armor don't decay (natural armor) */
 	}
 
 	void Monster::die() {
+    Character::die();
 		Game::out(location()) << name() << " dies in a pool of blood." << std::endl;
 		for(Keepable * item : m_loot) {
 			location()->drop(this, item, true);

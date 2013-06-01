@@ -14,9 +14,9 @@ namespace game {
 	class Equipment : public Keepable {
 		public:
 			enum type_t {
-				ONE_HAND,
-				OFF_HAND,
+				ONE_HAND=0,
 				TWO_HAND,
+        OFF_HAND,
 				ARMOR,
 				RING,
 				BACKPACK
@@ -25,7 +25,7 @@ namespace game {
 
 			virtual std::string description() const;
 			virtual const std::map<std::string, int> &effects() const;
-			virtual int effect(const std::string &attribute) const;
+			virtual int effect(const std::string &attribute, int default_value=0) const;
 			virtual std::string item_type() const { return "equipment"; } ;
 			virtual type_t type() const;
 

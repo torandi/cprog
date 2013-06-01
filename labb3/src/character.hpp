@@ -35,18 +35,21 @@ namespace game {
 
 		virtual faction_t faction() const;
 		virtual std::string name() const;
+		virtual std::string genitive() const;
 		virtual std::string description() const;
 		state_t state() const;
+
+		virtual std::map<std::string, int> attributes() const;
 
 		Area* location() const;
 
 		virtual int initiative() const; /* Get's stored initiative */
     virtual void roll_initiative(); /* Reroll initiative */
 
-		virtual void action();
+		virtual void action() = 0;
 
 		virtual void attack(Character * character, int points) = 0;
-		virtual void incoming_attack(Character * character, int damage) = 0;
+		virtual void incoming_attack(Character * character, int damage);
 		virtual bool go(const std::string &direction);
 
 		virtual int attribute(const std::string &attr) const;
@@ -60,6 +63,8 @@ namespace game {
 		virtual void pick_up(Item * item);
 		virtual void use(Item * item);
 		virtual void take(Keepable * item, Container * from_container);
+
+		virtual void end_fight(Character * character);
 
 		static Character * from_config(const ConfigNode * node, Area * location);
 		static Character * from_node(const ConfigNode * node, Area * location);
@@ -78,7 +83,12 @@ namespace game {
 		virtual void store(Keepable  * item) = 0;
 		virtual bool use_action(int hand);
 
-		virtual void die() = 0; //called when the character dies
+		/* Called first in action to initialize values for the round */
+		virtual void init_round();
+
+		virtual void die(); //called when the character dies
+		virtual void roll_attack(Game::dice_t dice, int points, Character * on_character, int op, int extra, const std::string &weapon_text = "");
+
 		virtual void hurt(int damage); //Apply damage (armor is applied)
 		virtual void reduce_armor(int amount); // Provided so that natural armor can be considered
 
@@ -91,6 +101,7 @@ namespace game {
 		int m_action_points = 0;
 		int m_remaining_actions[2] = {0, };
     int m_initiative = 0;
+		int m_tmp_action_mod = 0;
 
 		int m_life;
 		state_t m_state = IDLE;
@@ -99,9 +110,12 @@ namespace game {
 		Area * m_location;
 
 		Character * m_in_fight = nullptr;
+		std::string m_enemy_direction = "";
 
 		/* True indicates agressive */
 		static bool faction_standings[Character::NUM_FACTIONS][Character::NUM_FACTIONS];
+
+		static std::map<std::string, std::string> m_third_person_verbs;
 	private:
 		int m_base_actions[2] = {1, };
 		static std::map<std::string, std::function<Character*(const ConfigNode*, Area * location)> > tag_map;

@@ -10,7 +10,7 @@ bandit: !human
     backpack_volume: 100
   equipment:
     - longsword
-    - armor
+    - pelt_armor
 shielded_bandit: !human
   faction: bandit
   name: Bandit
@@ -24,20 +24,20 @@ shielded_bandit: !human
   equipment:
     - longsword
     - large_shield
-    - armor
+    - leather_armor
 badass_bandit: !human
   faction: bandit
   name: Badass Bandit
   description: O SHI. A badass Bandit. Let's kill it!
   attributes:
     action_points: 30
-    strength: !rnd 3,6
+    strength: !rnd 6,8
     initiative: !rnd 6,8
     life: !rnd 20,30
     backpack_volume: 100
   equipment:
     - two_hand_sword
-    - armor
+    - plate_armor
     - ring
 old_man: !human
   faction: civilian

@@ -59,6 +59,7 @@ namespace game {
 
 			for(Character * c : characters) {
 				c->action();
+        if(!m_run) break;
 			}
 			std::cout << std::endl;
 		}
@@ -87,12 +88,12 @@ namespace game {
 		else return FAIL;
 	}
 
-	std::ostream &Game::output(const Area* area) {
+	std::ostream &Game::output(const Area* area, const Area* area2) {
 		return std::cout;
 	}
 
-	std::ostream &Game::out(const Area* area) {
-		return Game::singleton->output(area);
+	std::ostream &Game::out(const Area* area, const Area* area2) {
+		return Game::singleton->output(area, area2);
 	}
 
   std::string Game::lowercase(const std::string &str) {
@@ -127,4 +128,14 @@ namespace game {
 		characters.push_back(character);
 		character->location()->m_characters.insert(character);
 	}
+
+  void Game::character_dies(Character * character) {
+    for(auto it = characters.begin(); it != characters.end(); ++it) {
+      if(*it == character) {
+        characters.erase(it);
+        delete character;
+        return;
+      }
+    }
+  }
 }

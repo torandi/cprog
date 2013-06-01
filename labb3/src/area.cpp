@@ -50,6 +50,10 @@ namespace game {
 		return true;
 	}
 
+  bool Area::contains_character(Character * character) const {
+    return m_characters.count(character) == 1;
+  }
+
 	bool Area::leave(Character * character) {
 		m_characters.erase(character);
 		if(character != Game::player()) Game::out(this) << character->name() << " leaves " << name() << std::endl;

@@ -35,6 +35,7 @@ namespace game {
 			virtual const std::map<std::string, Area*> &exits() const;
 
       virtual const std::set<Character*> &characters() const;
+      virtual bool contains_character(Character * character) const;
 
 			/* Returns all items acceable (including open containers) */
       virtual std::set<Item*> all_items() const;

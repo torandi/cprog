@@ -22,12 +22,12 @@ namespace game {
 		return m_effects;
 	}
 
-	int Equipment::effect(const std::string &attr) const {
+	int Equipment::effect(const std::string &attr, int default_value) const {
 		auto it = m_effects.find(attr);
 		if(it != m_effects.end()) {
 			return it->second;
 		} else {
-			return 0;
+			return default_value;
 		}
 	}
 

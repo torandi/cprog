@@ -47,13 +47,26 @@ namespace game {
 		return attribute("strength") / 10;
 	}
 
-	void Character::action() {
+	void Character::init_round() {
 		m_action_points = attribute("action_points");
 		m_remaining_actions[0] = m_base_actions[0];
 		m_remaining_actions[1] = m_base_actions[1];
 
 		int life_regen = attribute("life_regen");
 		if(life_regen > 0) regain_life(life_regen);
+
+		if(m_state == IN_FIGHT && location()->contains_character(m_in_fight) == 0) {
+			m_enemy_direction = "";
+			for(auto exit : location()->exits()) {
+				if(exit.second->contains_character(m_in_fight)) {
+					m_enemy_direction = exit.first;
+				}
+			}
+			if(m_enemy_direction.empty()) {
+				Game::out(location(), m_in_fight->location()) << name() << " " << verb("are") << " no longer in a fight with " << m_in_fight->name() << "." << std::endl;
+				m_in_fight->end_fight(this);
+			}
+		}
 	}
 
 	bool Character::use_action(int hand) {
@@ -74,7 +87,10 @@ namespace game {
 	}
 
 	std::string Character::verb(const std::string &verb) const {
-		return verb + "s";
+		auto it = m_third_person_verbs.find(verb);
+		if(it != m_third_person_verbs.end()) return it->second;
+		if(verb[verb.size()-1] == 's') return verb + "es";
+		else return verb + "s";
 	}
 
 	void Character::regain_life(int life) {
@@ -89,6 +105,10 @@ namespace game {
 
 	std::string Character::name() const {
 		return m_name;
+	}
+
+	std::string Character::genitive() const {
+		return m_name + "'s";
 	}
 
 	std::string Character::description() const {
@@ -200,19 +220,34 @@ namespace game {
 		int protection_prev = armor_protection();
 		m_attributes["armor"] = std::max(0, m_attributes["armor"] - amount);
 		int diff = protection_prev - armor_protection();
-		if(diff > 0) Game::out(location()) << name() << " " << verb("loses") << " " << diff << " points of armor protection." << std::endl;
+		if(diff > 0) Game::out(location()) << genitive() << " armor lost " << diff << " points of armor protection." << std::endl;
 	}
 
 	void Character::hurt(int damage) {
+		if(m_state == DEAD) return;
 		damage = std::max(0, damage - armor_protection());
-		if(damage == 0) return;
+		if(damage == 0) {
+			Game::out(location()) << genitive() << " armor absorbs all damage." << std::endl;
+			return;
+		} else if(armor_protection() > 0) {
+			Game::out(location()) << genitive() << " armor absorbs " << armor_protection() << " damage." << std::endl;
+		}
 
 		reduce_armor(damage);
 		m_life -= damage;
 		if(m_life <= 0) {
 			m_life = 0;
+			m_state = DEAD;
 			die();
 		}
+	}
+
+	std::map<std::string, int> Character::attributes() const {
+		return m_attributes;
+	}
+
+	void Character::incoming_attack(Character * character, int damage) {
+		hurt(damage);
 	}
 
 	void Character::parse_inventory(Character * character, const ConfigNode * node) {
@@ -238,13 +273,56 @@ namespace game {
 		}
 	}
 
+	void Character::end_fight(Character * character) {
+		if(m_in_fight == character && m_state == IN_FIGHT) {
+			m_in_fight = nullptr;
+			m_state = IDLE;
+		}
+	}
+
+	void Character::roll_attack(Game::dice_t dice, int points, Character * character, int op, int extra, const std::string &weapon_text) {
+		m_state = IN_FIGHT;
+		m_in_fight = character;
+
+		m_action_mod += m_tmp_action_mod;
+		Game::try_result_t roll = try_do_action(points);
+		m_action_mod -= m_tmp_action_mod;
+		m_tmp_action_mod = 0;
+
+		if(roll < Game::FAIL) {
+			int dmg = extra + extra_damage();
+			dmg += Game::roll_dice(dice, op);
+
+			if(roll == Game::PERFECT) dmg += Game::roll_dice(dice, op);
+
+			Game::out(location()) << name() << " attack "<< character->name() << weapon_text << " for " << dmg << " damage." << std::endl;
+			character->incoming_attack(this, dmg);
+		} else if(roll == Game::FATAL) {
+			Game::out(location()) << name() << " " << verb("miss") << " " << character->name() << " fataly. Next attack have -5 to succeed." << std::endl;
+			m_tmp_action_mod = -5;
+		} else {
+			Game::out(location()) << name() << " " << verb("miss") << " " << character->name() << "." << std::endl;
+		}
+
+	}
+
 	Character * Character::in_fight_with() const {
 		return m_in_fight;
+	}
+
+	void Character::die() {
+		Game::singleton->character_dies(this);
 	}
 
 	std::map<std::string, std::function<Character*(const ConfigNode*, Area*)> > Character::tag_map = {
 		{"!human", &Human::from_config },
 		{"!monster", &Monster::from_config },
+	};
+
+	std::map<std::string, std::string> Character::m_third_person_verbs = {
+		{ "don't", "doesn't" },
+		{ "do" , "does" },
+		{ "have", "has" },
 	};
 
 }

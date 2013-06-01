@@ -92,21 +92,57 @@ items:
       weapon_actions: !rnd 3,5
       durability: !rnd 150,200
       passive_protection: !rnd 5,8
-  armor: !equipment
+  pelt_armor: !equipment
     type: armor
-    name: Armor
-    description: Armor of some kind, it protects your nuts, cause nobody likes rosted nuts. (wat?)
-    volume: !rnd 10,15
-    weight: !rnd 5,10
+    name: Pelt armor
+    description:
+    volume: !rnd 5,10
+    weight: !rnd 1,3
     effects:
-      initiative: !rnd -5,5
-      armor: !rnd 50,200
+      initiative: !rnd -1, 1
+      armor: !rnd 15, 25
+  leather_armor: !equipment
+    type: armor
+    name: Leather armor
+    description:
+    volume: !rnd 5,10
+    weight: !rnd 2,4
+    effects:
+      initiative: !rnd -2, 1
+      armor: !rnd 30, 40
+  metal_leather_armor: !equipment
+    type: armor
+    name: Metal Strengthed Leather armor
+    description:
+    volume: !rnd 5,10
+    weight: !rnd 4,6
+    effects:
+      initiative: !rnd -5, 1
+      armor: !rnd 60, 80
+  chainmail: !equipment
+    type: armor
+    name: Chainmail
+    description:
+    volume: !rnd 7,13
+    weight: !rnd 10,15
+    effects:
+      initiative: !rnd -10, 1
+      armor: !rnd 120, 160
+  plate_armor: !equipment
+    type: armor
+    name: Full Plate armor
+    description:
+    volume: !rnd 10,15
+    weight: !rnd 20,25
+    effects:
+      initiative: !rnd -15,1
+      armor: !rnd 190,210
   ring: !equipment
     type: ring
     name: Magic Ring
     description: A magic ring
-    volume: !rnd 10,15
-    weight: !rnd 5,10
+    volume: 1
+    weight: 1
     effects:
       initiative: !rnd -10,10
       life: !rnd -20, 5
@@ -128,12 +164,35 @@ items:
 
 random_items:
   - longsword
+  - longsword
+  - longsword
   - dagger
   - dagger
   - dagger
+  - dagger
+  - dagger
+  - small_shield
+  - small_shield
+  - small_shield
   - small_shield
   - small_shield
   - medium_shield
+  - medium_shield
+  - large_shield
+  - backpack
+  - backpack
+  - backpack
+  - backpack
   - backpack
   - ring
-
+  - ring
+  - pelt_armor
+  - pelt_armor
+  - pelt_armor
+  - pelt_armor
+  - leather_armor
+  - leather_armor
+  - leather_armor
+  - metal_leather_armor
+  - metal_leather_armor
+  - chainmail

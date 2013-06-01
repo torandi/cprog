@@ -21,6 +21,8 @@ using namespace std::placeholders;
 
 namespace game {
 
+	static int default_attack = INT_MIN;
+
 	/* Helper mappings */
 
 	static std::string slot_names[Human::NUM_SLOTS] = { "Right hand", "Left hand", "Armor", "Ring", "Backpack" };
@@ -190,11 +192,17 @@ namespace game {
 	}
 
 	static void cmd_attributes(ParseData &d) {
+		Character * c = Game::player();
+		c = detect_character(npcs(), d.line);
+		if(c == nullptr) c = Game::player();
+
+
 		std::cout << "Your attributes (including effects from equipment): " << std::endl;
-		for(const auto it : Game::player()->attributes()) {
+		for(const auto it : c->attributes()) {
 			std::cout << it.first << ": " << it.second << std::endl;
 		}
 		std::cout << "-----------" << std::endl <<
+			"Armor protection: " << Game::player()->armor_protection() << std::endl <<
 			"Damage bonus: " << Game::player()->extra_damage() << std::endl <<
 			"Carrying capacity: " << Game::player()->used_carrying_capacity() << "kg / " << Game::player()->carrying_capacity() <<  "kg" << std::endl;
 	}
@@ -378,17 +386,31 @@ namespace game {
 	}
 
 	static void cmd_make(ParseData &d) {
-		std::cout << "Suck. Hur svårt ska det vara. Avsluta innan du bygger." << std::endl;
 		if(system("make")) { }
 		Game::singleton->stop();
 	}
 
-	static void cmd_attack(Human::slot_t slot, ParseData &d) {
+	static void cmd_set_default_attack(ParseData &d) {
 		int points = find_number(d.line);
 		if(points == INT_MIN) {
-			std::cout << "You must specifiy the number of action points to use on the attack." << std::endl;
+			std::cout << "Missing argument: Number of points for default attack" << std::endl;
 			return;
 		}
+		default_attack = points;
+	}
+
+	static void cmd_attack(Human::slot_t slot, ParseData &d) {
+		int points = find_number(d.line);
+		if(points == INT_MIN) points = default_attack;
+		if(points == INT_MIN) {
+			std::cout << "You must specify the number of action points to use on the attack. (Set default attack with 'default attack [number]')." << std::endl;
+			return;
+		}
+		if(points < 0) {
+			std::cout << "Number of points to attack for can't be negative." << std::endl;
+			return;
+		}
+
 		Character * character = detect_character(npcs(), d.line);
 		if(character == nullptr) character = Game::player()->in_fight_with();
 		if(character == nullptr) {
@@ -396,6 +418,10 @@ namespace game {
 			return;
 		}
 		Game::player()->attack(character, points, slot);
+	}
+
+	static void cmd_life(ParseData &d) {
+		std::cout << "You have " << Game::player()->life() << " / " << Game::player()->max_life() << "hp." << std::endl;
 	}
 
 	/* Parse trees */
@@ -414,6 +440,7 @@ namespace game {
 			ParseNode("open", cmd_open, { }),
 			ParseNode("close", cmd_close, { }),
 			ParseNode("drop", cmd_drop, { }),
+			ParseNode("default attack", cmd_set_default_attack, { } ),
 			ParseNode("attack", nullptr, {
 				ParseNode("right", std::bind(cmd_attack, Human::RIGHT_HAND, _1), {}),
 				ParseNode("left", std::bind(cmd_attack, Human::LEFT_HAND, _1), {}),
@@ -430,6 +457,7 @@ namespace game {
 			}),
 			ParseNode("unequip", cmd_unequip, { }),
 			ParseNode("equip", cmd_equip, { }),
+			ParseNode("life", cmd_life, { }),
 			ParseNode("use", cmd_use, { }),
 			ParseNode("go", cmd_go, { }),
 			ParseNode("make", cmd_make, { }),
@@ -547,6 +575,7 @@ namespace game {
 
 			try {
 				res = ParseNode::parse(parse_trees[tree], cmd, user_data);
+				if(!res && cmd.length() != 0) printf("Unknown command %s.\n", cmd.c_str());
 			} catch (const char * err) {
 				std::cout << err;
 				if(Game::player()->state() != Character::IN_FIGHT) {
@@ -556,7 +585,6 @@ namespace game {
 					std::cout << " Type next to end your turn." << std::endl;
 				}
 			}
-			if(!res && cmd.length() != 0) printf("Unknown command %s.\n", cmd.c_str());
 		} while(res == false);
 	}
 

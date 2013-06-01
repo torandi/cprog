@@ -38,14 +38,16 @@ namespace game {
 			static try_result_t try_action(int points);
 
 			/* Return output stream (none/stdout) to use for a given area */
-			std::ostream &output(const Area*);
-			static std::ostream &out(const Area*); /* alias for Game::singleton->output */
+			std::ostream &output(const Area* a1, const Area* a2=nullptr);
+			static std::ostream &out(const Area* a1, const Area* a2=nullptr); /* alias for Game::singleton->output */
       static Player * player();
 
       static std::string lowercase(const std::string &str);
 
       Area * area(const std::string &name);
       Keepable * item(const std::string &name);
+
+      void character_dies(Character * character);
 
       void add_character(Character * character);
 

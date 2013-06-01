@@ -10,6 +10,7 @@
 #include "logging.hpp"
 
 #include <algorithm>
+#include <sstream>
 
 namespace game {
 	std::string Human::slot_names[Human::NUM_SLOTS] = {
@@ -138,8 +139,12 @@ namespace game {
 		return m_equipments[slot];
 	}
 
-  void Human::action() {
-    Character::action();
+	void Human::action() {
+		init_round();
+	}
+
+  void Human::init_round() {
+    Character::init_round();
 
     if(m_equipments[RIGHT_HAND] != nullptr) {
       m_remaining_actions[RIGHT_HAND] = m_equipments[RIGHT_HAND]->effect("weapon_actions");
@@ -163,7 +168,7 @@ namespace game {
   void Human::attack(Character * character, int points) {
     if(m_remaining_actions[RIGHT_HAND] > 0) {
       attack(character, points, RIGHT_HAND);
-    } else {
+		} else if(m_remaining_actions[LEFT_HAND] > 0) {
       attack(character, points, LEFT_HAND);
     }
   }
@@ -173,21 +178,35 @@ namespace game {
       Logging::fatal("Invalid slot specified for attack, only LEFT or RIGHT hand allowed\n");
     }
 
-    if(use_action(slot)) {
+		if(m_equipments[slot] != nullptr && m_equipments[slot]->type() > Equipment::TWO_HAND) {
+			Game::out(location()) << name() << " " << verb("can't") << " attack with " << m_equipments[slot]->raw_name() << "." << std::endl;
+			return;
+		}
 
-    }
-    m_state = IN_FIGHT;
-    m_in_fight = character;
-    /* TODO */
-    if(try_do_action(points)) {
-      //int damage = T10 + dameg + öp etc
-      //Game::out(location()) << name() << " attack " << character->name() << " "
-    } else {
-      Game::out(location()) << name() << " misses " << character->name() << "." << std::endl;
-    }
+    if(!use_action(slot)) {
+			Game::out(location()) << name() << " " << verb("don't") << " have any actions left in " << slot_names[slot] << "." << std::endl;
+			return;
+		}
+
+		if(m_equipments[slot] != nullptr) {
+			roll_attack(Game::T10, points, character,
+					m_equipments[slot]->effect("damage_overpower", -1),
+					m_equipments[slot]->effect("damage_extra"),
+					" with " + m_equipments[slot]->raw_name()
+				);
+		} else {
+			roll_attack(Game::T5, points, character, -1, 0, " with " + slot_names[slot]);
+		}
+
   }
 
   void Human::incoming_attack(Character * character, int damage) {
+		if(m_remaining_actions[LEFT_HAND] > 0) {
+			//attack(character, points, LEFT_HAND);
+		} else if(m_remaining_actions[RIGHT_HAND] > 0) {
+			//attack(character, points, RIGHT_HAND);
+		}
+		hurt(damage);
   }
 
 	Human * Human::from_config(const ConfigNode * node, Area * location) {
@@ -242,6 +261,7 @@ namespace game {
 	}
 
 	void Human::die() {
+		Character::die();
 		Game::out(location()) << name() << " gives up a cough of blood and drops dead." << std::endl;
 		for(int i=0; i<NUM_SLOTS; ++i) {
 			unequip(static_cast<slot_t>(i));
@@ -257,6 +277,16 @@ namespace game {
 		Game::out(location()) << m_dialog[m_next_dialog] << std::endl;
 		m_next_dialog = (m_next_dialog + 1) % static_cast<int>(m_dialog.size());
 		return true;
+	}
+
+	std::string Human::description() const {
+		std::stringstream str;
+		str << Character::description() << std::endl
+			<< "Equipment: " <<std::endl;
+		for(const Equipment * eq : m_equipments) {
+			if(eq != nullptr) str << eq->raw_name() << std::endl;
+		}
+		return str.str();
 	}
 
 }

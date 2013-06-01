@@ -29,6 +29,7 @@ namespace game {
 			int used_backpack_volume() const;
 			int used_carrying_capacity() const;
 
+			virtual std::string description() const;
 
       virtual void action();
       virtual void attack(Character * character, int points);
@@ -61,6 +62,7 @@ namespace game {
 			int m_next_dialog = 0;
 
 			virtual void store(Keepable * item);
+			virtual void init_round();
 			virtual void die();
 
 	};

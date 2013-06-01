@@ -15,3 +15,6 @@ player:
       weight: 1
       effects:
         backpack_volume: !rnd 5,15
+    - longsword
+    - pelt_armor
+    - small_shield

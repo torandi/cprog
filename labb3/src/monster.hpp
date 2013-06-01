@@ -7,8 +7,9 @@
 namespace game {
 	class Monster : public Character {
 		public:
+      virtual void action();
+
 			virtual void attack(Character * character, int points);
-			virtual void incoming_attack(Character * character, int damage);
 
 			static Monster * from_config(const ConfigNode * node, Area * location);
 		protected:
