@@ -7,6 +7,7 @@
 #include "equipment.hpp"
 #include "area.hpp"
 #include "game.hpp"
+#include "unique_item.hpp"
 #include "logging.hpp"
 
 #include <algorithm>
@@ -364,6 +365,14 @@ namespace game {
 				(diff > 1 ? "s" : "")
 				<< " of armor protection." << std::endl;
 		}
+	}
+
+	UniqueItem* Human::have_unique(const std::string &id) const {
+		for(Keepable * k : m_inventory) {
+			UniqueItem * item = dynamic_cast<UniqueItem*>(k);
+			if(item != nullptr && item->id() == id) return item;
+		}
+		return nullptr;
 	}
 
 	void Human::die() {

@@ -10,6 +10,7 @@ namespace game {
 	class Item;
 	class Keepable;
 	class Container;
+	class UniqueItem;
 
 	class Character {
 	public:
@@ -63,6 +64,8 @@ namespace game {
 		virtual void pick_up(Item * item);
 		virtual void use(Item * item);
 		virtual void take(Keepable * item, Container * from_container);
+
+		virtual UniqueItem * have_unique(const std::string &id) const;
 
 		virtual void start_fight(Character * character);
 		virtual void end_fight(Character * character);

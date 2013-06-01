@@ -1,5 +1,7 @@
 #include <string>
 #include <vector>
+#include <iostream>
+
 std::string trim(std::string s) {
 	size_t begin_str = s.find_first_not_of(" \t\n\r");
 	if(begin_str != std::string::npos) {
@@ -36,3 +38,5 @@ std::vector<std::string> split(const std::string &str, const std::string &search
 	}
 	return res;
 }
+
+std::ostream cnull(0);

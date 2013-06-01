@@ -8,4 +8,8 @@ void erase_word(std::string &str, size_t pos, size_t len);
 std::string trim(std::string s);
 std::vector<std::string> split(const std::string &str, const std::string &search, bool keep = false);
 
+/* Util for /dev/null-ing ostream-buffers */
+extern std::ostream cnull;
+
+
 #endif

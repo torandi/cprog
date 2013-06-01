@@ -8,6 +8,7 @@
 #include "area.hpp"
 #include "logging.hpp"
 #include "player.hpp"
+#include "string_utils.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -90,7 +91,8 @@ namespace game {
 	}
 
 	std::ostream &Game::output(const Area* area, const Area* area2) {
-		return std::cout;
+		if(area == m_player->location() || area2 == m_player->location()) return std::cout;
+		else return cnull;
 	}
 
 	std::ostream &Game::out(const Area* area, const Area* area2) {

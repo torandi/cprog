@@ -69,6 +69,7 @@ namespace game {
 			if(m_enemy_direction.empty()) {
 				Game::out(location(), m_in_fight->location()) << name() << " " << verb("are") << " no longer in a fight with " << m_in_fight->name() << "." << std::endl;
 				m_in_fight->end_fight(this);
+				end_fight(m_in_fight);
 			}
 		}
 	}
@@ -328,6 +329,10 @@ namespace game {
 			Game::out(location()) << name() << " " << verb("miss") << " " << character->name() << "." << std::endl;
 		}
 
+	}
+
+	UniqueItem* Character::have_unique(const std::string &id) const {
+		return nullptr;
 	}
 
 	Character * Character::in_fight_with() const {

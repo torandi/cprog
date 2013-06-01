@@ -35,6 +35,7 @@ namespace game {
       virtual void attack(Character * character, int points);
       virtual void attack(Character * character, int points, slot_t weapon_hand);
       virtual void incoming_attack(Character * character, int damage);
+			virtual UniqueItem* have_unique(const std::string &id) const;
 
       virtual std::map<std::string, int> attributes() const;
 			virtual int attribute(const std::string &attr) const;
