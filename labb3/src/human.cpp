@@ -30,10 +30,13 @@ namespace game {
 		return 10 * ( 1 + attribute("strength") );
 	}
 
-	int Human::attribute(const std::string &attr) const {
-		int val = Character::attribute(attr);
+	int Human::attribute(const std::string &attr, int default_val) const {
+		int val = Character::attribute(attr, default_val);
 		for(const Equipment * e : m_equipments) {
-			if(e != nullptr) val += e->effect(attr);
+			if(e != nullptr) {
+				int eval = e->effect(attr, default_val);
+				if(eval != default_val) val += eval;
+			}
 		}
 		return val;
 	}
@@ -208,7 +211,6 @@ namespace game {
   }
 
   void Human::attack(Character * character, int points, Human::slot_t slot) {
-
 		if(character->location() != location()) {
 			Game::out(location()) << name() << " can't attack " << character->name() << "; not in same location." << std::endl;
 			return;

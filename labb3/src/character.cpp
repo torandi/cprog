@@ -34,12 +34,12 @@ namespace game {
 
 	}
 
-	int Character::attribute(const std::string &attr) const {
+	int Character::attribute(const std::string &attr, int default_val) const {
 		auto it = m_attributes.find(attr);
 		if(it != m_attributes.end()) {
 			return it->second;
 		} else {
-			return 0;
+			return default_val;
 		}
 	}
 

@@ -38,7 +38,7 @@ namespace game {
 			virtual UniqueItem* have_unique(const std::string &id) const;
 
       virtual std::map<std::string, int> attributes() const;
-			virtual int attribute(const std::string &attr) const;
+			virtual int attribute(const std::string &attr, int default_value = -1) const;
 			virtual Equipment * equipment(slot_t slot) const;
 			virtual bool talk_to(Human * human);
 			virtual bool drop(Keepable * item);

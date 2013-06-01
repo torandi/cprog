@@ -27,6 +27,33 @@ namespace game {
   }
 
   void Monster::action() {
+		try {
+			switch(m_state) {
+				case IDLE:
+					/* TODO: some walk cycle */
+					for(Character * c : location()->characters()) {
+						if(c != this && faction_standings[faction()][c->faction()]) {
+							attack(c, std::min(15, m_action_points));
+							if(m_action_points > 0) action();
+							break;
+						}
+					}
+					break;
+				case IN_FIGHT:
+					if(m_action_points == 0) {
+						Game::out(location()) << name() << " " << verb("do") << " nothing." << std::endl;
+					}
+					if(location()->contains_character(m_in_fight)) {
+						while(m_action_points > 0) {
+							attack(m_in_fight, std::min(15, m_action_points));
+							if(m_in_fight == nullptr) return;
+						}
+					}
+					break;
+				default:
+					break;
+			}
+		} catch (const char * c) { } /* no points left */
   }
 
 	void Monster::store(Keepable * item) {
@@ -34,7 +61,15 @@ namespace game {
 	}
 
 	void Monster::attack(Character * character, int points) {
+		if(character->location() != location()) {
+			Game::out(location()) << name() << " can't attack " << character->name() << "; not in same location." << std::endl;
+			return;
+		}
 
+		roll_attack(Game::T10, points, character,
+				attribute("damage_overpower", -1),
+				attribute("damage_extra")
+			);
 	}
 
 	void Monster::reduce_armor(int amount) {
