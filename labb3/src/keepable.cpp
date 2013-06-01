@@ -34,7 +34,7 @@ namespace game {
 
 	std::string Keepable::name() const {
 		std::stringstream str;
-		str << Item::name() << " [Weight: " << weight() << "kg , Volume: " << volume() << "]";
+		str << Item::name() << " [ Weight: " << weight() << "kg , Volume: " << volume() << " ]";
     return str.str();
 	}
 }

@@ -60,6 +60,10 @@ namespace game {
 		return true;
 	}
 
+	void Area::remove_character(Character * character) {
+		m_characters.erase(character);
+	}
+
 	void Area::stay(Character * character) { }
 
 	void Area::set_exits(const std::map<std::string, Area*> &exits) {

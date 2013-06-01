@@ -145,6 +145,14 @@ namespace game {
 		try {
 			switch(m_state) {
 				case IDLE:
+					/* TODO: some walk cycle */
+					for(Character * c : location()->characters()) {
+						if(c != this && faction_standings[faction()][c->faction()]) {
+							attack(c, std::min(15, m_action_points));
+							if(m_action_points > 0) action();
+							break;
+						}
+					}
 					break;
 				case IN_FIGHT:
 					search_for_enemy();

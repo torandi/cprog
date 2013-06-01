@@ -13,7 +13,7 @@
 #include "logging.hpp"
 
 namespace game {
-	bool faction_standings[Character::NUM_FACTIONS][Character::NUM_FACTIONS] = {
+	bool Character::faction_standings[Character::NUM_FACTIONS][Character::NUM_FACTIONS] = {
 										/*  C  M  B  U   */
 		/* CIVILIAN: */		{ 0, 0, 0, 0, }, /* Civilians don't attack anyone */
 		/* MONSTER: */		{ 1, 0, 1, 1, },
@@ -251,7 +251,8 @@ namespace game {
 			m_life = 0;
 			m_state = DEAD;
 			die();
-			Game::singleton->character_dies(this);
+			m_in_fight->end_fight(this);
+			location()->remove_character(this);
 		}
 	}
 
@@ -319,7 +320,7 @@ namespace game {
 			}
 			character->pre_damage(this);
 
-			Game::out(location()) << genitive() << " " << verb("attack") << " on "<< character->name() << weapon_text << " deal " << dmg << " damage." << extra << std::endl;
+			Game::out(location()) << name() << " " << verb("attack") << " "<< character->name() << weapon_text << " for " << dmg << " damage." << extra << std::endl;
 
 			character->incoming_attack(this, dmg);
 		} else if(roll == Game::FATAL) {

@@ -247,6 +247,7 @@ namespace game {
 		} else {
 			Item * item = detect_item(accessible_items(), d.line);
 			if(item != nullptr) {
+				std::cout << "You take a closer look at " << item->name() << std::endl;
 				std::cout << item->description() << std::endl;
 			} else {
 				std::cout << "You can't find any " << d.line << "." << std::endl;
@@ -458,7 +459,7 @@ namespace game {
 	static void cmd_no_block(ParseData &d) {
 		player_block_ret_t *ret = (player_block_ret_t*) d.user_data;
 		if(d.line.empty()) {
-			std::cout << "You decide to not block." << std::endl;
+			std::cout << "You decide not to block." << std::endl;
 			ret->first = -1;
 			ret->second = 0;
 		} else {

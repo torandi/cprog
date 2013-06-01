@@ -28,23 +28,6 @@ namespace game {
 		dices.push_back(std::uniform_int_distribution<int>(1,20));
 
 		WorldParser::parse(this);
-		/*
-    for(auto it : areas) {
-      Area * a = it.second;
-      std::cerr << a->name() << ": " << a->description() << std::endl;
-      std::cerr << "Items:" << std::endl;
-      for(Item * i : a->items() ) {
-        std::cerr << i->name() << ": " << i->description() << std::endl;
-      }
-			std::cerr << std::endl;
-			std::cerr << "Characters:" << std::endl;
-			for(const Character * c : a->characters() ) {
-				std::cout << c->name() << ": " << c->description() << std::endl;
-			}
-      std::cerr << std::endl;
-			std::cerr << std::endl;
-    }
-		*/
 	}
 
 	void Game::stop() {
@@ -56,13 +39,23 @@ namespace game {
 		while(m_run) {
 			//ROLL FOR INITIATIVE SUCKERS!
 			std::for_each(characters.begin(), characters.end(), std::bind(&Character::roll_initiative, _1));
-      std::for_each(characters.begin(), characters.end(), std::bind(&Character::init_round, _1));
 			std::sort(characters.begin(), characters.end(), [](Character * c1, Character * c2) { return c1->initiative() > c2->initiative(); } );
 
+			std::for_each(characters.begin(), characters.end(), std::bind(&Character::init_round, _1));
+
 			for(Character * c : characters) {
-				c->action();
+				if(c->state() != Character::DEAD) c->action();
         if(!m_run) break;
 			}
+
+			/* Perform death cleanup */
+			for(auto it=characters.begin(); it!=characters.end(); ++it) {
+				if((*it)->state() == Character::DEAD) {
+					delete *it;
+					it = characters.erase(it);
+				}
+			}
+
 			std::cout << std::endl;
 		}
 	}
@@ -131,15 +124,4 @@ namespace game {
 		characters.push_back(character);
 		character->location()->m_characters.insert(character);
 	}
-
-  void Game::character_dies(Character * character) {
-    character->location()->m_characters.erase(character);
-    for(auto it = characters.begin(); it != characters.end(); ++it) {
-      if(*it == character) {
-        characters.erase(it);
-        delete character;
-        return;
-      }
-    }
-  }
 }

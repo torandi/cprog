@@ -47,8 +47,6 @@ namespace game {
       Area * area(const std::string &name);
       Keepable * item(const std::string &name);
 
-      void character_dies(Character * character);
-
       void add_character(Character * character);
 
       void start_simulation();

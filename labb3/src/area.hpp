@@ -32,6 +32,8 @@ namespace game {
 			virtual bool enter(Character * character); /* Return false if action is denied */
 			virtual bool leave(Character * character); /* Return false if action is denied */
 			virtual void stay(Character * character); /* A character stays idle in the location */
+
+			virtual void remove_character(Character * character);
 			virtual const std::map<std::string, Area*> &exits() const;
 
       virtual const std::set<Character*> &characters() const;
