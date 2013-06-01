@@ -379,7 +379,7 @@ namespace game {
 
 	static void cmd_make(ParseData &d) {
 		std::cout << "Suck. Hur svårt ska det vara. Avsluta innan du bygger." << std::endl;
-		system("make");
+		if(system("make")) { }
 		Game::singleton->stop();
 	}
 
