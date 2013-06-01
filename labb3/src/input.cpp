@@ -247,7 +247,7 @@ namespace game {
 		} else {
 			Item * item = detect_item(accessible_items(), d.line);
 			if(item != nullptr) {
-				std::cout << "You take a closer look at " << item->name() << std::endl;
+				//std::cout << "You take a closer look at " << item->name() << std::endl;
 				std::cout << item->description() << std::endl;
 			} else {
 				std::cout << "You can't find any " << d.line << "." << std::endl;
@@ -319,7 +319,7 @@ namespace game {
 	static void cmd_drop(ParseData &d) {
 		Keepable * k = dynamic_cast<Keepable*>(detect_item(Game::player()->inventory(), d.line));
 		if(k != nullptr) {
-			if(Game::player()->drop(k)) std::cout << "You dropped " << k->name() << std::endl;
+			Game::player()->drop(k);
 		} else {
 			std::cout << "Well, if you want to drop " << d.line << " you will have to pick it up first." << std::endl;
 		}
@@ -344,6 +344,8 @@ namespace game {
 
 				if(Game::player()->equip(e, slot)) {
 					std::cout << "You equipped " << e->name() << " in " << Human::slot_names[slot] << "." << std::endl;
+				} else {
+					Game::player()->location()->drop(Game::player(), e, true);
 				}
 			} else {
 				std::cout << "You try to equip " << i->name() << " a couple of times, but fail misserably." << std::endl;
@@ -553,7 +555,7 @@ namespace game {
 				names.push_back(Game::lowercase(exit.first));
 			}
 			for(Item * i : accessible_items()) {
-				names.push_back(Game::lowercase(i->name()));
+				names.push_back(Game::lowercase(i->raw_name()));
 			}
 			for(Character * c : npcs()) {
 				names.push_back(Game::lowercase(c->name()));

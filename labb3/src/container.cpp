@@ -71,7 +71,7 @@ namespace game {
     const ConfigNode * content = node->find("/content");
     if(content != nullptr) {
       for(const ConfigNode * i : content->list()) {
-        Keepable * item = dynamic_cast<Keepable*>(Item::from_config(i));
+        Keepable * item = dynamic_cast<Keepable*>(Item::from_node(i));
         if(item != nullptr) {
           if(!container->put(item)) delete item;
         }
@@ -99,18 +99,18 @@ namespace game {
 	}
 
 	bool Container::open(Character * character) {
-		if(m_open) return true;
 
-		if(!m_required_key.empty()) {
+		if(!m_open && !m_required_key.empty()) {
 			UniqueItem * item = character->have_unique(m_required_key);
 			if (item != nullptr) {
-				Game::out(character->location()) << character->name() << " " << character->verb("use") << " " << item->name() << " to open " << name() << "." << std::endl;
-				return true;
+				Game::out(character->location()) << character->name() << " " << character->verb("use") << " " << item->raw_name() << " to open " << name() << "." << std::endl;
 			} else if(character == Game::player()) {
 				std::cout << "It's locked." << std::endl;
 				return false;
 			} else return false;
-		} else return true;
+		}
+		m_open = true;
+		return true;
 	}
 
 }

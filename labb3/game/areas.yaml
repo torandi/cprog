@@ -28,6 +28,28 @@
     east: forest
   items:
     - fish
+    - !unique
+      id: teh_key
+      name: Teh Key
+      description: Tis is teh key.
+      volume: 0
+      weight: 0
+    - !container
+      name: Locked Chest
+      description: It's locked. You will need teh key!
+      storage_volume: 100
+      key: teh_key
+      content:
+        - dagger
+        - dagger
+        - two_hand_sword
+        - chainmail
+        - large_shield
+        - ring
+        - ring
+        - ring
+
+
 - !area
   id: castle
   name: Old Castle

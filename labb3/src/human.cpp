@@ -83,7 +83,7 @@ namespace game {
 		}
 
 		if(slot == LEFT_HAND && m_equipments[RIGHT_HAND] != nullptr && m_equipments[RIGHT_HAND]->type() == Equipment::TWO_HAND) {
-			Game::out(location()) << name() << " can't equip a item in the left hand while a two hand item is equipped in the right." << std::endl;
+			Game::out(location()) << name() << " can't equip an item in the left hand while a two hand item is equipped in the right." << std::endl;
 			return false;
 		}
 
@@ -93,8 +93,7 @@ namespace game {
 		}
 
 		if(m_equipments[slot] != nullptr) {
-			store(m_equipments[slot]);
-			m_equipments[slot] = nullptr;
+			unequip(slot);
 		}
 
 		m_equipments[slot] = item;
@@ -105,6 +104,7 @@ namespace game {
 
 	bool Human::unequip(Human::slot_t slot) {
 		if(m_equipments[slot] != nullptr) {
+			m_inventory_weight -= m_equipments[slot]->weight();
 			store(m_equipments[slot]);
 			m_equipments[slot] = nullptr;
 			return true;

@@ -38,7 +38,10 @@ namespace game {
 
   Item * Item::from_config(const ConfigNode * node) {
     auto it = tag_map.find(node->tag());
-    if(it == tag_map.end()) Logging::fatal("Unknown item tag %s\n", node->tag().c_str());
+    if(it == tag_map.end()) {
+			node->print();
+			Logging::fatal("Unknown item tag %s\n", node->tag().c_str());
+		}
     return (it->second)(node);
   }
 
