@@ -59,6 +59,7 @@ namespace game {
 	}
 
 	void Character::search_for_enemy() {
+		if(m_in_fight != nullptr && m_in_fight->state() == DEAD) end_fight(m_in_fight);
 		if(m_state == IN_FIGHT && location()->contains_character(m_in_fight) == 0) {
 			m_enemy_direction = "";
 			for(auto exit : location()->exits()) {

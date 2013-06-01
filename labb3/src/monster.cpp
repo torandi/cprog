@@ -32,7 +32,7 @@ namespace game {
 				case IDLE:
 					/* TODO: some walk cycle */
 					for(Character * c : location()->characters()) {
-						if(c != this && faction_standings[faction()][c->faction()]) {
+						if(c != this && c->state() != DEAD && faction_standings[faction()][c->faction()]) {
 							attack(c, std::min(15, m_action_points));
 							if(m_action_points > 0) action();
 							break;

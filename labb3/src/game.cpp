@@ -48,14 +48,6 @@ namespace game {
         if(!m_run) break;
 			}
 
-			/* Perform death cleanup */
-			for(auto it=characters.begin(); it!=characters.end(); ++it) {
-				if((*it)->state() == Character::DEAD) {
-					delete *it;
-					it = characters.erase(it);
-				}
-			}
-
 			std::cout << std::endl;
 		}
 	}

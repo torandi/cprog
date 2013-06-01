@@ -150,7 +150,7 @@ namespace game {
 				case IDLE:
 					/* TODO: some walk cycle */
 					for(Character * c : location()->characters()) {
-						if(c != this && faction_standings[faction()][c->faction()]) {
+						if(c != this && c->state() != DEAD && faction_standings[faction()][c->faction()]) {
 							attack(c, std::min(15, m_action_points));
 							if(m_action_points > 0) action();
 							break;
@@ -391,9 +391,7 @@ namespace game {
 		for(int i=0; i<NUM_SLOTS; ++i) {
 			unequip(static_cast<slot_t>(i));
 		}
-		std::for_each(m_inventory.begin(), m_inventory.end(), [&](Keepable * k) {
-			drop(k);
-		});
+		while(!m_inventory.empty()) drop(*(m_inventory.begin()));
 	}
 
 	bool Human::talk_to(Human * human) {
