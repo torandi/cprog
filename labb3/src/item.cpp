@@ -6,6 +6,7 @@
 #include "keepable.hpp"
 #include "equipment.hpp"
 #include "container.hpp"
+#include "unique_item.hpp"
 #include "logging.hpp"
 #include "health_potion.hpp"
 
@@ -51,6 +52,7 @@ namespace game {
     {"!equipment", &Equipment::from_config },
     {"!container", &Container::from_config },
     {"!potion", &HealthPotion::from_config },
+		{"!unique", &UniqueItem::from_config },
   };
 
 }
