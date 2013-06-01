@@ -89,6 +89,7 @@ namespace game {
 	}
 
 	std::ostream &Game::out(const Area* area, const Area* area2) {
+		if(Game::singleton == nullptr) return cnull;
 		return Game::singleton->output(area, area2);
 	}
 
