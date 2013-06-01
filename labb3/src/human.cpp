@@ -162,6 +162,7 @@ namespace game {
 					if(location()->contains_character(m_in_fight)) {
 						while((m_remaining_actions[RIGHT_HAND] || m_remaining_actions[LEFT_HAND]) && m_action_points > 0) {
 							attack(m_in_fight, std::min(15, m_action_points));
+							if(m_in_fight == nullptr) return;
 						}
 					} else {
 						if(!go(m_enemy_direction)) return;
