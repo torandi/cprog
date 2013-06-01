@@ -131,6 +131,7 @@ namespace game {
 	}
 
   void Game::character_dies(Character * character) {
+    character->location()->m_characters.erase(character);
     for(auto it = characters.begin(); it != characters.end(); ++it) {
       if(*it == character) {
         characters.erase(it);

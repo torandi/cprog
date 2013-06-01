@@ -141,6 +141,30 @@ namespace game {
 	}
 
 	void Human::action() {
+		try {
+			switch(m_state) {
+				case IDLE:
+					break;
+				case IN_FIGHT:
+					search_for_enemy();
+					if(m_action_points == 0) {
+						Game::out(location()) << name() << " " << verb("do") << " nothing." << std::endl;
+					}
+					if(location()->contains_character(m_in_fight)) {
+						while((m_remaining_actions[RIGHT_HAND] || m_remaining_actions[LEFT_HAND]) && m_action_points > 0) {
+							attack(m_in_fight, std::min(15, m_action_points));
+						}
+					} else {
+						if(!go(m_enemy_direction)) return;
+						m_enemy_direction = "";
+						search_for_enemy();
+						action();
+					}
+					break;
+				default:
+					break;
+			}
+		} catch (const char * c) { } /* no points left */
 	}
 
   void Human::init_round() {
@@ -174,6 +198,12 @@ namespace game {
   }
 
   void Human::attack(Character * character, int points, Human::slot_t slot) {
+
+		if(character->location() != location()) {
+			Game::out(location()) << name() << " can't attack " << character->name() << "; not in same location." << std::endl;
+			return;
+		}
+
     if(slot > LEFT_HAND) {
       Logging::fatal("Invalid slot specified for attack, only LEFT or RIGHT hand allowed\n");
     }
@@ -208,6 +238,9 @@ namespace game {
   void Human::incoming_attack(Character * character, int damage) {
 		bool blocked = false;
 		int points = std::min(15, m_action_points);
+
+		m_state = IN_FIGHT;
+		m_in_fight = character;
 
 		if(points > 0) {
 			if(m_equipments[LEFT_HAND] != nullptr && m_remaining_actions[LEFT_HAND] > 0) {

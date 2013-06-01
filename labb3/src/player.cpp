@@ -22,7 +22,9 @@ namespace game {
   }
 
   void Player::incoming_attack(Character * character, int damage) {
-
+		m_state = IN_FIGHT;
+		m_in_fight = character;
+		hurt(damage);
   }
 
 	void Player::next_turn() {

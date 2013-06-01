@@ -90,6 +90,8 @@ namespace game {
 		virtual void hurt(int damage); //Apply damage (armor is applied)
 		virtual void reduce_armor(int amount) = 0; // Should reduce armor by given amount
 
+		void search_for_enemy();
+
 		const std::string m_name, m_description;
 		const faction_t m_faction;
 

@@ -55,6 +55,10 @@ namespace game {
 		int life_regen = attribute("life_regen");
 		if(life_regen > 0) regain_life(life_regen);
 
+		search_for_enemy();
+	}
+
+	void Character::search_for_enemy() {
 		if(m_state == IN_FIGHT && location()->contains_character(m_in_fight) == 0) {
 			m_enemy_direction = "";
 			for(auto exit : location()->exits()) {
@@ -124,6 +128,8 @@ namespace game {
 	}
 
 	bool Character::go(const std::string &direction) {
+		if(m_action_points < location()->movement_cost()) throw "More action points needed.";
+
 		Area * new_location = m_location->neighbor(direction);
 		if(new_location != nullptr && m_location->leave(this)) {
 			do_action(location()->movement_cost());
@@ -253,6 +259,8 @@ namespace game {
 	}
 
 	void Character::incoming_attack(Character * character, int damage) {
+		m_state = IN_FIGHT;
+		m_in_fight = character;
 		hurt(damage);
 	}
 
@@ -326,6 +334,7 @@ namespace game {
 		{ "don't", "doesn't" },
 		{ "do" , "does" },
 		{ "have", "has" },
+		{ "are", "is" },
 	};
 
 }
