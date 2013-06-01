@@ -300,8 +300,6 @@ namespace game {
 			if(c->open(Game::player())) {
 				std::cout << "You open " << c->name() << ". Inside you see: " << std::endl;
 				print_items(c->content());
-			} else {
-				std::cout << "You try to open " << c->name() << " but the lid just won't give way." << std::endl;
 			}
 		} else {
 			std::cout << "You can't find any " << d.line << " to open." << std::endl;

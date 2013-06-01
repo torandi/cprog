@@ -7,6 +7,9 @@
 #include "keepable.hpp"
 #include "logging.hpp"
 #include "item.hpp"
+#include "unique_item.hpp"
+#include "character.hpp"
+#include "player.hpp"
 #include <sstream>
 
 namespace game {
@@ -61,6 +64,10 @@ namespace game {
         (*node)["/description"].parse_string(),
         (*node)["/storage_volume"].parse_int()
       );
+		const ConfigNode * key_node  = node->find("/key");
+		if(key_node != nullptr) {
+			container->m_required_key = key_node->parse_string();
+		}
     const ConfigNode * content = node->find("/content");
     if(content != nullptr) {
       for(const ConfigNode * i : content->list()) {
@@ -89,6 +96,21 @@ namespace game {
 		} else {
 			return Item::description();
 		}
+	}
+
+	bool Container::open(Character * character) {
+		if(m_open) return true;
+
+		if(!m_required_key.empty()) {
+			UniqueItem * item = character->have_unique(m_required_key);
+			if (item != nullptr) {
+				Game::out(character->location()) << character->name() << " " << character->verb("use") << " " << item->name() << " to open " << name() << "." << std::endl;
+				return true;
+			} else if(character == Game::player()) {
+				std::cout << "It's locked." << std::endl;
+				return false;
+			} else return false;
+		} else return true;
 	}
 
 }

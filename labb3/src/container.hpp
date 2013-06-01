@@ -12,7 +12,7 @@ namespace game {
 	class Container : public Item {
 		public:
 			virtual bool pick_up(Character * character) const { return false; };
-			virtual bool open(Character * character) { m_open = true; return true; };
+			virtual bool open(Character * character);
 			virtual bool close(Character * character) { m_open = false; return true; };
       virtual bool aquire(Character * character) const { return false; };
 
@@ -41,6 +41,8 @@ namespace game {
 			std::set<Keepable*> m_content;
 
 			bool m_open = false;
+			std::string m_required_key = "";
+
 	};
 };
 
