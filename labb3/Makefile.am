@@ -23,6 +23,7 @@ textrpg_SOURCES = \
 	src/monster.cpp src/monster.hpp \
 	src/input.cpp src/input.hpp \
 	src/string_utils.cpp scr/string_utils.hpp \
+	src/unique_item.cpp scr/unique_item.hpp \
 	src/main.cpp
 
 textrpg_LDADD = -lreadline ${yaml_LIBS}

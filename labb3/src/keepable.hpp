@@ -21,9 +21,9 @@ namespace game {
 
       static Keepable * from_config(const ConfigNode * node);
       Keepable(const std::string & name, const std::string & description, int volume, int weight);
-      protected:
+		protected:
 
-      int m_volume, m_weight;
+      const int m_volume, m_weight;
 
   };
 };
