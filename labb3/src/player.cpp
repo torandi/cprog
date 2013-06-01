@@ -12,7 +12,6 @@ namespace game {
   }
 
   void Player::action() {
-		init_round();
 		char buffer[16];
 		while(m_action_points > 0 && Game::singleton->run()) {
 			sprintf(buffer, "[AP: %d] >> ", m_action_points);

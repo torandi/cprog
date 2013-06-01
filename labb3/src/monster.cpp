@@ -27,7 +27,6 @@ namespace game {
   }
 
   void Monster::action() {
-    init_round();
   }
 
 	void Monster::store(Keepable * item) {

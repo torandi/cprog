@@ -47,6 +47,7 @@ namespace game {
 
 			static Human * from_config(const ConfigNode * node, Area * location);
 			static void parse_equipment(Human * human, const ConfigNode * node);
+			virtual void init_round();
 
 			virtual ~Human();
 		protected:
@@ -62,9 +63,10 @@ namespace game {
 			int m_next_dialog = 0;
 
 			virtual void store(Keepable * item);
-			virtual void init_round();
 			virtual void die();
 			virtual void reduce_armor(int amount);
+
+			virtual bool block(int damage, int points, slot_t weapon_hand);
 
 	};
 

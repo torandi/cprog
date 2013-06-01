@@ -55,6 +55,7 @@ namespace game {
 		while(m_run) {
 			//ROLL FOR INITIATIVE SUCKERS!
 			std::for_each(characters.begin(), characters.end(), std::bind(&Character::roll_initiative, _1));
+      std::for_each(characters.begin(), characters.end(), std::bind(&Character::init_round, _1));
 			std::sort(characters.begin(), characters.end(), [](Character * c1, Character * c2) { return c1->initiative() > c2->initiative(); } );
 
 			for(Character * c : characters) {

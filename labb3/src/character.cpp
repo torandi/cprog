@@ -146,7 +146,9 @@ namespace game {
 	}
 
 	int Character::armor_protection() const {
-		return attribute("armor") / 10;
+		int a = attribute("armor") / 10;
+		if(a == 0 && attribute("armor") > 0) return 1;
+		else return a;
 	}
 
 	void Character::do_action(int cost) {
@@ -159,7 +161,14 @@ namespace game {
 
 	Game::try_result_t Character::try_do_action(int cost) {
 		do_action(cost);
-		return Game::try_action(cost + m_action_mod + attribute("action_mod"));
+
+		m_action_mod += m_tmp_action_mod;
+
+		Game::try_result_t res = Game::try_action(cost + m_action_mod + attribute("action_mod"));
+		m_action_mod -= m_tmp_action_mod;
+		m_tmp_action_mod = 0;
+
+		return res;
 	}
 
 	void Character::take(Keepable * item, Container * from) {
@@ -217,6 +226,7 @@ namespace game {
 	}
 
 	void Character::hurt(int damage) {
+		if(damage <= 0) return;
 		if(m_state == DEAD) return;
 		damage = std::max(0, damage - armor_protection());
 		if(damage == 0) {
@@ -280,10 +290,7 @@ namespace game {
 		m_state = IN_FIGHT;
 		m_in_fight = character;
 
-		m_action_mod += m_tmp_action_mod;
 		Game::try_result_t roll = try_do_action(points);
-		m_action_mod -= m_tmp_action_mod;
-		m_tmp_action_mod = 0;
 
 		if(roll < Game::FAIL) {
 			int dmg = extra + extra_damage();
@@ -298,7 +305,7 @@ namespace game {
 
 			character->incoming_attack(this, dmg);
 		} else if(roll == Game::FATAL) {
-			Game::out(location()) << name() << " " << verb("miss") << " " << character->name() << " fataly. Next attack have -5 to succeed." << std::endl;
+			Game::out(location()) << name() << " " << verb("miss") << " " << character->name() << " fataly. Next attack or block have -5 to succeed." << std::endl;
 			m_tmp_action_mod = -5;
 		} else {
 			Game::out(location()) << name() << " " << verb("miss") << " " << character->name() << "." << std::endl;

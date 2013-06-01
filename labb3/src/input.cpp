@@ -397,6 +397,8 @@ namespace game {
 			return;
 		}
 		default_attack = points;
+		std::cout << "Default attack set to " << points << std::endl;
+
 	}
 
 	static void cmd_attack(Human::slot_t slot, ParseData &d) {

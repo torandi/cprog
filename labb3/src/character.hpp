@@ -76,15 +76,13 @@ namespace game {
 
 		Character * in_fight_with() const;
 
+		virtual void init_round();
 		virtual ~Character();
 	protected:
 		Character(const std::string &name, const std::string &description, faction_t faction, std::map<std::string, int> attributes, Area * location);
 
 		virtual void store(Keepable  * item) = 0;
 		virtual bool use_action(int hand);
-
-		/* Called first in action to initialize values for the round */
-		virtual void init_round();
 
 		virtual void die() = 0; //called when the character dies
 		virtual void roll_attack(Game::dice_t dice, int points, Character * on_character, int op, int extra, const std::string &weapon_text = "");

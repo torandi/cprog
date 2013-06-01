@@ -69,7 +69,7 @@ namespace game {
 	bool Human::equip(Equipment * item, Human::slot_t slot) {
 		if(m_inventory.count(item) == 0) {
 			if(carrying_capacity() - m_inventory_weight < item->weight()) {
-				Game::out(location()) << name() << " can't store " << item->name() << ", carrying to much weight." << std::endl;
+				Game::out(location()) << name() << " can't store " << item->name() << ", carrying too much weight." << std::endl;
 				return false;
 			} else {
 				m_inventory_weight += item->weight();
@@ -141,7 +141,6 @@ namespace game {
 	}
 
 	void Human::action() {
-		init_round();
 	}
 
   void Human::init_round() {
@@ -207,13 +206,70 @@ namespace game {
   }
 
   void Human::incoming_attack(Character * character, int damage) {
-		if(m_remaining_actions[LEFT_HAND] > 0) {
-			//attack(character, points, LEFT_HAND);
-		} else if(m_remaining_actions[RIGHT_HAND] > 0) {
-			//attack(character, points, RIGHT_HAND);
+		bool blocked = false;
+		int points = std::min(15, m_action_points);
+
+		if(points > 0) {
+			if(m_equipments[LEFT_HAND] != nullptr && m_remaining_actions[LEFT_HAND] > 0) {
+				blocked = block(damage, points, LEFT_HAND);
+			} else if(m_remaining_actions[RIGHT_HAND] > 0) {
+				blocked = block(damage, points, RIGHT_HAND);
+			} else if( m_remaining_actions[LEFT_HAND] > 0) {
+				blocked = block(damage, points, LEFT_HAND);
+			}
 		}
-		hurt(damage);
+		if(!blocked) hurt(damage);
   }
+
+	bool Human::block(int damage, int points, slot_t slot) {
+		if(m_action_points < points) {
+			throw "More action points needed.";
+		}
+
+		if(!use_action(slot)) {
+			Game::out(location()) << name() << " " << verb("don't") << " have any actions left in " << slot_names[slot] << "." << std::endl;
+			return false;
+		}
+
+		std::string weapon_name = slot_names[slot];
+		Equipment * weapon = m_equipments[slot];
+		if(weapon != nullptr) weapon_name = weapon->raw_name();
+
+		Game::try_result_t roll = try_do_action(points);
+		switch(roll) {
+			case Game::PERFECT:
+				Game::out(location()) << name()<< " " << verb("block") << " perfectly with " << weapon_name << ". All damage absorbed." << std::endl;
+				return true;
+			case Game::SUCCESS:
+				if(weapon != nullptr) {
+					int dmg = damage - std::max(1, weapon->effect("durability") / 10);
+					if(dmg > 0) {
+						Game::out(location()) << name() << " " << verb("block") << " with " << weapon_name << ". " << weapon_name << " take " << dmg << " damage." << std::endl;
+						weapon->reduce("durability", dmg);
+						if(weapon->effect("durability") <= 0) {
+							Game::out(location()) << genitive() << " " << weapon_name << " have taken too much damage and falls apart." << std::endl;
+							m_inventory_weight -= weapon->weight();
+							m_equipments[slot] = nullptr;
+							delete weapon;
+						}
+					} else {
+						Game::out(location()) << name() << " " << verb("block") << " with " << weapon_name << ". " << weapon_name << " absorbs all damage." << std::endl;
+					}
+				} else {
+					Game::out(location()) << name() << " " << verb("block") << " with " << weapon_name << ", reducing the damage with 1." << std::endl;
+					hurt(damage - 1);
+				}
+				return true;
+			case Game::FAIL:
+				Game::out(location()) << name() << " " << verb("fail") << " to block the attack." << std::endl;
+				return false;
+			case Game::FATAL:
+				Game::out(location()) << name() << " " << verb("fail") << " misserably to block and have -5 on next attack or block." << std::endl;
+				m_tmp_action_mod = -5;
+				return false;
+		}
+		return false;
+	}
 
 	Human * Human::from_config(const ConfigNode * node, Area * location) {
 		std::string name = (*node)["/name"].parse_string();
