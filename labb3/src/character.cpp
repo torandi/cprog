@@ -265,7 +265,7 @@ namespace game {
 		return m_remaining_actions[hand];
 	}
 
-	void Character::incoming_attack(Character * character, int damage) {
+	void Character::incoming_attack(Character * character, int damage, bool critical_hit) {
 		hurt(damage);
 	}
 
@@ -312,18 +312,20 @@ namespace game {
 
 		if(roll < Game::FAIL) {
 			int dmg = extra + extra_damage();
+      bool critical_hit = false;
 			dmg += Game::roll_dice(dice, op);
 
 			std::string extra = "";
 			if(roll == Game::PERFECT) {
 				dmg += Game::roll_dice(dice, op);
 				extra = " Critical hit!";
+        critical_hit = true;
 			}
 			character->pre_damage(this);
 
 			Game::out(location()) << name() << " " << verb("attack") << " "<< character->name() << weapon_text << " for " << dmg << " damage." << extra << std::endl;
 
-			character->incoming_attack(this, dmg);
+			character->incoming_attack(this, dmg, critical_hit);
 		} else if(roll == Game::FATAL) {
 			Game::out(location()) << name() << " " << verb("miss") << " " << character->name() << " fataly. Next attack or block have -5 to succeed." << std::endl;
 			m_tmp_action_mod = -5;

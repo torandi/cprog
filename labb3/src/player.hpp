@@ -14,7 +14,7 @@ namespace game {
 
 			virtual void attack(Character * character, int points);
 			virtual void attack(Character * character, int points, slot_t weapon_hand);
-      virtual void incoming_attack(Character * character, int damage);
+      virtual void incoming_attack(Character * character, int damage, bool critical_hit);
 
       virtual void action();
 			virtual std::string verb(const std::string &verb) const;

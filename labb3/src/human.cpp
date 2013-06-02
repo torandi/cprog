@@ -247,7 +247,7 @@ namespace game {
 
   }
 
-  void Human::incoming_attack(Character * character, int damage) {
+  void Human::incoming_attack(Character * character, int damage, bool critical_hit) {
 		bool blocked = false;
 		int points = std::min(15, m_action_points);
 
@@ -261,9 +261,16 @@ namespace game {
 				blocked = block(damage, points, RIGHT_HAND);
 			} else if( m_remaining_actions[LEFT_HAND] > 0) {
 				blocked = block(damage, points, LEFT_HAND);
-			}
-		}
-		if(!blocked) hurt(damage);
+			} else if (!critical_hit) {
+        blocked = passive_protection(character, damage);
+      }
+		} else if (!critical_hit) {
+      blocked = passive_protection(character, damage);
+    }
+
+		if(!blocked) {
+      hurt(damage);
+    }
   }
 
 	bool Human::block(int damage, int points, slot_t slot) {
@@ -283,27 +290,26 @@ namespace game {
 		Game::try_result_t roll = try_do_action(points);
 		switch(roll) {
 			case Game::PERFECT:
-				Game::out(location()) << name()<< " " << verb("block") << " perfectly with " << weapon_name << ". All damage absorbed." << std::endl;
+				Game::out(location()) << name()<< " " << verb("block") << " perfectly with " << weapon_name << ". All damage absorbed, next attack or block have +5." << std::endl;
+        m_tmp_action_mod = 5;
 				return true;
 			case Game::SUCCESS:
-				if(weapon != nullptr) {
-					int dmg = damage - std::max(1, weapon->effect("durability") / 10);
-					if(dmg > 0) {
-						Game::out(location()) << name() << " " << verb("block") << " with " << weapon_name << ". " << weapon_name << " take " << dmg << " damage." << std::endl;
-						weapon->reduce("durability", dmg);
-						if(weapon->effect("durability") <= 0) {
-							Game::out(location()) << genitive() << " " << weapon_name << " have taken too much damage and falls apart." << std::endl;
-							m_inventory_weight -= weapon->weight();
-							m_equipments[slot] = nullptr;
-							delete weapon;
-						}
-					} else {
-						Game::out(location()) << name() << " " << verb("block") << " with " << weapon_name << ". " << weapon_name << " absorbs all damage." << std::endl;
-					}
-				} else {
-					Game::out(location()) << name() << " " << verb("block") << " with " << weapon_name << ", reducing the damage with 1." << std::endl;
-					hurt(damage - 1);
-				}
+        Game::out(location()) << name() << " " << verb("block") << " with " << weapon_name;
+        if(weapon != nullptr) {
+          int dmg;
+          if((dmg = apply_block_damage(slot, damage, weapon)) > 0) {
+            Game::out(location()) << ". " << weapon_name << " takes " << dmg << " damage." << std::endl;
+            if(m_equipments[slot] == nullptr) {
+              Game::out(location()) << genitive() << " " << weapon_name <<
+                " have taken too much damage and falls apart." << std::endl;
+            }
+          } else {
+            Game::out(location()) << ". " << weapon_name << " absorbs all damage." << std::endl;
+          }
+        } else {
+          Game::out(location()) << ", reducing the damage with 1." << std::endl;
+          hurt(damage - 1);
+        }
 				return true;
 			case Game::FAIL:
 				Game::out(location()) << name() << " " << verb("fail") << " to block the attack." << std::endl;
@@ -315,6 +321,58 @@ namespace game {
 		}
 		return false;
 	}
+
+  int Human::apply_block_damage(slot_t slot, int damage, Equipment * weapon) {
+      int dmg = damage - std::max(1, weapon->effect("durability") / 10);
+      if(dmg > 0) {
+        weapon->reduce("durability", dmg);
+        if(weapon->effect("durability") <= 0) {
+          m_inventory_weight -= weapon->weight();
+          m_equipments[slot] = nullptr;
+          delete weapon;
+        }
+      }
+      return dmg;
+  }
+
+  bool Human::passive_protection(Character * character, int damage) {
+    int pp;
+    Equipment * weapon = nullptr;
+    slot_t slot;
+
+    if(m_equipments[RIGHT_HAND] != nullptr && m_equipments[RIGHT_HAND]->effect("passive_protection") > 0) {
+      weapon = m_equipments[RIGHT_HAND];
+      slot = RIGHT_HAND;
+    }
+
+    if(m_equipments[LEFT_HAND] != nullptr && (pp = m_equipments[LEFT_HAND]->effect("passive_protection")) > 0) {
+      if(weapon == nullptr || pp >= weapon->effect("passive_protection")) {
+        weapon = m_equipments[LEFT_HAND];
+        slot = LEFT_HAND;
+      }
+    }
+
+    if(weapon != nullptr) {
+      pp = weapon->effect("passive_protection");
+      if(Game::try_action(pp) < Game::FAIL) {
+        int dmg;
+        Game::out(location()) << character->genitive() << " attack " << character->verb("hit") << " " <<
+          genitive() << " " << weapon->raw_name() << " (Passive Protection). ";
+
+        if((dmg = apply_block_damage(slot, damage, weapon)) > 0) {
+          Game::out(location()) << weapon->raw_name() << " takes " << dmg << " damage." << std::endl;
+          if(m_equipments[slot] == nullptr) {
+            Game::out(location()) << genitive() << " " << weapon->raw_name() <<
+              " have taken too much damage and falls apart." << std::endl;
+          }
+        } else {
+          Game::out(location()) << weapon->raw_name() << " absorbs all damage." << std::endl;
+        }
+        return true;
+      }
+    }
+    return false;
+  }
 
 	Human * Human::from_config(const ConfigNode * node, Area * location) {
 		std::string name = (*node)["/name"].parse_string();

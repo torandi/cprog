@@ -22,13 +22,16 @@ namespace game {
 		if(Game::singleton->run()) std::cout << "Your turn ends." << std::endl;
   }
 
-  void Player::incoming_attack(Character * character, int damage) {
+  void Player::incoming_attack(Character * character, int damage, bool critical_hit) {
 		m_state = IN_FIGHT;
 		m_in_fight = character;
 
 		if(m_block_decision.first > -1) {
 			if(block(damage, m_block_decision.second /* points */, static_cast<Human::slot_t>(m_block_decision.first) /* weapon hand */)) return;
-		}
+		} else if(!critical_hit && passive_protection(character, damage)) {
+      return;
+    }
+
 		hurt(damage);
 	}
 

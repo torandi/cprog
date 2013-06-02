@@ -50,7 +50,7 @@ namespace game {
 		virtual void action() = 0;
 
 		virtual void attack(Character * character, int points) = 0;
-		virtual void incoming_attack(Character * character, int damage);
+		virtual void incoming_attack(Character * character, int damage, bool critical_hit);
 		virtual bool go(const std::string &direction);
 
 		virtual int attribute(const std::string &attr, int default_value = -1) const;

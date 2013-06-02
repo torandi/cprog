@@ -162,6 +162,11 @@ items:
     volume: 1
     weight: 1
 
+equipment_prefixes:
+  sharp:
+    name: Sharp
+
+
 random_items:
   - longsword
   - longsword

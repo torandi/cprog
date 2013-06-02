@@ -34,7 +34,7 @@ namespace game {
       virtual void action();
       virtual void attack(Character * character, int points);
       virtual void attack(Character * character, int points, slot_t weapon_hand);
-      virtual void incoming_attack(Character * character, int damage);
+      virtual void incoming_attack(Character * character, int damage, bool critical_hit);
 			virtual UniqueItem* have_unique(const std::string &id) const;
 
       virtual std::map<std::string, int> attributes() const;
@@ -68,6 +68,8 @@ namespace game {
 			virtual void reduce_armor(int amount);
 
 			virtual bool block(int damage, int points, slot_t weapon_hand);
+      virtual int apply_block_damage(slot_t slot, int damage, Equipment * weapon);
+      virtual bool passive_protection(Character * character, int damage);
 
 	};
 
