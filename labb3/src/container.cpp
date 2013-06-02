@@ -83,9 +83,15 @@ namespace game {
     }
 
 
-    content = node->find("/random_content");
+    content = node->find("/random_items");
     if(content != nullptr) {
-      for(Keepable * item : WorldParser::random_items((*content)["/items"].list(), (*content)["/count"].parse_int())) {
+      Config items_config = Config::from_filename("game/items.yaml");
+      int rnd_count = content->parse_int();
+      content = node->find("/random_content");
+      if(content == nullptr) {
+        content = &items_config["/random_items"];
+      }
+      for(Keepable * item : WorldParser::random_items(content->list(), rnd_count)) {
         if(!container->put(item)) delete item;
       }
     }
