@@ -21,7 +21,7 @@ namespace game {
 			virtual std::string name() const;
 			virtual std::string description() const;
 
-      std::string raw_name() const { return m_name; };
+      virtual std::string raw_name() const { return m_name; };
 
 			virtual bool use(Character * character) const;
 

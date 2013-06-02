@@ -54,7 +54,7 @@ items:
       action_points: !rnd 20,30
       weapon_actions: !rnd 2,4
       damage_extra: !rnd 5,10
-      damage_overpower: !rnd 6,9
+      damage_overpower: !rnd 7,9
       durability: 130
   small_shield: !equipment
     type: off_hand
@@ -163,9 +163,55 @@ items:
     weight: 1
 
 equipment_prefixes:
-  sharp:
-    name: Sharp
+  one_hand: &one_hand_prefixes
+    - !extra_damage
+      - name: Sharp
+        attributes:
+          damage_extra: 1
+      - name: Fine
+        attributes:
+          damage_extra: 2
+      - name: Warrior's
+        attributes:
+          damage_extra: 3
+      - name: Soldiers's
+        attributes:
+          damage_extra: 4
+      - name: Knight's
+        attributes:
+          damage_extra: !rnd 5,6
+      - name: Lord's
+        attributes:
+          damage_extra: !rnd 7,8
+      - name: Master's
+        attributes:
+          damage_extra: !rnd 9,10
+      - name: Grandmaster's
+        attributes:
+          damage_extra: !rnd 11,12
+    - !overpower
+      - name: Deadly
+        attributes:
+          damage_overpower: -1
+      - name: Vicious
+        attributes:
+          damage_overpower: -2
+      - name: Brutal
+        attributes:
+          damage_overpower: -3
+      - name: Massive
+        attributes:
+          damage_overpower: -4
 
+  two_hand: *one_hand_prefixes
+
+default_prefix_probability:
+  - 15
+  - 10
+  - 1
+  #- 30
+  #- 10
+  #- 1
 
 random_items:
   - longsword

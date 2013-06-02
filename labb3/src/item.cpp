@@ -12,7 +12,7 @@
 
 namespace game {
 	std::string Item::name() const {
-		return m_name;
+		return raw_name();
 	}
 	std::string Item::description() const {
 		return m_description;
