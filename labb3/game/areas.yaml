@@ -15,8 +15,9 @@
       description: Full of niice loot
       storage_volume: 100
       prefix_probability:
-        - 20
+        - 2
         - 10
+        - 5
         - 5
       random_content:
         count: 20

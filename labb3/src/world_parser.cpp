@@ -38,9 +38,20 @@ namespace game {
         int num_items = static_cast<int>(group_node->list().size());
         int index = 0;
 
+        item_prefix_t::type_t pfx_type;
+        if(group_node->tag() == "!prefix") {
+          pfx_type = item_prefix_t::PREFIX;
+        } else if(group_node->tag() == "!affix") {
+          pfx_type = item_prefix_t::AFFIX;
+        } else {
+          std::cout << "Invalid tag " << group_node->tag() << " for prefix group" << std::endl;;
+          abort();
+        }
+
         for(const ConfigNode * prefix_node : group_node->list()) {
           /* Prefix */
-          item_prefix_t prefix = { (*prefix_node)["/name"].parse_string(), {} };
+
+          item_prefix_t prefix = { (*prefix_node)["/name"].parse_string(), {}, pfx_type};
           for(auto attr : (*prefix_node)["/attributes"].map()) {
             prefix.attributes[attr.first] = attr.second->parse_int();
           }
@@ -167,20 +178,23 @@ namespace game {
       groups.push_back(i);
     }
 
-    std::uniform_int_distribution<unsigned int> rnd_group(0, static_cast<unsigned int>(groups.size()) - 1);
 
     std::vector<int> prob_distribution;
     unsigned int c = 0;
     for(const ConfigNode * node : prefix_probability->list()) {
-      prob_distribution.push_back(node->parse_int());
+      if(c <= groups.size()) {
+        prob_distribution.push_back(node->parse_int());
+      } else {
+        prob_distribution[groups.size()-1] += node->parse_int();
+      }
       ++c;
-      if(c >= groups.size()) break;
     }
 
     std::discrete_distribution<int> num_prefixes_distr(prob_distribution.begin(), prob_distribution.end());
     int num_prefixes = num_prefixes_distr(generator);
     for(int i=0; i < num_prefixes; ++i) {
-      int g_index = rnd_group(generator) % static_cast<int>(groups.size());
+      std::uniform_int_distribution<unsigned int> rnd_group(0, static_cast<unsigned int>(groups.size()) - 1);
+      int g_index = rnd_group(generator);
       auto g_it = groups.begin() + g_index;
       int g = *g_it;
       groups.erase(g_it);

@@ -164,7 +164,7 @@ items:
 
 equipment_prefixes:
   one_hand: &one_hand_prefixes
-    - !extra_damage
+    - !prefix #extra_damage
       - name: Sharp
         attributes:
           damage_extra: 1
@@ -189,7 +189,7 @@ equipment_prefixes:
       - name: Grandmaster's
         attributes:
           damage_extra: !rnd 11,12
-    - !overpower
+    - !prefix #overpower
       - name: Deadly
         attributes:
           damage_overpower: -1
@@ -202,16 +202,24 @@ equipment_prefixes:
       - name: Massive
         attributes:
           damage_overpower: -4
+    - !affix #strength
+      - name: Of Strength
+        attributes:
+          strength: !rnd 1,5
+      - name: Of Brutal Strength
+        attributes:
+          strength: !rnd 5,10
+      - name: Of Power
+        attributes:
+          strength: !rnd 10,15
 
   two_hand: *one_hand_prefixes
 
 default_prefix_probability:
-  - 15
-  - 10
   - 1
-  #- 30
-  #- 10
-  #- 1
+  - 1
+  - 1
+  - 10
 
 random_items:
   - longsword

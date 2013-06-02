@@ -80,7 +80,11 @@ namespace game {
     rarity_t rarity = static_cast<rarity_t>(prefixes.size());
 
     for(WorldParser::item_prefix_t & pfx : prefixes) {
-      name = pfx.name + " " + name;
+      if(pfx.type == WorldParser::item_prefix_t::PREFIX) {
+        name = pfx.name + " " + name;
+      } else {
+        name = name + " " + pfx.name;
+      }
       for(auto attr : pfx.attributes) {
         effects[attr.first] += attr.second;
       }

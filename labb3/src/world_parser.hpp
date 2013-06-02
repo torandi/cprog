@@ -22,6 +22,7 @@ namespace game {
       struct item_prefix_t {
         std::string name;
         std::map<std::string, int> attributes;
+        enum type_t { PREFIX, AFFIX } type;
       };
 
 
