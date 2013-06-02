@@ -1,9 +1,8 @@
-
 health_potion:
-  count: !rnd -3,5
+  count: !rnd -3,1
   hp: !rnd 5,30
 
-item_count: !rnd -2, 5
+item_count: !rnd -50, 5
 
 containers:
   - name: Old Chest
@@ -329,6 +328,28 @@ equipment_prefixes:
       - name: Of Protection
         attributes:
           passive_protection: !rnd 2,5
+    - !prefix #weapon_actions
+      - name: Steel
+        attributes:
+          weapon_actions: 1
+      - name: Silver
+        attributes:
+          weapon_actions: 2
+      - name: Gold
+        attributes:
+          weapon_actions: 3
+      - name: Platinum
+        attributes:
+          weapon_actions: 4
+      - name: Meteoric
+        attributes:
+          weapon_actions: 5
+      - name: Strange
+        attributes:
+          weapon_actions: 6
+      - name: Weird
+        attributes:
+          weapon_actions: 7
   armor:
     - !suffix #can only have one suffix
       - name: Of Strength

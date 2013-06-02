@@ -1,5 +1,5 @@
 faction: civilian
-location: forest
+location: hut
 attributes:
   action_points: 5
   strength: !rnd 1,3

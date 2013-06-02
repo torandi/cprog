@@ -1,4 +1,102 @@
 - !area
+  id: hut
+  name: Your Hut
+  description: It's small hut in the forest. It's not much for the world, but it's your's.
+  movement_cost: 1
+  exits:
+    west: garden
+  items:
+    - !container
+      name: Chest
+      description: A chest with the only things you own in the world.
+      storage_volume: 200
+      prefix_probability: #Disable better items for this chest
+        - 1
+        - 0
+        - 0
+        - 0
+      content:
+        - !equipment
+          type: one_hand
+          name: Rusty Longsword
+          description: A rusty longsword. It has seen better days.
+          volume: !rnd 4,5
+          weight: !rnd 1,2
+          effects:
+            initiative: !rnd -2,1
+            action_points: !rnd 1,5
+            weapon_actions: !rnd 1,2
+            durability: 40
+        - !equipment
+          type: off_hand
+          name: Untrustworthy Small Shield
+          description: A small shield with some cracks in it. It's the only thing that saves you.
+          volume: !rnd 3,3
+          weight: !rnd 1,2
+          effects:
+            initiative: !rnd -5,1
+            durability: !rnd 30,40
+            passive_protection: 2
+            weapon_actions: 1
+        - !equipment
+          type: armor
+          name: Moth-Eaten Pelt armor
+          description: A disgusting pelt, but it might save your life.
+          volume: !rnd 3,5
+          weight: !rnd 1,2
+          effects:
+            initiative: !rnd -5,1
+            armor: 10
+
+- !area
+  id: garden
+  name: The Garden
+  description: It's your garden. It looks like you have neglected it for the last decenium.
+  movement_cost: 5
+  exits:
+    east: hut
+    west: forest_crossroad
+    south: backyard
+  #npcs:
+   #  - !human, # garden gnome
+
+- !area
+  id: backyard
+  name: Your backyard.
+  description: Yuck! Trash everywhere.
+  movement_cost: 5
+  exits:
+    north: garden
+
+- !area
+  id: forest_crossroad
+  name: Forest Crossroads
+  description: The forest is light and the trees stand sparse. Two paths cross here.
+  movement_cost: 5
+  exits:
+    east: garden
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+######################## OLD #############333
+
+
+- !area
   id: forest
   name: The Forest
   description: It is a dark and wet forest.
