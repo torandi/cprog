@@ -221,7 +221,7 @@ namespace game {
     }
 
 		if(m_equipments[slot] != nullptr && m_equipments[slot]->type() > Equipment::TWO_HAND) {
-			Game::out(location()) << name() << " " << verb("can't") << " attack with " << m_equipments[slot]->raw_name() << "." << std::endl;
+			Game::out(location()) << name() << " " << verb("can't") << " attack with " << m_equipments[slot]->name() << "." << std::endl;
 			return;
 		}
 
@@ -239,7 +239,7 @@ namespace game {
 			roll_attack(Game::T10, points, character,
 					m_equipments[slot]->effect("damage_overpower", -1),
 					m_equipments[slot]->effect("damage_extra"),
-					" with " + m_equipments[slot]->raw_name()
+					" with " + m_equipments[slot]->name()
 				);
 		} else {
 			roll_attack(Game::T5, points, character, -1, 0, " with " + slot_names[slot]);
@@ -285,7 +285,7 @@ namespace game {
 
 		std::string weapon_name = slot_names[slot];
 		Equipment * weapon = m_equipments[slot];
-		if(weapon != nullptr) weapon_name = weapon->raw_name();
+		if(weapon != nullptr) weapon_name = weapon->name();
 
 		Game::try_result_t roll = try_do_action(points);
 		switch(roll) {
@@ -357,16 +357,16 @@ namespace game {
       if(Game::try_action(pp) < Game::FAIL) {
         int dmg;
         Game::out(location()) << character->genitive() << " attack " << character->verb("hit") << " " <<
-          genitive() << " " << weapon->raw_name() << " (Passive Protection). ";
+          genitive() << " " << weapon->name() << " (Passive Protection). ";
 
         if((dmg = apply_block_damage(slot, damage, weapon)) > 0) {
-          Game::out(location()) << weapon->raw_name() << " takes " << dmg << " damage." << std::endl;
+          Game::out(location()) << weapon->name() << " takes " << dmg << " damage." << std::endl;
           if(m_equipments[slot] == nullptr) {
-            Game::out(location()) << genitive() << " " << weapon->raw_name() <<
+            Game::out(location()) << genitive() << " " << weapon->name() <<
               " have taken too much damage and falls apart." << std::endl;
           }
         } else {
-          Game::out(location()) << weapon->raw_name() << " absorbs all damage." << std::endl;
+          Game::out(location()) << weapon->name() << " absorbs all damage." << std::endl;
         }
         return true;
       }
@@ -465,7 +465,7 @@ namespace game {
 		str << Character::description() << std::endl
 			<< "Equipment: " <<std::endl;
 		for(const Equipment * eq : m_equipments) {
-			if(eq != nullptr) str << eq->raw_name() << std::endl;
+			if(eq != nullptr) str << eq->name() << std::endl;
 		}
 		return str.str();
 	}

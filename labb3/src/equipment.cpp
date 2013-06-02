@@ -101,17 +101,17 @@ namespace game {
 			);
 	}
 
-  std::string Equipment::raw_name() const {
+  std::string Equipment::name() const {
     std::stringstream str;
     switch(m_rarity) {
       case MAGIC:
         str << blue;
         break;
       case RARE:
-        str << yellow;
+        str << purple;
         break;
       case LEGENDARY:
-        str << purple;
+        str << brown;
         break;
       default:
         break;

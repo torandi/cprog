@@ -32,9 +32,9 @@ namespace game {
 			);
 	}
 
-	std::string Keepable::name() const {
+	std::string Keepable::description() const {
 		std::stringstream str;
-		str << Item::name() << " [ Weight: " << weight() << "kg , Volume: " << volume() << " ]";
+		str << Item::description() << " [ Weight: " << weight() << "kg , Volume: " << volume() << " ]";
     return str.str();
 	}
 }

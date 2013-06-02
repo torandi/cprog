@@ -18,10 +18,10 @@ namespace game {
 			 * Returns true if item should be aquired, false if it should be deleted
 			 */
 			virtual bool aquire(Character * character) const = 0;
-			virtual std::string name() const;
+      virtual std::string name() const;
 			virtual std::string description() const;
 
-      virtual std::string raw_name() const { return m_name; };
+      std::string raw_name() const { return m_name; };
 
 			virtual bool use(Character * character) const;
 

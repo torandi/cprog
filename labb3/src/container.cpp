@@ -70,6 +70,8 @@ namespace game {
 			container->m_required_key = key_node->parse_string();
 		}
 
+    WorldParser::current_prefix_probability = node->find("/prefix_probability");
+
     const ConfigNode * content = node->find("/content");
     if(content != nullptr) {
       for(const ConfigNode * i : content->list()) {
@@ -80,12 +82,16 @@ namespace game {
       }
     }
 
+
     content = node->find("/random_content");
     if(content != nullptr) {
       for(Keepable * item : WorldParser::random_items((*content)["/items"].list(), (*content)["/count"].parse_int())) {
         if(!container->put(item)) delete item;
       }
     }
+
+    WorldParser::current_prefix_probability = nullptr;
+
     return container;
   }
 

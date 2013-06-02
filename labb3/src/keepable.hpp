@@ -15,7 +15,7 @@ namespace game {
       virtual int volume() const;
       virtual int weight() const;
 
-      virtual std::string name() const;
+      virtual std::string description() const;
 
       virtual ~Keepable() { };
 

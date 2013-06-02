@@ -32,7 +32,7 @@ namespace game {
       };
 
 
-      virtual std::string raw_name() const;
+      virtual std::string name() const;
 			virtual std::string description() const;
 			virtual const std::map<std::string, int> &effects() const;
 			virtual int effect(const std::string &attribute, int default_value=0) const;

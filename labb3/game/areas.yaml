@@ -14,23 +14,13 @@
       name: Better Chest
       description: Full of niice loot
       storage_volume: 100
-      prefix_probability:
-        - 2
-        - 10
-        - 5
-        - 5
       random_content:
         count: 20
         items:
           - dagger
           - longsword
           - two_hand_sword
-#- chainmail
-#- medium_shield
-#         - large_shield
-#         - ring
-#         - ring
-#         - ring
+          - chainmail
 - !area
   id: bridge
   name: A Bridge

@@ -13,7 +13,7 @@ containers:
     description: A anique chest
     storage_volume: !rnd 20,30
   - name: Large chest
-    description: A large chest, you could probably store a person in it
+    description: A large chest, you could probably store a person in it.
     storage_volume: !rnd 40,50
 
 items:
@@ -33,7 +33,7 @@ items:
   dagger: !equipment
     type: one_hand
     name: Dagger
-    description: A small sharp dagger, dualwielding this would give you some preeetty nice attack speed
+    description: A small sharp dagger, dualwielding this would give you some preeetty nice attack speed.
     volume: !rnd 2,3
     weight: !rnd 1,2
     effects:
@@ -46,7 +46,7 @@ items:
   two_hand_sword: !equipment
     type: two_hand
     name: Two Hand Sword
-    description: A massive two hand sword. It looks brutal
+    description: A massive two hand sword. It looks brutal.
     volume: !rnd 6,10
     weight: !rnd 5,7
     effects:
@@ -59,7 +59,7 @@ items:
   small_shield: !equipment
     type: off_hand
     name: Small Shield
-    description: A small shield
+    description: A small shield.
     volume: !rnd 3,5
     weight: !rnd 1,3
     effects:
@@ -71,7 +71,7 @@ items:
   medium_shield: !equipment
     type: off_hand
     name: Medium Shield
-    description: A shield
+    description: A shield.
     volume: !rnd 6,8
     weight: !rnd 4,7
     effects:
@@ -83,7 +83,7 @@ items:
   large_shield: !equipment
     type: off_hand
     name: Large Shield
-    description: A really large shield, just having it equipped increases your chances of not beeing hit
+    description: A really large shield, just having it equipped increases your chances of not beeing hit.
     volume: !rnd 9,10
     weight: !rnd 8,10
     effects:
@@ -130,7 +130,7 @@ items:
       armor: !rnd 120, 160
   plate_armor: !equipment
     type: armor
-    name: Full Plate armor
+    name: Plate armor
     description:
     volume: !rnd 10,15
     weight: !rnd 20,25
@@ -552,22 +552,19 @@ equipment_prefixes:
 
 
 default_prefix_probability:
-  - 1
-  - 1
-  - 1
+  - 200
+  - 80
   - 10
+  - 5
 
 random_items:
   - longsword
   - longsword
-  - longsword
+  - two_hand_sword
+  - two_hand_sword
   - dagger
   - dagger
   - dagger
-  - dagger
-  - dagger
-  - small_shield
-  - small_shield
   - small_shield
   - small_shield
   - small_shield
@@ -577,17 +574,14 @@ random_items:
   - backpack
   - backpack
   - backpack
-  - backpack
-  - backpack
   - ring
   - ring
+  - ring
   - pelt_armor
   - pelt_armor
-  - pelt_armor
-  - pelt_armor
-  - leather_armor
   - leather_armor
   - leather_armor
   - metal_leather_armor
   - metal_leather_armor
   - chainmail
+  - plate_armor
