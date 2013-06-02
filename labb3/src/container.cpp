@@ -10,6 +10,7 @@
 #include "unique_item.hpp"
 #include "character.hpp"
 #include "player.hpp"
+#include "world_parser.hpp"
 #include <sstream>
 
 namespace game {
@@ -68,6 +69,7 @@ namespace game {
 		if(key_node != nullptr) {
 			container->m_required_key = key_node->parse_string();
 		}
+
     const ConfigNode * content = node->find("/content");
     if(content != nullptr) {
       for(const ConfigNode * i : content->list()) {
@@ -75,6 +77,13 @@ namespace game {
         if(item != nullptr) {
           if(!container->put(item)) delete item;
         }
+      }
+    }
+
+    content = node->find("/random_content");
+    if(content != nullptr) {
+      for(Keepable * item : WorldParser::random_items((*content)["/items"].list(), (*content)["/count"].parse_int())) {
+        if(!container->put(item)) delete item;
       }
     }
     return container;

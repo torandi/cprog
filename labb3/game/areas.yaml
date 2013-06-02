@@ -39,15 +39,21 @@
       description: It's locked. You will need teh key!
       storage_volume: 100
       key: teh_key
-      content:
-        - dagger
-        - dagger
-        - two_hand_sword
-        - chainmail
-        - large_shield
-        - ring
-        - ring
-        - ring
+      random_content:
+        count: !rnd 3,5
+        items:
+          - dagger
+          - dagger
+          - dagger
+          - two_hand_sword
+          - longsword
+          - two_hand_sword
+          - chainmail
+          - medium_shield
+          - large_shield
+          - ring
+          - ring
+          - ring
 
 
 - !area

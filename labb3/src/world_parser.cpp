@@ -80,9 +80,7 @@ namespace game {
 		std::map<std::string,Area*> &areas = game->areas;
 
 
-		std::vector<const ConfigNode*> items = items_config["/random_items"].list();
 		std::vector<const ConfigNode*> containers = items_config["/containers"].list();
-		std::uniform_int_distribution<int> item_select(0, static_cast<int>(items.size()) - 1);
 		std::uniform_int_distribution<int> container_select(0, static_cast<int>(containers.size()) - 1);
 
 
@@ -97,16 +95,29 @@ namespace game {
 				}
 			}
 
+
 			int item_count = items_config["/item_count"].parse_int();
 			if(item_count > 0) {
 				Container * container = Container::from_config(containers[container_select(generator)]);
-				for(int i=0; i < item_count; ++i) {
-					Keepable * item = dynamic_cast<Keepable*>(Item::from_node(items[item_select(generator)]));
-					if(!container->put(item)) delete item;
-				}
+        for(Keepable * item : random_items(items_config["/random_items"].list(), item_count)) {
+          if(!container->put(item)) delete item;
+        }
+
 				area_items.insert(container);
 			}
 		}
 	}
+
+  std::vector<Keepable*> WorldParser::random_items(const std::vector<const ConfigNode*> &items, int count) {
+    std::uniform_int_distribution<int> item_select(0, static_cast<int>(items.size()) - 1);
+    std::vector<Keepable*> result;
+    for(int i=0; i < count; ++i) {
+      Item * item = Item::from_node(items[item_select(generator)]);
+      Keepable * keepable = dynamic_cast<Keepable*>(item);
+      if(keepable == nullptr) delete item;
+      else result.push_back(keepable);
+    }
+    return result;
+  }
 
 }
