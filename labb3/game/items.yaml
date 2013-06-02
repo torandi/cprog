@@ -139,8 +139,8 @@ items:
       armor: !rnd 190,210
   ring: !equipment
     type: ring
-    name: Magic Ring
-    description: A magic ring
+    name: Ring
+    description:
     volume: 1
     weight: 1
     effects:
@@ -155,7 +155,7 @@ items:
     volume: 1
     weight: 1
     effects:
-      backpack_volume: !rnd 10,100
+      backpack_volume: !rnd 10,40
   fish: !keepable
     name: A fish
     description: It's a dead fish.
@@ -202,18 +202,354 @@ equipment_prefixes:
       - name: Massive
         attributes:
           damage_overpower: -4
-    - !affix #strength
+    - !prefix #durability
+      - name: Sturdy
+        attributes:
+          durability: 10
+      - name: Strong
+        attributes:
+          durability: 20
+      - name: Glorious
+        attributes:
+          durability: 30
+      - name: Blessed
+        attributes:
+          durability: 40
+      - name: Saintly
+        attributes:
+          durability: !rnd 50,60
+      - name: Holy
+        attributes:
+          durability: !rnd 70,80
+      - name: Godly
+        attributes:
+          durability: !rnd 90,110
+    - !prefix #weapon_actions
+      - name: Steel
+        attributes:
+          weapon_actions: 1
+      - name: Silver
+        attributes:
+          weapon_actions: 2
+      - name: Gold
+        attributes:
+          weapon_actions: 3
+      - name: Platinum
+        attributes:
+          weapon_actions: 4
+      - name: Meteoric
+        attributes:
+          weapon_actions: 5
+      - name: Strange
+        attributes:
+          weapon_actions: 6
+      - name: Weird
+        attributes:
+          weapon_actions: 7
+    - !prefix #initiative
+      - name: Fast
+        attributes:
+          initiative: 3
+      - name: Quick
+        attributes:
+          initiative: 6
+      - name: Rapid
+        attributes:
+          initiative: 8
+      - name: Hawk's
+        attributes:
+          initiative: 10
+      - name: Hummingbirds's
+        attributes:
+          initiative: 15
+    - !suffix #can only have one suffix
       - name: Of Strength
         attributes:
-          strength: !rnd 1,5
-      - name: Of Brutal Strength
+          strength: !rnd 1,15
+      - name: Of Speed
         attributes:
-          strength: !rnd 5,10
-      - name: Of Power
+          initiative: !rnd 1,15
+      - name: Of Motion
         attributes:
-          strength: !rnd 10,15
+          action_points: !rnd 10,20
+      - name: Of Action
+        attributes:
+          weapon_actions: !rnd 1,3
 
   two_hand: *one_hand_prefixes
+  off_hand:
+    - !prefix #durability
+      - name: Sturdy
+        attributes:
+          durability: 10
+      - name: Strong
+        attributes:
+          durability: 20
+      - name: Glorious
+        attributes:
+          durability: 30
+      - name: Blessed
+        attributes:
+          durability: 40
+      - name: Saintly
+        attributes:
+          durability: !rnd 50,60
+          passive_protection: !rnd 1,2
+      - name: Holy
+        attributes:
+          durability: !rnd 70,80
+          passive_protection: !rnd 3,4
+      - name: Godly
+        attributes:
+          durability: !rnd 90,110
+          passive_protection: !rnd 5,6
+    - !prefix #initiative
+      - name: Fast
+        attributes:
+          initiative: 3
+      - name: Quick
+        attributes:
+          initiative: 6
+      - name: Rapid
+        attributes:
+          initiative: 8
+      - name: Hawk's
+        attributes:
+          initiative: 10
+      - name: Hummingbirds's
+        attributes:
+          initiative: 15
+    - !suffix #can only have one suffix
+      - name: Of Strength
+        attributes:
+          strength: !rnd 1,15
+      - name: Of Speed
+        attributes:
+          initiative: !rnd 1,15
+      - name: Of Protection
+        attributes:
+          passive_protection: !rnd 2,5
+  armor:
+    - !suffix #can only have one suffix
+      - name: Of Strength
+        attributes:
+          strength: !rnd 1,15
+      - name: Of Speed
+        attributes:
+          initiative: !rnd 1,15
+      - name: Of Life
+        attributes:
+          life: !rnd 5,10
+    - !prefix #durability
+      - name: Sturdy
+        attributes:
+          armor: 20
+      - name: Strong
+        attributes:
+          armor: 30
+      - name: Glorious
+        attributes:
+          armor: 40
+      - name: Blessed
+        attributes:
+          armor: 50
+      - name: Saintly
+        attributes:
+          armor: !rnd 60,80
+      - name: Holy
+        attributes:
+          armor: !rnd 90,130
+      - name: Godly
+        attributes:
+          armor: !rnd 150,200
+    - !prefix #initiative
+      - name: Light
+        attributes:
+          initiative: 3
+      - name: Quick
+        attributes:
+          initiative: 6
+      - name: Rapid
+        attributes:
+          initiative: 8
+      - name: Hawk's
+        attributes:
+          initiative: 10
+      - name: Hummingbirds's
+        attributes:
+          initiative: 15
+    - !prefix
+      - name: Fine
+        attributes:
+          action_points: 5
+      - name: Warrior's
+        attributes:
+          action_points: 10
+      - name: Soldiers's
+        attributes:
+          action_points: 15
+      - name: Knight's
+        attributes:
+          action_points: 20
+      - name: Lord's
+        attributes:
+          action_points: 25
+      - name: Master's
+        attributes:
+          action_points: 30
+      - name: Grandmaster's
+        attributes:
+          action_points: 40
+  ring:
+  - !suffix #can only have one suffix
+    - name: Of Strength
+      attributes:
+        strength: !rnd 1,15
+    - name: Of Speed
+      attributes:
+        initiative: !rnd 1,15
+    - name: Of Action
+      attributes:
+        action_points: !rnd 5,10
+    - name: Of Carrying
+      attributes:
+        backpack_volume: !rnd 20,50
+    - name: Of Life
+      attributes:
+        life: !rnd 5,10
+  - !prefix #initiative
+    - name: Light
+      attributes:
+        initiative: 3
+    - name: Quick
+      attributes:
+        initiative: 6
+    - name: Rapid
+      attributes:
+        initiative: 8
+    - name: Hawk's
+      attributes:
+        initiative: 10
+    - name: Hummingbirds's
+      attributes:
+        initiative: 15
+  - !prefix #action_mod
+    - name: Lucky
+      attributes:
+        action_mod: 1
+    - name: Feliciotous
+      attributes:
+        action_mod: 2
+    - name: Fortuitous
+      attributes:
+        action_mod: 3
+    - name: Skilled
+      attributes:
+        action_mod: 4
+    - name: Godlike
+      attributes:
+        action_mod: 5
+  - !prefix #strength
+    - name: Strengthening
+      attributes:
+        strength: 5
+    - name: Tireless
+      attributes:
+        strength: 10
+    - name: Mighty
+      attributes:
+        strength: 15
+    - name: Indomitable
+      attributes:
+        strength: 20
+    - name: Troll's
+      attributes:
+        strength: 30
+    - name: Dragon's
+      attributes:
+        strength: 40
+  - !prefix #life
+    - name: Refreshing
+      attributes:
+        life: 3
+    - name: Rejuvenating
+      attributes:
+        life: 7
+    - name: Healing
+      attributes:
+        life: 10
+    - name: Reviving
+      attributes:
+        life: 15
+  - !prefix
+    - name: Fool's
+      attributes:
+        action_points: 5
+    - name: Grinding
+      attributes:
+        action_points: 10
+    - name: Visionary
+      attributes:
+        action_points: 15
+    - name: Hawkeye
+      attributes:
+        action_points: 20
+    - name: Victorious
+      attributes:
+        action_points: 25
+  backpack:
+    - !prefix #volume
+      - name: Medium
+        attributes:
+          backpack_volume: 20
+      - name: Big
+        attributes:
+          backpack_volume: 40
+      - name: Huge
+        attributes:
+          backpack_volume: 80
+      - name: Enormous
+        attributes:
+          backpack_volume: 120
+      - name: Gigantic
+        attributes:
+          backpack_volume: 200
+      - name: Black Hole
+        attributes:
+          backpack_volume: 500
+    - !prefix #strength
+      - name: Strengthening
+        attributes:
+          strength: 5
+      - name: Tireless
+        attributes:
+          strength: 10
+      - name: Mighty
+        attributes:
+          strength: 15
+      - name: Indomitable
+        attributes:
+          strength: 20
+      - name: Troll's
+        attributes:
+          strength: 30
+      - name: Dragon's
+        attributes:
+          strength: 40
+    - !suffix #can only have one suffix
+      - name: Of Strength
+        attributes:
+          strength: !rnd 1,15
+      - name: Of Speed
+        attributes:
+          initiative: !rnd 1,15
+      - name: Of Action
+        attributes:
+          action_points: !rnd 5,10
+      - name: Of Life
+        attributes:
+          life: !rnd 5,10
+
 
 default_prefix_probability:
   - 1

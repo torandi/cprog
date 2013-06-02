@@ -41,8 +41,8 @@ namespace game {
         item_prefix_t::type_t pfx_type;
         if(group_node->tag() == "!prefix") {
           pfx_type = item_prefix_t::PREFIX;
-        } else if(group_node->tag() == "!affix") {
-          pfx_type = item_prefix_t::AFFIX;
+        } else if(group_node->tag() == "!suffix") {
+          pfx_type = item_prefix_t::SUFFIX;
         } else {
           std::cout << "Invalid tag " << group_node->tag() << " for prefix group" << std::endl;;
           abort();
@@ -56,7 +56,11 @@ namespace game {
             prefix.attributes[attr.first] = attr.second->parse_int();
           }
           prefixes.push_back(prefix);
-          pfx_prob.push_back(num_items - index++);
+          if(pfx_type == item_prefix_t::PREFIX) {
+            pfx_prob.push_back(num_items - index++);
+          } else {
+            pfx_prob.push_back(1); /* Affixes have linear probability */
+          }
         }
         prefix_table[type].push_back(prefixes);
         prefix_distribution_table[type].push_back(std::discrete_distribution<int>(pfx_prob.begin(), pfx_prob.end()));
