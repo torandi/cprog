@@ -1,0 +1,17 @@
+game_name: The Forest
+author: Torandi
+intro: |
+  You wake up with a terrible headache. You're not sure what happend yesterday, but you got a feeling you really messed things up.
+  You have a wague memory of a curse and.. What? What is this place?
+
+  You have no memory of this old shack, but it's probably yours.
+
+  Well, you belive it was you who caused all the problems, so you might just get to fix it.
+
+final_monster: Monster Of The Ancients
+end_text: |
+  When the monster draws it final breath you feel the presure over your chest lift, and the forest feels brighter.
+  You have lifted the curse!
+
+  Thanks for playing, come again.
+  Now get me some coffee.

@@ -329,10 +329,9 @@ knight_champion: !human
       - 35
       - 9
 
-ancient_monster: !boss
+ancient_monster: !monster
   name: Monster Of The Ancients
   description: A big monster with horns from the bad old times.
-  end_text: When the monster gives up it's last breath, the curse over the whole forest is lifted. You have won!
   attributes:
     action_points: 80
     initiative: !rnd 5,10
