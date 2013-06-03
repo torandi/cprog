@@ -10,6 +10,7 @@
 #include "logging.hpp"
 #include "container.hpp"
 #include "player.hpp"
+#include "darkwood.hpp"
 
 #include <algorithm>
 
@@ -131,5 +132,6 @@ namespace game {
 
   std::map<std::string, std::function<Area*(const ConfigNode*)> > Area::tag_map = {
     {"!area", &Area::self_from_config },
+		{"!darkwood", &Darkwood::self_from_config },
   };
 }
