@@ -75,6 +75,7 @@ namespace game {
 		Area * player_location = game->area(player_config["/location"].parse_string());
 		game->m_player = new Player(Character::parse_attributes(&player_config["/attributes"]), player_location);
 		Human::parse_equipment(game->m_player, player_config.find("/equipment", false));
+    Human::parse_inventory(game->m_player, player_config.find("/inventory", false));
 		game->add_character(game->m_player);
 	}
 

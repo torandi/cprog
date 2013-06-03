@@ -457,6 +457,28 @@
   movement_cost: 10
   exits:
     south: forest_fork
-    #north: castle_moat
+#    north: castle_moat
   npcs:
     - bandit
+
+- !area
+  id: castle_moat
+  name: Castle Moat
+  description: You are now very close to the old castle. The draw bridge is down.
+  movement_cost: 30
+  exits:
+    south: bridge
+    north: castle_entrance
+  npcs:
+    - knight
+
+- !area
+  id: castle_entrance
+  name: Castle Entrance
+  description: There are torches on all walls and a mighty red carpet leads up the stairs.
+  movement_cost: 20
+  exits:
+    south: bridge
+    north: castle_entrance
+  npcs:
+    - knight

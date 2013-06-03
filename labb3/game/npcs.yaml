@@ -184,6 +184,8 @@ badass_bandit: !human
       - 5
     random_count: !rnd 7,10
 
+# Monsters
+
 cave_spider: !monster
   faction: monster
   name: Cave Spider
@@ -240,5 +242,52 @@ huge_cave_spider: !monster
     prefix_probability:
       - 50
       - 50
-      - 40
+      - 30
       - 5
+
+# Knights
+
+knight: !human
+  faction: bandit
+  name: Knight
+  description: A knight in full plate armor.
+  attributes:
+    action_points: 10
+    strength: !rnd 20,30
+    initiative: 2
+    life: !rnd 15,25
+    backpack_volume: 100
+  equipment:
+    - longsword
+    - large_shield
+    - plate_armor
+  inventory:
+    random_count: !rnd 6,9
+    prefix_probability:
+      - 100
+      - 50
+      - 30
+      - 5
+
+knight_champion: !human
+  faction: bandit
+  name: Knight Champion
+  description: He got a big red feather on his helmet.
+  attributes:
+    action_points: 20
+    strength: !rnd 30,40
+    initiative: 2
+    life: !rnd 30,40
+    backpack_volume: 100
+  equipment:
+    - longsword
+    - large_shield
+    - plate_armor
+  inventory:
+    random_count: !rnd 10,20
+    prefix_probability:
+      - 80
+      - 50
+      - 35
+      - 9
+

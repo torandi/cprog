@@ -291,7 +291,10 @@ namespace game {
 
     node = node->find("/items");
 
-    if(node == nullptr) return;
+    if(node == nullptr) {
+      WorldParser::current_prefix_probability = nullptr;
+      return;
+    }
 
 		for(const ConfigNode * i : node->list()) {
 			Item * item = Item::from_node(i);

@@ -381,7 +381,10 @@ bool ConfigNode::has_anchor() const {
 }
 
 const std::string &ConfigNode::parse_string() const {
-	if(type != NODE_SCALAR) Logging::fatal("[ConfigNode] Trying to read a non-scalar node as string\n");
+	if(type != NODE_SCALAR) {
+    print();
+    Logging::fatal("[ConfigNode] Trying to read a non-scalar node as string\n");
+  }
 	return scalar;
 }
 
@@ -402,13 +405,19 @@ int ConfigNode::parse_int() const {
 
 		return r;
 	} else {
-		if(type != NODE_SCALAR) Logging::fatal("[ConfigNode] Trying to read a non-scalar node as int\n");
+		if(type != NODE_SCALAR) {
+      print();
+      Logging::fatal("[ConfigNode] Trying to read a non-scalar node as int\n");
+    }
 		return atoi(scalar.c_str());
 	}
 }
 
 bool ConfigNode::parse_bool() const {
-	if(type != NODE_SCALAR) Logging::fatal("[ConfigNode] Trying to read a non-scalar node as bool\n");
+	if(type != NODE_SCALAR) {
+    print();
+    Logging::fatal("[ConfigNode] Trying to read a non-scalar node as bool\n");
+  }
 	if(scalar == "true") return true;
 	else if(scalar == "false") return false;
 	else Logging::fatal("Invalid boolean value %s\n", scalar.c_str());
@@ -416,12 +425,16 @@ bool ConfigNode::parse_bool() const {
 }
 
 float ConfigNode::parse_float() const {
-	if(type != NODE_SCALAR) Logging::fatal("[ConfigNode] Trying to read a non-scalar node as float\n");
+	if(type != NODE_SCALAR) {
+    print();
+    Logging::fatal("[ConfigNode] Trying to read a non-scalar node as float\n");
+  }
 	return static_cast<float>(atof(scalar.c_str()));
 }
 
 const std::vector<const ConfigNode*> &ConfigNode::list() const {
 	if(type != NODE_SEQUENCE) {
+    print();
 		Logging::fatal("[ConfigNode] Trying to read a non-sequence node as list\n");
 	}
 	/* If first call, reflect sequence list to exposed sequence list */
@@ -431,6 +444,7 @@ const std::vector<const ConfigNode*> &ConfigNode::list() const {
 
 const std::map<std::string, const ConfigNode*> &ConfigNode::map() const {
 	if(type != NODE_MAPPING) {
+    print();
 		Logging::fatal("[ConfigNode] Trying to read a non-mapping node as map\n");
 	}
 	/* If first call, reflect map to exposed map */
@@ -455,6 +469,7 @@ ConfigNode ConfigNode::get(const std::string &path, const std::string &default_v
 const ConfigNode * ConfigNode::find(const std::string &path, bool fail_on_not_found) const {
 	if(path == "/" || path == "") return this; //Always return this if seaching for root
 	if(type != NODE_MAPPING) {
+    print();
 		Logging::fatal("[ConfigNode] Can't search non-map config node\n");
 	}
 
@@ -477,6 +492,7 @@ const ConfigNode * ConfigNode::find(const std::string &path, bool fail_on_not_fo
 		prev = s;
 	}
 	if(current == nullptr && fail_on_not_found) {
+    print();
 		Logging::fatal("[ConfigNode] node not found: %s\n", path.c_str());
 	}
 	return current;
