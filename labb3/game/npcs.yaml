@@ -177,6 +177,11 @@ badass_bandit: !human
     - plate_armor
     - ring
   inventory:
+    prefix_probability:
+      - 100
+      - 50
+      - 20
+      - 5
     random_count: !rnd 7,10
 
 cave_spider: !monster
@@ -200,6 +205,7 @@ cave_spider_with_key: !monster
   description: A hairy cave spider. It looks like it have a key stuck on it's back.
   attributes:
     action_points: 30
+    initiative: !rnd 5,10
     strength: !rnd 5,10
     armor: !rnd 20,50
     life: !rnd 20,30
@@ -208,5 +214,31 @@ cave_spider_with_key: !monster
   weapon_name: sharp fangs
   loot:
     random_count: !rnd 6,7
+    prefix_probability:
+      - 100
+      - 50
+      - 20
+      - 5
     items:
       - cave_key
+
+huge_cave_spider: !monster
+  faction: monster
+  name: Huge Cave Spider
+  description: A HUGE hairy cave spider.
+  attributes:
+    action_points: 50
+    initiative: !rnd 10,20
+    strength: !rnd 10,20
+    armor: !rnd 30,60
+    life: !rnd 20,30
+    damage_extra: !rnd 3,5
+    damage_overpower: 7
+  weapon_name: sharp fangs
+  loot:
+    random_count: !rnd 10,20
+    prefix_probability:
+      - 50
+      - 50
+      - 40
+      - 5

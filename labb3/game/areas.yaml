@@ -302,6 +302,7 @@
   movement_cost: 10
   exits:
     north: cave_1
+    south: cave_4
     west: path_to_caves
     east: cave_3
   npcs:
@@ -326,6 +327,73 @@
     south: cave_1
 
 - !area
+  id: cave_3
+  name: Cave Tunnel
+  description: A Cave tunnel
+  movement_cost: 10
+  exits:
+    west: cave_entrance
+    east: cave_chamber
+
+- !area
+  id: cave_4
+  name: Cave Tunnel
+  description: A Cave tunnel
+  movement_cost: 10
+  exits:
+    north: cave_entrance
+    south: cave_5
+
+- !area
+  id: cave_5
+  name: Cave Tunnel
+  description: A Cave tunnel
+  movement_cost: 10
+  exits:
+    north: cave_4
+    south: cave_6
+    east: cave_7
+
+- !area
+  id: cave_6
+  name: Cave Tunnel
+  description: A Cave tunnel
+  movement_cost: 10
+  exits:
+    north: cave_5
+    south: cave_9
+    east: cave_8
+  npcs:
+    - cave_spider
+
+- !area
+  id: cave_7
+  name: Cave Tunnel
+  description: A Cave tunnel
+  movement_cost: 10
+  exits:
+    west: cave_5
+  npcs:
+    - badass_bandit
+
+- !area
+  id: cave_8
+  name: Cave Tunnel
+  description: A Cave tunnel
+  movement_cost: 10
+  exits:
+    west: cave_6
+    east: cave_loot_chamber
+
+- !area
+  id: cave_9
+  name: Cave Tunnel
+  description: A Cave tunnel
+  movement_cost: 10
+  exits:
+    north: cave_6
+
+- !area
   id: spider_cave
   name: Cave Room
   description: A Big Open Cave Room
@@ -335,7 +403,60 @@
   npcs:
     - cave_spider_with_key
 
+- !area
+  id: cave_chamber
+  name: Cave Chamber
+  description: A Huge open chamber
+  movement_cost: 10
+  exits:
+    west: cave_3
+  npcs:
+    - huge_cave_spider
+  items:
+    - !container
+      name: Glowing Chest
+      description: It glows a bright purple.
+      key: cave_key
+      random_count: !rnd 5,10
+      storage_volume: 400
+      prefix_probability:
+        - 100
+        - 50
+        - 20
+        - 5
+      content:
+        - purple_magic_stone
 
+- !area
+  id: cave_loot_chamber
+  name: Cave Chamber
+  description: A Cave chamber
+  movement_cost: 10
+  exits:
+    west: cave_8
+  npcs:
+    - shielded_bandit
+  items:
+    - !container
+      name: Bandit Treasure Chest
+      description: A treasure chest!
+      random_count: !rnd 10,20
+      storage_volume: 400
+      prefix_probability:
+        - 50
+        - 50
+        - 20
+        - 5
 
+# The castle #
 
-
+- !area
+  id: bridge
+  name: Stone Bridge
+  description: A old stone bridge.
+  movement_cost: 10
+  exits:
+    south: forest_fork
+    #north: castle_moat
+  npcs:
+    - bandit
