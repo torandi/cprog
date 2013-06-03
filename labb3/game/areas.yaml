@@ -478,7 +478,72 @@
   description: There are torches on all walls and a mighty red carpet leads up the stairs.
   movement_cost: 20
   exits:
-    south: bridge
-    north: castle_entrance
+    south: castle_entrance
+    north: dragons_chamber
   npcs:
-    - knight
+    - knight_champion
+  items:
+    - !container
+      name: First Aid
+      description: First Aid
+      storage_volume: 200
+      content:
+        - !potion
+          hp: !rnd 10,30
+        - !potion
+          hp: !rnd 10,30
+        - !potion
+          hp: !rnd 10,30
+        - !potion
+          hp: !rnd 10,30
+
+- !area
+  id: dragons_chamber
+  name: The Dragon's Chamber
+  description: The walls are dark of soot
+  movement_cost: 10
+  exits:
+    north: treasure_chamber
+    south: castle_entrance
+  npcs:
+    - dragon
+
+
+- !area
+  id: treasure_chamber
+  name: Treasure Chamber
+  description: A Room full of treasures
+  movement_cost: 10
+  exits:
+    south: dragons_chamber
+  items:
+    - !container
+      name: Blue Treasure Chest
+      description: A treasure chest!
+      random_count: !rnd 5,10
+      storage_volume: 200
+      prefix_probability:
+        - 40
+        - 50
+        - 20
+        - 5
+    - !container
+      name: Red Treasure Chest
+      description: A treasure chest!
+      random_count: !rnd 5,10
+      storage_volume: 200
+      prefix_probability:
+        - 40
+        - 50
+        - 20
+        - 5
+    - !container
+      name: Green Treasure Chest
+      description: A treasure chest!
+      random_count: !rnd 5,10
+      storage_volume: 200
+      prefix_probability:
+        - 40
+        - 50
+        - 20
+        - 5
