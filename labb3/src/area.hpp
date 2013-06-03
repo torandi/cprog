@@ -35,6 +35,7 @@ namespace game {
 
 			virtual void remove_character(Character * character);
 			virtual const std::map<std::string, Area*> &exits() const;
+			virtual std::vector<std::string> directions() const;
 
       virtual const std::set<Character*> &characters() const;
       virtual bool contains_character(Character * character) const;

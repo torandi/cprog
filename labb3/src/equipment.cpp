@@ -122,7 +122,7 @@ namespace game {
 
 	std::string Equipment::description() const {
 		std::stringstream str;
-		str << Keepable::name() << ": " << Keepable::description() << std::endl;
+		str << name() << ": " << Keepable::description() << std::endl;
 		for(auto e : m_effects) {
 			str << "\t" << e.first << ": " << e.second << std::endl;
 		}

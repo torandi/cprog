@@ -116,6 +116,14 @@ namespace game {
 		return m_exits;
 	}
 
+	std::vector<std::string> Area::directions() const {
+		std::vector<std::string> ret;
+		for(auto ex : m_exits) {
+			ret.push_back(ex.first);
+		}
+		return ret;
+	}
+
 	Area * Area::self_from_config(const ConfigNode * _node) {
 		const ConfigNode &node = *_node;
 		std::string name = node["/name"].parse_string();

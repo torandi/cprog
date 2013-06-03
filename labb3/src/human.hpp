@@ -65,6 +65,9 @@ namespace game {
 			std::vector<std::string> m_dialog;
 			int m_next_dialog = 0;
 
+			bool m_allow_wandering = false;
+			Area * m_home_location;
+
 			virtual void die();
 			virtual void reduce_armor(int amount);
 

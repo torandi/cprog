@@ -114,7 +114,8 @@ namespace game {
 	}
 
 	Human::Human(const std::string &name, const std::string &description, faction_t faction, std::map<std::string, int> attributes, Area * location)
-		: Character(name, description, faction, attributes, location) {
+		: Character(name, description, faction, attributes, location)
+		, m_home_location(m_location) {
 
 	}
 
@@ -154,12 +155,28 @@ namespace game {
 		try {
 			switch(m_state) {
 				case IDLE:
-					/* TODO: some walk cycle */
 					for(Character * c : location()->characters()) {
 						if(c != this && c->state() != DEAD && faction_standings[faction()][c->faction()]) {
 							attack(c, std::min(15, m_action_points));
 							if(m_action_points > 0) action();
 							break;
+						}
+					}
+					if(m_state == IDLE && m_allow_wandering) {
+						if(m_location == m_home_location && Game::roll_dice(Game::T20) < 5) {
+							std::vector<std::string> directions = location()->directions();
+							if(directions.size() > 0) {
+								go(directions[Game::rnd(0, (int)directions.size()-1)]);
+							} else {
+								m_allow_wandering = false;
+							}
+						} else if(m_location != m_home_location && Game::roll_dice(Game::T20) < 10) {
+							for(auto exit : location()->exits()) {
+								if(exit.second == m_home_location) {
+									go(exit.first);
+									break;
+								}
+							}
 						}
 					}
 					break;
@@ -401,6 +418,9 @@ namespace game {
 
 		parse_equipment(human, node->find("/equipment", false));
 		Character::parse_inventory(human, node->find("/inventory", false));
+
+		const ConfigNode * wandering = node->find("/wander");
+		if(wandering != nullptr && wandering->parse_bool()) human->m_allow_wandering = true;
 
 		const ConfigNode * dialog = node->find("/dialog", false);
 		if(dialog) {

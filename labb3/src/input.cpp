@@ -272,7 +272,6 @@ namespace game {
 		} else {
 			Item * item = detect_item(accessible_items(), d.line);
 			if(item != nullptr) {
-				//std::cout << "You take a closer look at " << item->name() << std::endl;
 				std::cout << item->description() << std::endl;
 			} else {
 				std::cout << "You can't find any " << d.line << "." << std::endl;

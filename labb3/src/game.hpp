@@ -35,6 +35,7 @@ namespace game {
 				FATAL=3
 			};
 
+			static int rnd(int min, int max);
 			static int roll_dice(dice_t dice, int op=-1);
 			static try_result_t try_action(int points);
 

@@ -74,6 +74,11 @@ namespace game {
     delete m_player;
 	}
 
+	int Game::rnd(int min, int max) {
+		std::uniform_int_distribution<int> rng(min, max);
+		return rng(generator);
+	}
+
 	int Game::roll_dice(Game::dice_t dice, int op) {
 		int value = dices[dice](generator);
 		if(op != -1 && value >= op) {

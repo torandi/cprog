@@ -45,7 +45,7 @@ harbor_master: !requiring
   given_dialog: The people of the docks thanks you once again!
   dialog:
     - Those bloody pirates have occuppied the pier. Could you take care of it for me?
-    - If you bring me the pirate captain's hook I'll give you a magic ring.
+    - If you bring me the pirate captain's hook I'll ... hook you up with a magic ring.
   prefix_probability:
     - 0
     - 50
