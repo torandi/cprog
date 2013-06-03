@@ -496,19 +496,47 @@ equipment_prefixes:
     - name: Dragon's
       attributes:
         strength: 40
-  - !prefix #life
+  - !prefix #life regen
     - name: Refreshing
       attributes:
-        life: 3
+        life_regen: 1
     - name: Rejuvenating
       attributes:
-        life: 7
+        life_regen: 2
     - name: Healing
       attributes:
-        life: 10
+        life_regen: !rnd 3,4
     - name: Reviving
       attributes:
+        life_regen: !rnd 5,7
+    - name: Surgeon's
+      attributes:
+        life_regen: !rnd 8,10
+  - !prefix #life
+    - name: Healthy
+      attributes:
+        life: 3
+    - name: Sanguine
+      attributes:
+        life: 7
+    - name: Stalwart
+      attributes:
+        life: 10
+    - name: Stout
+      attributes:
         life: 15
+    - name: Robust
+      attributes:
+        life: 20
+    - name: Virile
+      attributes:
+        life: 25
+    - name: Athlete's
+      attributes:
+        life: !rnd 30,40
+    - name: Vigorous
+      attributes:
+        life: !rnd 50,60
   - !prefix
     - name: Fool's
       attributes:
