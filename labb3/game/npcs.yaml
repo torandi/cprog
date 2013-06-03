@@ -70,6 +70,9 @@ highwayman: !human
   inventory:
     random_count: !rnd 2,5
 
+
+# Pirates
+
 dual_wielding_pirate: !human
   faction: bandit
   name: Dual-wielding Pirate
@@ -124,6 +127,9 @@ pirate_captain: !human
       - 7
     items:
       - captains_hook
+      - marine_magic_stone
+
+# bandits
 
 bandit: !human
   faction: bandit
@@ -172,3 +178,35 @@ badass_bandit: !human
     - ring
   inventory:
     random_count: !rnd 7,10
+
+cave_spider: !monster
+  faction: monster
+  name: Cave Spider
+  description: A hairy cave spider.
+  attributes:
+    action_points: 30
+    strength: !rnd 5,10
+    armor: !rnd 20,50
+    life: !rnd 20,30
+    damage_extra: !rnd 1,2
+    damage_overpower: 8
+  weapon_name: sharp fangs
+  loot:
+    random_count: !rnd 4,7
+
+cave_spider_with_key: !monster
+  faction: monster
+  name: Cave Spider
+  description: A hairy cave spider. It looks like it have a key stuck on it's back.
+  attributes:
+    action_points: 30
+    strength: !rnd 5,10
+    armor: !rnd 20,50
+    life: !rnd 20,30
+    damage_extra: !rnd 1,2
+    damage_overpower: 8
+  weapon_name: sharp fangs
+  loot:
+    random_count: !rnd 6,7
+    items:
+      - cave_key

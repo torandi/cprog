@@ -95,7 +95,7 @@ namespace game {
 		virtual bool use_action(int hand);
 
 		virtual void die() = 0; //called when the character dies
-		virtual void roll_attack(Game::dice_t dice, int points, Character * on_character, int op, int extra, const std::string &weapon_text = "");
+		virtual void roll_attack(Game::dice_t dice, int points, Character * on_character, int op, int extra, int num_dices = 1, const std::string &weapon_text = "");
 
 		virtual void hurt(int damage); //Apply damage (armor is applied)
 		virtual void reduce_armor(int amount) = 0; // Should reduce armor by given amount

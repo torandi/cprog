@@ -245,10 +245,11 @@ namespace game {
 			roll_attack(Game::T10, points, character,
 					m_equipments[slot]->effect("damage_overpower", -1),
 					m_equipments[slot]->effect("damage_extra"),
+          m_equipments[slot]->effect("damage_dices", 1),
 					" with " + m_equipments[slot]->name()
 				);
 		} else {
-			roll_attack(Game::T5, points, character, -1, 0, " with " + slot_names[slot]);
+			roll_attack(Game::T5, points, character, -1, 0, 1, " with " + slot_names[slot]);
 		}
 
   }

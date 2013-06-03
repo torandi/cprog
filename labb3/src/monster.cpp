@@ -7,17 +7,19 @@
 
 namespace game {
 
-	Monster::Monster(const std::string &name, const std::string &description, std::map<std::string, int> attributes, Area * location)
-		: Character(name, description, Character::MONSTERS, attributes, location) {
+	Monster::Monster(const std::string &name, const std::string &description, const std::string &weapon_name, std::map<std::string, int> attributes, Area * location)
+		: Character(name, description, Character::MONSTERS, attributes, location)
+    , m_weapon_name(weapon_name) {
 	}
 
 	Monster * Monster::from_config(const ConfigNode * node, Area * location) {
 		std::string name = (*node)["/name"].parse_string();
 		std::string description = (*node)["/description"].parse_string();
+    std::string weapon_name = (*node)["/weapon_name"].parse_string();
 
 		std::map<std::string, int> attributes = Character::parse_attributes(&(*node)["/attributes"]);
 
-		Monster * monster = new Monster(name, description, attributes, location);
+		Monster * monster = new Monster(name, description, weapon_name, attributes, location);
 		Character::parse_inventory(monster, node->find("/loot", false));
 		return monster;
 	}
@@ -70,7 +72,9 @@ namespace game {
 
 		roll_attack(Game::T10, points, character,
 				attribute("damage_overpower", -1),
-				attribute("damage_extra")
+				attribute("damage_extra"),
+        attribute("damage_dices"),
+        " with it's " + m_weapon_name
 			);
 	}
 

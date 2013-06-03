@@ -71,6 +71,8 @@
   exits:
     north: garden
 
+# FOREST PATHS #
+
 - !area
   id: forest_crossroad
   name: Forest Crossroads
@@ -89,16 +91,16 @@
   npcs:
     - mysterius_man
 
-# FOREST PATHS #
-
 - !area
   id: nw_forest_path
   name: Forest Path
   description: A forest path. It goes in the north direction, but turns slightly east.
   movement_cost: 5
+  exits:
+    south: forest_crossroad
+    north: forest_fork
   npcs:
     - highwayman
-
 
 - !area
   id: sw_forest_path
@@ -108,6 +110,44 @@
   exits:
     south: clearing
     north: forest_crossroad
+
+- !area
+  id: ne_forest_path
+  name: Forest Path
+  description: A forest path. It goes in the north direction, but turns slightly west.
+  movement_cost: 5
+  npcs:
+    - highwayman
+  exits:
+    north: forest_fork
+    east: path_to_caves
+
+- !area
+  id: forest_fork
+  name: Forest Fork
+  description: "The path fork into three directions; south west, south east and north"
+  movement_cost: 5
+  exits:
+    north: bridge
+    west: nw_forest_path
+    east: ne_forest_path
+
+- !area
+  id: path_to_caves
+  name: Path to Caves
+  description: This forest path leads to the Caves.
+  movement_cost: 5
+  exits:
+    west: ne_forest_path
+    east: cave_entrance
+  items:
+    - !container
+      name: Chest
+      description: A chest, LOOT!
+      storage_volume: 100
+      random_items: !rnd 4,8
+  npcs:
+    - bandit
 
 - !area
   id: clearing
@@ -253,11 +293,47 @@
   items:
     - fish
 
+# THE CAVES #
 
+- !area
+  id: cave_entrance
+  name: Cave Entrance
+  description: A wet cave.
+  movement_cost: 10
+  exits:
+    north: cave_1
+    west: path_to_caves
+    east: cave_3
+  npcs:
+    - shielded_bandit
 
+- !area
+  id: cave_1
+  name: Cave Tunnel
+  description: A Cave tunnel
+  movement_cost: 10
+  exits:
+    north: cave_2
+    south: cave_entrance
 
+- !area
+  id: cave_2
+  name: Cave Tunnel
+  description: A Cave tunnel
+  movement_cost: 10
+  exits:
+    north: spider_cave
+    south: cave_1
 
-
+- !area
+  id: spider_cave
+  name: Cave Room
+  description: A Big Open Cave Room
+  movement_cost: 10
+  exits:
+    south: cave_2
+  npcs:
+    - cave_spider_with_key
 
 
 

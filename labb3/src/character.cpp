@@ -328,7 +328,7 @@ namespace game {
 		}
 	}
 
-	void Character::roll_attack(Game::dice_t dice, int points, Character * character, int op, int extra, const std::string &weapon_text) {
+	void Character::roll_attack(Game::dice_t dice, int points, Character * character, int op, int extra, int num_dices, const std::string &weapon_text) {
 		start_fight(character);
 		character->start_fight(this);
 
@@ -337,7 +337,8 @@ namespace game {
 		if(roll < Game::FAIL) {
 			int dmg = extra + extra_damage();
       bool critical_hit = false;
-			dmg += Game::roll_dice(dice, op);
+
+      for(int i=0; i<num_dices; ++i) dmg += Game::roll_dice(dice, op);
 
 			std::string extra = "";
 			if(roll == Game::PERFECT) {
