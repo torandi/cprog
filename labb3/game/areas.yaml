@@ -47,6 +47,12 @@
           effects:
             initiative: !rnd -5,1
             armor: 10
+        - !unique
+          id: fish
+          name: Fish
+          description: It's a wet and slimy fish. Ugh, it's jiggering.
+          volume: 0
+          weight: 0
 
 - !area
   id: garden
@@ -57,8 +63,10 @@
     east: hut
     west: forest_crossroad
     south: backyard
-  #npcs:
-   #  - !human, # garden gnome
+  npcs:
+    - garden_gnome
+
+
 
 - !area
   id: backyard

@@ -10,6 +10,7 @@
 #include "keepable.hpp"
 #include "human.hpp"
 #include "monster.hpp"
+#include "requiring_character.hpp"
 #include "logging.hpp"
 
 namespace game {
@@ -347,6 +348,7 @@ namespace game {
 	std::map<std::string, std::function<Character*(const ConfigNode*, Area*)> > Character::tag_map = {
 		{"!human", &Human::from_config },
 		{"!monster", &Monster::from_config },
+		{"!requiring", &RequiringCharacter::from_config },
 	};
 
 	std::map<std::string, std::string> Character::m_third_person_verbs = {

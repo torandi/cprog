@@ -76,7 +76,7 @@ namespace game {
 		size_t pos;
 
 		for(Item * i : items) {
-			std::vector<std::string> item_name = split(Game::lowercase(i->name()), " ");
+			std::vector<std::string> item_name = split(Game::lowercase(i->raw_name()), " ");
 			size_t min_pos = str.npos;
 			size_t match_len = 0;
 			for(const std::string & n : item_name) {
