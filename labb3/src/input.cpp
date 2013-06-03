@@ -63,8 +63,10 @@ namespace game {
 		for(Keepable * i : Game::player()->inventory()) {
 			items.insert(i);
 		}
-		for(int i=0; i<Human::NUM_SLOTS; ++i) {
-			if(Game::player()->equipment(static_cast<Human::slot_t>(i)) != nullptr) items.insert(Game::player()->equipment(static_cast<Human::slot_t>(i)));
+		if(include_equipped) {
+			for(int i=0; i<Human::NUM_SLOTS; ++i) {
+				if(Game::player()->equipment(static_cast<Human::slot_t>(i)) != nullptr) items.insert(Game::player()->equipment(static_cast<Human::slot_t>(i)));
+			}
 		}
 		return items;
 	}
