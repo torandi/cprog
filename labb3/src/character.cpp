@@ -307,13 +307,17 @@ namespace game {
     WorldParser::current_prefix_probability = nullptr;
 	}
 
+  Character * Character::from_id(const std::string &id, Area * location) {
+    Config cfg = Config::from_filename("game/npcs.yaml");
+    return from_config(&cfg[id], location);
+  }
+
 	Character * Character::from_node(const ConfigNode * node, Area * location) {
 		if(node->type == ConfigNode::NODE_MAPPING) {
 			return from_config(node, location);
 		} else if(node->type == ConfigNode::NODE_SCALAR) {
 			std::string name = node->parse_string();
-			Config cfg = Config::from_filename("game/npcs.yaml");
-			return from_config(&cfg[name], location);
+      return from_id(name, location);
 		} else {
 			Logging::fatal("NPC node must be mapping or a string naming the npc id\n");
 		}

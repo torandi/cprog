@@ -58,13 +58,12 @@ highwayman: !human
   name: Highwayman
   description: O. It's a highwayman.
   attributes:
-    action_points: !rnd 20,40
+    action_points: 10
     strength: !rnd 1,2
     initiative: !rnd 5,15
     life: !rnd 15,20
     backpack_volume: 100
   equipment:
-    - dagger
     - dagger
     - pelt_armor
   inventory:
@@ -330,3 +329,24 @@ knight_champion: !human
       - 35
       - 9
 
+ancient_monster: !boss
+  name: Monster Of The Ancients
+  description: A big monster with horns from the bad old times.
+  end_text: When the monster gives up it's last breath, the curse over the whole forest is lifted. You have won!
+  attributes:
+    action_points: 80
+    initiative: !rnd 5,10
+    strength: !rnd 30,50
+    armor: !rnd 60,80
+    life: !rnd 30,50
+    damage_extra: 5
+    damage_dices: 2
+    damage_overpower: 7
+  weapon_name: horns
+  loot:
+    random_count: 10
+    prefix_probability:
+      - 20
+      - 50
+      - 20
+      - 5

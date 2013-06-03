@@ -74,6 +74,7 @@ namespace game {
 
 		static Character * from_config(const ConfigNode * node, Area * location);
 		static Character * from_node(const ConfigNode * node, Area * location);
+    static Character * from_id(const std::string &id, Area * location);
 
 		static std::map<std::string, int> parse_attributes(const ConfigNode * node);
 		static void parse_inventory(Character * character, const ConfigNode * node);

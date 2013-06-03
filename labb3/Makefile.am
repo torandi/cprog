@@ -22,10 +22,11 @@ textrpg_SOURCES = \
 	src/player.cpp src/player.hpp \
 	src/monster.cpp src/monster.hpp \
 	src/input.cpp src/input.hpp \
-	src/string_utils.cpp scr/string_utils.hpp \
-	src/unique_item.cpp scr/unique_item.hpp \
-	src/requiring_character.cpp scr/requiring_character.hpp \
-	src/darkwood.cpp scr/darkwood.hpp \
+	src/string_utils.cpp src/string_utils.hpp \
+	src/unique_item.cpp src/unique_item.hpp \
+	src/requiring_character.cpp src/requiring_character.hpp \
+	src/darkwood.cpp src/darkwood.hpp \
+	src/ancient_stone.cpp src/ancient_stone.hpp \
 	src/main.cpp \
 	src/color.hpp
 

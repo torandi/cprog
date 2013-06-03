@@ -9,6 +9,7 @@
 #include "unique_item.hpp"
 #include "logging.hpp"
 #include "health_potion.hpp"
+#include "ancient_stone.hpp"
 
 namespace game {
 	std::string Item::name() const {
@@ -60,6 +61,7 @@ namespace game {
     {"!container", &Container::from_config },
     {"!potion", &HealthPotion::from_config },
 		{"!unique", &UniqueItem::from_config },
+    {"!ancient_stone", &AncientStone::from_config },
   };
 
 }

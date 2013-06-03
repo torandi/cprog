@@ -578,4 +578,8 @@
   movement_cost: 20
   exits:
     east: darkwood_path
-  # TODO: The final item, spawning an enemy
+  items:
+    - !ancient_stone
+      name: Huge Standing Stone
+      description: There's some kind of inscriptions on it. In the middle of the stone are three round slots.
+      enemy: ancient_monster

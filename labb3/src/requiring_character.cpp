@@ -68,6 +68,7 @@ namespace game {
 			character->delete_item(item);
 			character->store(m_give_item);
 			m_given_item = true;
+      delete item;
 		}
 
 		return true;
