@@ -81,8 +81,10 @@ namespace game {
 
 		Area * player_location = game->area(player_config["/location"].parse_string());
 		game->m_player = new Player(Character::parse_attributes(&player_config["/attributes"]), player_location);
+		game->set_prefix_mode(false);
 		Human::parse_equipment(game->m_player, player_config.find("/equipment", false));
     Human::parse_inventory(game->m_player, player_config.find("/inventory", false));
+		game->set_prefix_mode(true);
 		game->add_character(game->m_player);
 	}
 
@@ -182,6 +184,7 @@ namespace game {
 
   std::vector<WorldParser::item_prefix_t> WorldParser::generate_prefixes(Equipment::type_t type) {
     std::vector<item_prefix_t> ret;
+		if(!Game::singleton->get_prefix_mode()) return ret;
 
     if(prefix_table[type].size() == 0) return ret;
 

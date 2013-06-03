@@ -18,6 +18,7 @@ namespace game {
 			static Game * singleton;
 
 			Game();
+			void init();
 			~Game();
 
 			enum dice_t {
@@ -53,6 +54,9 @@ namespace game {
       void start_simulation();
       void stop();
 
+			void set_prefix_mode(bool new_mode) { m_prefixes_enabled = new_mode; };
+			bool get_prefix_mode() { return m_prefixes_enabled; };
+
 			bool run() const { return m_run; };
 		private:
 			static std::default_random_engine generator;
@@ -65,6 +69,7 @@ namespace game {
 
       bool m_run = true;
 			bool m_won = false;
+			bool m_prefixes_enabled = true;
 			std::string game_name, intro, end_text, author;
 			Character * final_monster = nullptr;
 			std::string final_monster_name;

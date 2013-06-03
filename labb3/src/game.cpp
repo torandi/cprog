@@ -27,7 +27,8 @@ namespace game {
 		dices.push_back(std::uniform_int_distribution<int>(1,6));
 		dices.push_back(std::uniform_int_distribution<int>(1,10));
 		dices.push_back(std::uniform_int_distribution<int>(1,20));
-
+	}
+	void Game::init() {
 		WorldParser::parse(this);
 	}
 
@@ -82,6 +83,7 @@ namespace game {
 
 	Game::try_result_t Game::try_action(int points) {
 		int roll = roll_dice(T20);
+		Logging::verbose("ROLL: %d vs %d\n", roll, points);
 		if(roll == 1) return PERFECT;
 		else if(roll == 20) return FATAL;
 		else if(roll <= points) return SUCCESS;

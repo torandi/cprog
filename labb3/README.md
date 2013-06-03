@@ -29,6 +29,10 @@ all items and characters are tab-completed.
 * defaultattack [points] - set default number of points for attack
 * defaultblock [points] - set default number of points for block
 
+When specifying a npc or an item you need to type something that matches any whole word in the npc's/item's name.
+If you can not uniquely specify a item (due to two items having the same name) you may type a number after
+* inspect longsword 2 - would inspect the second match for the word longsword
+
 Game system
 ==========
 You and all other characters have a given set of attributes, these specify your abilities (mostly in battle).

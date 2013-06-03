@@ -340,6 +340,7 @@ namespace game {
 		start_fight(character);
 		character->start_fight(this);
 
+		Logging::verbose("%s (roll_attack) p: %d, mod: %d, tmpmod: %d\n", name().c_str(), points, m_action_mod, m_tmp_action_mod);
 		Game::try_result_t roll = try_do_action(points);
 
 		if(roll < Game::FAIL) {

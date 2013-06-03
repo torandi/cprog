@@ -54,6 +54,16 @@ namespace game {
 		}
 	}
 
+	static int find_number(const std::string &line) {
+		size_t pos = line.find_first_of("0123456789");
+		if(pos == line.npos) {
+			return INT_MIN;
+		} else {
+			return atoi(line.c_str() + pos);
+		}
+	}
+
+
 	static std::set<Character*> npcs() {
 		std::set<Character*> npcs = Game::player()->location()->characters();
 		npcs.erase(Game::player());
@@ -73,7 +83,8 @@ namespace game {
 		return items;
 	}
 
-	static Item * detect_item(std::set<Item*> items, const std::string &str) {
+	/* Count is used when multiple items match */
+	static Item * detect_item(std::set<Item*> items, const std::string &str, int count=INT_MIN) {
 		Item * match = nullptr;
 		size_t current_match_pos = str.npos;
 		size_t current_match_len = 0;
@@ -102,6 +113,17 @@ namespace game {
 				}
 			}
 		}
+
+		if(match != nullptr) {
+			if(count < 0) count = find_number(str);
+			if(count > 1) {
+				items.erase(match);
+				Item * m2 = detect_item(items, str, count - 1);
+				if(m2 != nullptr) match = m2;
+			}
+		}
+
+
 		return match;
 	}
 
@@ -179,15 +201,6 @@ namespace game {
 			}
 		}
 		return i;
-	}
-
-	static int find_number(const std::string &line) {
-		size_t pos = line.find_first_of("0123456789");
-		if(pos == line.npos) {
-			return INT_MIN;
-		} else {
-			return atoi(line.c_str() + pos);
-		}
 	}
 
 	/* Functions */
