@@ -648,7 +648,6 @@ namespace game {
 			std::string cmd;
 			if(Game::player()->state() != Character::IN_FIGHT && !redo.empty()) {
 				cmd = redo;
-				redo = "";
 			} else {
 				line = readline(prompt);
 
@@ -686,12 +685,14 @@ namespace game {
 			try {
 				res = ParseNode::parse(parse_trees[tree], cmd, user_data);
 				if(!res && cmd.length() != 0) printf("Unknown command %s.\n", cmd.c_str());
+				redo = "";
 			} catch (const char * err) {
 				std::cout << err;
 				if(Game::player()->state() != Character::IN_FIGHT) {
 					std::cout << std::endl;
 					Game::player()->next_turn();
-					redo = cmd;
+					if(redo.empty()) redo = cmd;
+					else redo = "";
 				} else {
 					std::cout << " Type next to end your turn." << std::endl;
 				}
