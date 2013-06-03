@@ -47,12 +47,7 @@
           effects:
             initiative: !rnd -5,1
             armor: 10
-        - !unique
-          id: fish
-          name: Fish
-          description: It's a wet and slimy fish. Ugh, it's jiggering.
-          volume: 0
-          weight: 0
+        - fish
 
 - !area
   id: garden

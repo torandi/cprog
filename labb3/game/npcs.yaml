@@ -66,10 +66,5 @@ garden_gnome: !requiring
     - I might map you up if you bring me some delcious fish.
   give_dialog: FISH! FISH! FISH! Oh, this might help you find your way.
   after_given_dialog: Go away!
-  give_item: !unique
-    id: darkwookds_map
-    name: Darkwoods Map
-    description: It's a weird map for the Darkwood.
-    volume: 0
-    weight: 0
+  give_item: darkwood_map
 

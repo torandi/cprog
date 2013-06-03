@@ -155,11 +155,18 @@ items:
     weight: 1
     effects:
       backpack_volume: !rnd 10,40
-  fish: !keepable
-    name: A fish
-    description: It's a dead fish.
-    volume: 1
-    weight: 1
+  fish: !unique
+    id: fish
+    name: Fish
+    description: It's a wet and slimy fish. Ugh, it's jiggering.
+    volume: 0
+    weight: 0
+  darkwood_map: !unique
+    id: darkwood_map
+    name: Darkwoods Map
+    description: It's a weird map for the Darkwood.
+    volume: 0
+    weight: 0
 
 equipment_prefixes:
   one_hand: &one_hand_prefixes
