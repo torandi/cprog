@@ -20,7 +20,9 @@ namespace game {
 		std::string name = (*node)["/name"].parse_string();
 		std::string description = (*node)["/description"].parse_string();
 		std::string required_item = (*node)["/required_item"].parse_string();
+    WorldParser::current_prefix_probability = node->find("/prefix_probability");
 		Keepable * item = dynamic_cast<Keepable*>(Item::from_node(node->find("/give_item", true)));
+    WorldParser::current_prefix_probability = nullptr;
 		if(item == nullptr) Logging::fatal("Requiring Character %s don't have a correct /give_item\n", name.c_str());
 		RequiringCharacter * rc = new RequiringCharacter(name, description, location, required_item, item);
 

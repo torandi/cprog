@@ -57,6 +57,8 @@ namespace game {
 			std::map<std::string, Area*> m_exits;
 			std::vector<std::string> m_directions;
 
+      bool m_no_random_items = false;
+
 			std::set<Character*> m_characters;
 			std::set<Item*> m_items;
 

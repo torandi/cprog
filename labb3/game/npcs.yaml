@@ -1,59 +1,3 @@
-bandit: !human
-  faction: bandit
-  name: Bandit
-  description: A nasty looking bandit
-  attributes:
-    action_points: 20
-    strength: !rnd 1,3
-    initiative: !rnd 2,3
-    life: !rnd 15,20
-    backpack_volume: 100
-  equipment:
-    - longsword
-    - pelt_armor
-shielded_bandit: !human
-  faction: bandit
-  name: Bandit
-  description: A nasty looking bandit. AND HE GOT A SHIELD. RUN.
-  attributes:
-    action_points: 20
-    strength: !rnd 1,3
-    initiative: !rnd 2,3
-    life: !rnd 15,20
-    backpack_volume: 100
-  equipment:
-    - longsword
-    - large_shield
-    - leather_armor
-badass_bandit: !human
-  faction: bandit
-  name: Badass Bandit
-  description: O SHI. A badass Bandit. Let's kill it!
-  attributes:
-    action_points: 30
-    strength: !rnd 6,8
-    initiative: !rnd 6,8
-    life: !rnd 20,30
-    backpack_volume: 100
-  equipment:
-    - two_hand_sword
-    - plate_armor
-    - ring
-old_man: !human
-  faction: civilian
-  name: Old Man
-  description: An old man with a long white beard
-  attributes:
-    initiative: !rnd 6,8
-    life: !rnd 5,10
-    backpack_volume: 100
-  equipment:
-    - ring
-  inventory:
-    - ring
-    - ring
-    - ring
-    - ring
 garden_gnome: !requiring
   name: Garden Gnome
   description: An very ugly garden gnome.
@@ -67,4 +11,164 @@ garden_gnome: !requiring
   give_dialog: FISH! FISH! FISH! Oh, this might help you find your way.
   after_given_dialog: Go away!
   give_item: darkwood_map
+mysterius_man: !human
+  faction: civilian
+  name: Mysterious old man
+  description: A mysterious old man with a long white beard
+  attributes:
+    initiative: !rnd 6,8
+    action_points: 20
+    strength: 5
+    life: 50
+    backpack_volume: 100
+  equipment:
+    - pelt_armor
+    - dagger
+  dialog:
+    - This place is CURSED I tell you!
+    - Find the three stones in the corners and lift the curse.
+    - Do you have the stones?! Take them to the old altar beyond the Darkwoods!
 
+harbor_master: !requiring
+  name: Harbor Master
+  description: A finely clad man. He owns this place!
+  attributes:
+    initiative: !rnd 6,8
+    action_points: 10
+    strength: 1
+    life: 30
+    backpack_volume: 100
+  equipment:
+    - pelt_armor
+  required_item: captains_hook
+  give_dialog: Oh, perfect! My harbor is once again calm. Here, take this.
+  given_dialog: The people of the docks thanks you once again!
+  dialog:
+    - Those bloody pirates have occuppied the pier. Could you take care of it for me?
+    - If you bring me the pirate captain's hook I'll give you a magic ring.
+  prefix_probability:
+    - 0
+    - 50
+    - 40
+    - 5
+  give_item: ring
+
+highwayman: !human
+  faction: bandit
+  name: Highwayman
+  description: O. It's a highwayman.
+  attributes:
+    action_points: !rnd 20,40
+    strength: !rnd 1,2
+    initiative: !rnd 5,15
+    life: !rnd 15,20
+    backpack_volume: 100
+  equipment:
+    - dagger
+    - dagger
+    - pelt_armor
+  inventory:
+    random_count: !rnd 2,5
+
+dual_wielding_pirate: !human
+  faction: bandit
+  name: Dual-wielding Pirate
+  description: A ugly pirate with two sabres.
+  attributes:
+    action_points: 15
+    strength: 1
+    initiative: !rnd 3,5
+    life: !rnd 15,25
+    backpack_volume: 100
+  equipment:
+    - sabre
+    - sabre
+    - leather_armor
+  inventory:
+    random_count: !rnd 5,8
+pirate: !human
+  faction: bandit
+  name: Pirate
+  description: A ugly pirate.
+  attributes:
+    action_points: 15
+    strength: 2
+    initiative: !rnd 3,5
+    life: !rnd 15,25
+    backpack_volume: 100
+  equipment:
+    - sabre
+    - leather_armor
+  inventory:
+    random_count: !rnd 5,8
+pirate_captain: !human
+  faction: bandit
+  name: Pirate Captain
+  description: The mighty pirate captain. Feared by all!
+  attributes:
+    action_points: 20
+    strength: !rnd 10,20
+    initiative: !rnd 5,20
+    life: !rnd 15,25
+    backpack_volume: 100
+  equipment:
+    - sabre
+    - sabre
+    - metal_leather_armor
+  inventory:
+    random_count: !rnd 10,20
+    prefix_probability:
+      - 50
+      - 80
+      - 40
+      - 7
+    items:
+      - captains_hook
+
+bandit: !human
+  faction: bandit
+  name: Bandit
+  description: A nasty looking bandit.
+  attributes:
+    action_points: 20
+    strength: !rnd 1,3
+    initiative: !rnd 2,3
+    life: !rnd 15,25
+    backpack_volume: 100
+  equipment:
+    - longsword
+    - pelt_armor
+  inventory:
+    random_count: !rnd 4,7
+shielded_bandit: !human
+  faction: bandit
+  name: Bandit
+  description: A nasty looking bandit. AND HE GOT A SHIELD. RUN.
+  attributes:
+    action_points: 20
+    strength: !rnd 1,5
+    initiative: !rnd 2,3
+    life: !rnd 15,25
+    backpack_volume: 100
+  equipment:
+    - longsword
+    - large_shield
+    - leather_armor
+  inventory:
+    random_count: !rnd 6,9
+badass_bandit: !human
+  faction: bandit
+  name: Badass Bandit
+  description: O SHI. A badass Bandit. Let's kill it!
+  attributes:
+    action_points: 30
+    strength: !rnd 5,20
+    initiative: !rnd 6,8
+    life: !rnd 20,35
+    backpack_volume: 100
+  equipment:
+    - two_hand_sword
+    - plate_armor
+    - ring
+  inventory:
+    random_count: !rnd 7,10

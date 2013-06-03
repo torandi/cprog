@@ -277,7 +277,15 @@ namespace game {
 		if(d.line.empty()) return print("Go where?!");
 		if(Game::player()->go(d.line)) {
 			std::cout << "You go " << d.line << ". Your are now in " << Game::player()->location()->name() << ". " << std::endl;
-			print_exits();
+      print_exits();
+      if(Game::player()->location()->items().size() > 0) {
+        std::cout << std::endl << "You can see the following item" << (Game::player()->location()->items().size() > 1 ? "s" : "") << ": " << std::endl;
+        print_items(Game::player()->location()->items());
+      }
+      if(Game::player()->location()->characters().size() > 1) {
+        std::cout << std::endl << "You can see the following person" << (Game::player()->location()->characters().size() > 2 ? "s" : "") << ": " << std::endl;
+        print_characters(npcs());
+      }
 		} else {
 			std::cout << "You can't go that direction." << std::endl;
 		}
@@ -503,7 +511,6 @@ namespace game {
 	ParseNode Input::parse_trees[Input::NUM_PARSE_TREES] = {
 		ParseNode("", nullptr, {
 			ParseNode("inventory", cmd_inventory, { }),
-			ParseNode("backpack", cmd_inventory, { }),
 			ParseNode("show attributes", cmd_attributes, { }),
 			ParseNode("equipment", cmd_equipment, { }),
 			ParseNode("help", cmd_help_default, { }),
@@ -536,6 +543,7 @@ namespace game {
 			ParseNode("life", cmd_life, { }),
 			ParseNode("use", cmd_use, { }),
 			ParseNode("go", cmd_go, { }),
+      ParseNode("backpack", cmd_inventory, { }),
 			ParseNode("make", cmd_make, { }),
 		}),
 		ParseNode("", nullptr, {

@@ -273,6 +273,26 @@ namespace game {
 
 	void Character::parse_inventory(Character * character, const ConfigNode * node) {
 		if(node == nullptr) return;
+
+    WorldParser::current_prefix_probability = node->find("/prefix_probability");
+
+    const ConfigNode * content = node->find("/random_count");
+    if(content != nullptr) {
+      Config items_config = Config::from_filename("game/items.yaml");
+      int rnd_count = content->parse_int();
+      content = node->find("/random_content");
+      if(content == nullptr) {
+        content = &items_config["/random_items"];
+      }
+      for(Keepable * item : WorldParser::random_items(content->list(), rnd_count)) {
+        character->store(item);
+      }
+    }
+
+    node = node->find("/items");
+
+    if(node == nullptr) return;
+
 		for(const ConfigNode * i : node->list()) {
 			Item * item = Item::from_node(i);
 			Keepable * keep = dynamic_cast<Keepable*>(item);
@@ -280,6 +300,8 @@ namespace game {
 			if(keep == nullptr) delete item;
 			else character->store(keep);
 		}
+
+    WorldParser::current_prefix_probability = nullptr;
 	}
 
 	Character * Character::from_node(const ConfigNode * node, Area * location) {

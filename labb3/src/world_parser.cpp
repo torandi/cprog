@@ -86,6 +86,11 @@ namespace game {
 			Area * area = Area::from_config(node);
 			areas[(*node)["/id"].parse_string()] = area;
 
+      const ConfigNode *nri = node->find("/no_random_items");
+      if(nri !=nullptr && nri->parse_bool() == true) {
+        area->m_no_random_items = true;
+      }
+
       const ConfigNode * items = node->find("/items");
       if(items) {
         for(const ConfigNode * i : items->list()) {
@@ -140,15 +145,17 @@ namespace game {
 				}
 			}
 
-			int item_count = items_config["/item_count"].parse_int();
-			if(item_count > 0) {
-				Container * container = Container::from_config(containers[container_select(generator)]);
-        for(Keepable * item : random_items(items_config["/random_items"].list(), item_count)) {
-          if(!container->put(item)) delete item;
-        }
+      if(!it.second->m_no_random_items) {
+        int item_count = items_config["/item_count"].parse_int();
+        if(item_count > 0) {
+          Container * container = Container::from_config(containers[container_select(generator)]);
+          for(Keepable * item : random_items(items_config["/random_items"].list(), item_count)) {
+            if(!container->put(item)) delete item;
+          }
 
-				area_items.insert(container);
-			}
+          area_items.insert(container);
+        }
+      }
 		}
 	}
 

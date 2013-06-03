@@ -29,6 +29,19 @@ items:
       damage_extra: !rnd 0,2
       damage_overpower: !rnd 9,10
       durability: 60
+  sabre: !equipment
+    type: one_hand
+    name: Pirate Sabre
+    description: A pirate sabre, this was once wielded by a mighty pirate.
+    volume: !rnd 2,3
+    weight: !rnd 1,2
+    effects:
+      initiative: !rnd 5,15
+      action_points: !rnd 10,20
+      weapon_actions: !rnd 3,5
+      damage_extra: !rnd 0,2
+      damage_overpower: 10
+      durability: !rnd 60, 90
   dagger: !equipment
     type: one_hand
     name: Dagger
@@ -167,6 +180,13 @@ items:
     description: It's a weird map for the Darkwood.
     volume: 0
     weight: 0
+  captains_hook:
+    id: captains_hook
+    name: The Pirate Captain's Hook
+    description: There's still some blood left on it.
+    volume: 1
+    weight: 1
+
 
 equipment_prefixes:
   one_hand: &one_hand_prefixes

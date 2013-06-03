@@ -1,8 +1,11 @@
+# PLAYER HOME #
+
 - !area
   id: hut
   name: Your Hut
   description: It's small hut in the forest. It's not much for the world, but it's your's.
   movement_cost: 1
+  no_random_items: true
   exits:
     west: garden
   items:
@@ -61,8 +64,6 @@
   npcs:
     - garden_gnome
 
-
-
 - !area
   id: backyard
   name: Your backyard.
@@ -78,102 +79,175 @@
   movement_cost: 5
   exits:
     east: garden
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-######################## OLD #############333
-
-
-- !area
-  id: forest
-  name: The Forest
-  description: It is a dark and wet forest.
-  movement_cost: 10
-  exits:
-    north: bridge
-    west: forest_pond
-  npcs:
-    - old_man
-    - bandit
+    north: nw_forest_path
+    south: sw_forest_path
   items:
     - !container
-      name: Better Chest
-      description: Full of niice loot
-      storage_volume: 100
-      random_content:
-        count: 20
-        items:
-          - dagger
-          - longsword
-          - two_hand_sword
-          - chainmail
-- !area
-  id: bridge
-  name: A Bridge
-  description: A old bridge, it looks a bit unstable.
-  movement_cost: 7
-  exits:
-    south: forest
-    north: castle
+      name: Small Chest
+      description: A small chest, maybe it contains something usefull?
+      storage_volume: 50
+      random_items: !rnd 4,8
   npcs:
-    - bandit
+    - mysterius_man
+
+# FOREST PATHS #
+
 - !area
-  id: forest_pond
-  name: Forest Pond
-  description: A serene forest pond.
+  id: nw_forest_path
+  name: Forest Path
+  description: A forest path. It goes in the north direction, but turns slightly east.
+  movement_cost: 5
+  npcs:
+    - highwayman
+
+
+- !area
+  id: sw_forest_path
+  name: Forest Path
+  description: A forest path. It goes in the south direction, but turns slightly east.
   movement_cost: 5
   exits:
-    east: forest
-  items:
-    - fish
-    - !unique
-      id: teh_key
-      name: Teh Key
-      description: Tis is teh key.
-      volume: 0
-      weight: 0
-    - !container
-      name: Locked Chest
-      description: It's locked. You will need teh key!
-      storage_volume: 100
-      key: teh_key
-      random_content:
-        count: 20
-        items:
-          - dagger
-          - dagger
-          - dagger
-          - two_hand_sword
-          - longsword
-          - two_hand_sword
-          - chainmail
-          - medium_shield
-          - large_shield
-          - ring
-          - ring
-          - ring
-
+    south: clearing
+    north: forest_crossroad
 
 - !area
-  id: castle
-  name: Old Castle
-  description: An old mossy castle, it looks haunted.
-  movement_cost: 10
+  id: clearing
+  name: Clearing
+  description: It's a clearing in the forest. The trees open up and let's the sunlight in.
+  movement_cost: 5
+  exits:
+    south: forest_crossroad
+    north: path_to_the_docks
+    east: path_to_the_pond
+  items:
+    - !container
+      name: Chest
+      description: A chest, LOOT!
+      storage_volume: 100
+      random_items: !rnd 4,8
   npcs:
-    - badass_bandit
+    - highwayman
+
+- !area
+  id: path_to_the_pond
+  name: Calm Forest Path.
+  description: It's a calm forest path in the east/west direction. You hear the birds sing.
+  movement_cost: 1
+  exits:
+    west: clearing
+    east: the_forest_pond
+
+- !area
+  id: path_to_the_docks
+  name: Path to the Docks
+  description: It's a path that leads to the dock.
+  movement_cost: 5
+  exits:
+    south: the_docks
+    north: clearing
+  npcs:
+    - pirate
+
+# THE DOCKS #
+
+- !area
+  id: the_docks
+  name: The Docks
+  description: This is the harbor. There is a pirate ship anchored at the pier here.
+  movement_cost: 10
+  exits:
+    south: pier
+    north: path_to_the_docks
+  npcs:
+    - harbor_master
+
+- !area
+  id: pier
+  name: Pier
+  description: A stable pier. There is a pirate ship anchored here.
+  movement_cost: 15
+  exits:
+    south: the_docks
+    west: pirate_ship
+
+- !area
+  id: pirate_ship
+  name: The Pirate Ship: North Deck
+  description: The upper deck of the pirate ship.
+  exits:
+    south: pirate_ship_south
+    east: pier
+  npcs:
+    - pirate
+    - pirate
+  items:
+  - !container
+    name: Pirate's First Aid
+    description: First Aid, for pirates
+    storage_volume: 200
+    content:
+      - !potion
+        hp: !rnd 10,30
+      - !potion
+        hp: !rnd 10,30
+      - !potion
+        hp: !rnd 10,30
+      - !potion
+        hp: !rnd 10,30
+      - !unique
+        id: rum
+        name: Pirate Rum
+        description: A dark soggy liquid. You probably shouldn't drink it.
+        volume: 1
+        weight: 1
+
+- !area
+  id: pirate_ship_south
+  name: The Pirate Ship: South Deck
+  description: The upper deck of the pirate ship.
+  exits:
+    north: pirate_ship
+    south: captains_chamber
+  npcs:
+    - dual_wielding_pirate
+    - pirate
+  items:
+  - !container
+    name: Pirate Booty Chest
+    description: Yay, pirate booty.
+    storage_volume: 200
+    random_items: !rnd 5,15
+
+- !area
+  id: captains_chamber
+  name: The Pirate Captain's Private Chamber
+  description: There are a lot of empty rum bottles here...
+  exits:
+    north: pirate_ship_south
+  npcs:
+    - pirate_captain
+  items:
+  - !container
+    name: Pirate Booty Chest
+    description: Yay, pirate booty.
+    storage_volume: 200
+    random_items: !rnd 5,15
+    prefix_probability:
+      - 150
+      - 80
+      - 10
+      - 5
+
+
+
+
+
+
+
+
+
+
+
+
+
 
