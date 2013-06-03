@@ -89,6 +89,10 @@ Action points are used for all (most) actions. Some common costs are:
 If you try a action that you don't have enough points for and you are not in a fight the game will automaticly end your turn,
 and retry the action next turn.
 
+After each turn
+--
+Is printed, to make sense of what actions belong to which turns
+
 ### The battle
 When a player attack (A) another player (B) , the following happens
 

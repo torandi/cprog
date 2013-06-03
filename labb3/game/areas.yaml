@@ -156,8 +156,8 @@
   description: It's a clearing in the forest. The trees open up and let's the sunlight in.
   movement_cost: 5
   exits:
-    south: forest_crossroad
-    north: path_to_the_docks
+    north: forest_crossroad
+    south: path_to_the_docks
     east: path_to_the_pond
   items:
     - !container
