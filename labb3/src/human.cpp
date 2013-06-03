@@ -124,6 +124,12 @@ namespace game {
 		m_inventory.insert(item);
 	}
 
+	void Human::delete_item(Keepable * item) {
+		m_inventory_weight -= item->weight();
+		m_used_inventory_volume -= item->volume();
+		m_inventory.erase(item);
+	}
+
 	int Human::used_backpack_volume() const {
 		return m_used_inventory_volume;
 	}
@@ -452,7 +458,7 @@ namespace game {
 		while(!m_inventory.empty()) drop(*(m_inventory.begin()));
 	}
 
-	bool Human::talk_to(Human * human) {
+	bool Human::talk_to(Character  * character) {
 		if(m_dialog.size() == 0) return false;
 
 		Game::out(location()) << m_dialog[m_next_dialog] << std::endl;

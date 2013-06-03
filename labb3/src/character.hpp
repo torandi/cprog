@@ -25,6 +25,7 @@ namespace game {
 			MONSTERS,
 			BANDITS,
 			UNALIGNED,
+			INVINCIBLE,
 			NUM_FACTIONS
 		};
 
@@ -64,6 +65,7 @@ namespace game {
 		virtual void pick_up(Item * item);
 		virtual void use(Item * item);
 		virtual void take(Keepable * item, Container * from_container);
+		virtual bool talk_to(Character * character) { return false; };
 
 		virtual UniqueItem * have_unique(const std::string &id) const;
 
@@ -84,10 +86,12 @@ namespace game {
 
 		virtual void init_round();
 		virtual ~Character();
+
+		virtual void store(Keepable  * item) = 0;
+		virtual void delete_item(Keepable  * item) = 0;
 	protected:
 		Character(const std::string &name, const std::string &description, faction_t faction, std::map<std::string, int> attributes, Area * location);
 
-		virtual void store(Keepable  * item) = 0;
 		virtual bool use_action(int hand);
 
 		virtual void die() = 0; //called when the character dies

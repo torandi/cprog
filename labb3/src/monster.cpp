@@ -60,6 +60,8 @@ namespace game {
 		m_loot.push_back(item);
 	}
 
+	void Monster::delete_item(Keepable * item) { }
+
 	void Monster::attack(Character * character, int points) {
 		if(character->location() != location()) {
 			Game::out(location()) << name() << " can't attack " << character->name() << "; not in same location." << std::endl;

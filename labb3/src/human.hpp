@@ -40,7 +40,7 @@ namespace game {
       virtual std::map<std::string, int> attributes() const;
 			virtual int attribute(const std::string &attr, int default_value = -1) const;
 			virtual Equipment * equipment(slot_t slot) const;
-			virtual bool talk_to(Human * human);
+			virtual bool talk_to(Character * character);
 			virtual bool drop(Keepable * item);
 			virtual bool equip(Equipment * item);
 			virtual bool equip(Equipment * item, slot_t slot);
@@ -51,6 +51,8 @@ namespace game {
 			virtual void init_round();
 
 			virtual ~Human();
+			virtual void store(Keepable * item);
+			virtual void delete_item(Keepable  * item);
 		protected:
 			Human(const std::string &name, const std::string &description, faction_t faction, std::map<std::string, int> attributes, Area * location);
 			Equipment * m_equipments[NUM_SLOTS] = {nullptr, };
@@ -63,7 +65,6 @@ namespace game {
 			std::vector<std::string> m_dialog;
 			int m_next_dialog = 0;
 
-			virtual void store(Keepable * item);
 			virtual void die();
 			virtual void reduce_armor(int amount);
 

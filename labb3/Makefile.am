@@ -24,6 +24,7 @@ textrpg_SOURCES = \
 	src/input.cpp src/input.hpp \
 	src/string_utils.cpp scr/string_utils.hpp \
 	src/unique_item.cpp scr/unique_item.hpp \
+	src/requiring_character.cpp scr/requiring_character.hpp \
 	src/main.cpp \
 	src/color.hpp
 

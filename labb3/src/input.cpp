@@ -30,6 +30,10 @@ namespace game {
 
 	/* Helper functions */
 
+	static void print(const std::string &str) {
+		std::cout << str << std::endl;
+	}
+
 	static void print_items(const std::set<Item*> &items) {
 		for(Item * i : items) {
 			std::cout << i->name() << std::endl;
@@ -194,8 +198,8 @@ namespace game {
 
 	static void cmd_attributes(ParseData &d) {
 		Character * c = Game::player();
-		c = detect_character(npcs(), d.line);
-		if(c == nullptr) c = Game::player();
+		/*c = detect_character(npcs(), d.line);
+		if(c == nullptr) c = Game::player();*/
 
 
 		std::cout << "Your attributes (including effects from equipment): " << std::endl;
@@ -255,7 +259,22 @@ namespace game {
 		}
 	}
 
+	static void cmd_talk_to(ParseData &d) {
+		if(d.line.empty()) return print("Talk to whom?!");
+
+		Character * character = detect_character(npcs(), d.line);
+
+		if(character != nullptr) {
+			if(!character->talk_to(Game::player())) {
+				std::cout << character->name() << " refuses to talk to you!" << std::endl;
+			}
+		} else {
+			std::cout << "You would really like to talk to" << d.line << ", but since you can't find him/her/it you simply have to give up." << std::endl;
+		}
+	}
+
 	static void cmd_go(ParseData &d) {
+		if(d.line.empty()) return print("Go where?!");
 		if(Game::player()->go(d.line)) {
 			std::cout << "You go " << d.line << ". Your are now in " << Game::player()->location()->name() << ". " << std::endl;
 			print_exits();
@@ -265,6 +284,7 @@ namespace game {
 	}
 
 	static void cmd_pick_up(ParseData &d) {
+		if(d.line.empty()) return print("Pick up what?!");
 		Container * c= nullptr;
 		Item * i = find_item_and_container(Game::player()->location()->all_items(),d.line, &c);
 
@@ -278,6 +298,7 @@ namespace game {
 	}
 
 	static void cmd_take_from(ParseData &d) {
+		if(d.line.empty()) return print("WHAT?!");
 		Container * c = dynamic_cast<Container*>(detect_item(filter_list(Game::player()->location()->items(), [](Item*i){
 						return dynamic_cast<Container*>(i);
 			}), d.line));
@@ -294,6 +315,7 @@ namespace game {
 	}
 
 	static void cmd_open(ParseData &d) {
+		if(d.line.empty()) return print("Open what?!");
 		Item * i = detect_item(Game::player()->location()->items(), d.line);
 		Container * c = dynamic_cast<Container*>(i);
 		if(c != nullptr) {
@@ -307,6 +329,7 @@ namespace game {
 	}
 
 	static void cmd_close(ParseData &d) {
+		if(d.line.empty()) return print("Close what?!");
 		Item * i = detect_item(Game::player()->location()->items(), d.line);
 		Container * c = dynamic_cast<Container*>(i);
 		if(c != nullptr) {
@@ -317,6 +340,7 @@ namespace game {
 	}
 
 	static void cmd_drop(ParseData &d) {
+		if(d.line.empty()) return print("Drop what?!");
 		Keepable * k = dynamic_cast<Keepable*>(detect_item(Game::player()->inventory(), d.line));
 		if(k != nullptr) {
 			Game::player()->drop(k);
@@ -326,6 +350,7 @@ namespace game {
 	}
 
 	static void cmd_equip(ParseData &d) {
+		if(d.line.empty()) return print("Equip what?!");
 		Container * c = nullptr;
 		Item * i = find_item_and_container(accessible_items(false), d.line, &c);
 		if(i != nullptr) {
@@ -356,6 +381,7 @@ namespace game {
 	}
 
 	static void cmd_unequip(ParseData &d) {
+		if(d.line.empty()) return print("Unequip what?!");
 		std::set<Item*> items;
 		for(int i=0; i<Human::NUM_SLOTS; ++i) {
 			Human::slot_t slot = static_cast<Human::slot_t>(i);
@@ -379,6 +405,7 @@ namespace game {
 	}
 
 	static void cmd_use(ParseData &d) {
+		if(d.line.empty()) return print("Use what?!");
 		Item * i = detect_item(accessible_items(), d.line);
 		if(i != nullptr) {
 			i->use(Game::player());
@@ -484,6 +511,7 @@ namespace game {
 			ParseNode("describe", cmd_inspect, { }),
 			ParseNode("inspect", cmd_inspect, { }),
 			ParseNode("look at", cmd_inspect, { }),
+			ParseNode("talk to", cmd_talk_to, { }),
 			ParseNode("open", cmd_open, { }),
 			ParseNode("close", cmd_close, { }),
 			ParseNode("drop", cmd_drop, { }),

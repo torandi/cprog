@@ -14,9 +14,10 @@ namespace game {
 			static Monster * from_config(const ConfigNode * node, Area * location);
 
       virtual ~Monster();
+			virtual void store(Keepable * item);
+			virtual void delete_item(Keepable  * item);
 		protected:
 			Monster(const std::string &name, const std::string &description, std::map<std::string, int> attributes, Area * location);
-			virtual void store(Keepable * item);
 
 			virtual void die();
 			virtual void reduce_armor(int amount);

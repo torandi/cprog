@@ -14,11 +14,12 @@
 
 namespace game {
 	bool Character::faction_standings[Character::NUM_FACTIONS][Character::NUM_FACTIONS] = {
-										/*  C  M  B  U   */
-		/* CIVILIAN: */		{ 0, 0, 0, 0, }, /* Civilians don't attack anyone */
-		/* MONSTER: */		{ 1, 0, 1, 1, },
-		/* BANDIT: */			{ 1, 1, 0, 1, },
-		/* UNALIGNED: */	{ 1, 1, 1, 1, },
+										/*  C  M  B  U  I*/
+		/* CIVILIAN: */		{ 0, 0, 0, 0, 0}, /* Civilians don't attack anyone */
+		/* MONSTER: */		{ 1, 0, 1, 1, 0 },
+		/* BANDIT: */			{ 1, 1, 0, 1, 0 },
+		/* UNALIGNED: */	{ 1, 1, 1, 1, 0 },
+		/* INVINCIBLE */ 	{ 0, 0, 0, 0, 0 },
 	};
 
 	Character::Character(const std::string &name, const std::string &description, Character::faction_t faction, std::map<std::string, int> attributes, Area * location)
