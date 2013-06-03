@@ -50,7 +50,6 @@
           effects:
             initiative: !rnd -5,1
             armor: 10
-        - fish
 
 - !area
   id: garden
@@ -172,8 +171,9 @@
 
 - !area
   id: pirate_ship
-  name: The Pirate Ship: North Deck
+  name: "The Pirate Ship: North Deck"
   description: The upper deck of the pirate ship.
+  movement_cost: 15
   exits:
     south: pirate_ship_south
     east: pier
@@ -181,30 +181,31 @@
     - pirate
     - pirate
   items:
-  - !container
-    name: Pirate's First Aid
-    description: First Aid, for pirates
-    storage_volume: 200
-    content:
-      - !potion
-        hp: !rnd 10,30
-      - !potion
-        hp: !rnd 10,30
-      - !potion
-        hp: !rnd 10,30
-      - !potion
-        hp: !rnd 10,30
-      - !unique
-        id: rum
-        name: Pirate Rum
-        description: A dark soggy liquid. You probably shouldn't drink it.
-        volume: 1
-        weight: 1
+    - !container
+      name: Pirate's First Aid
+      description: First Aid, for pirates
+      storage_volume: 200
+      content:
+        - !potion
+          hp: !rnd 10,30
+        - !potion
+          hp: !rnd 10,30
+        - !potion
+          hp: !rnd 10,30
+        - !potion
+          hp: !rnd 10,30
+        - !unique
+          id: rum
+          name: Pirate Rum
+          description: A dark soggy liquid. You probably shouldn't drink it.
+          volume: 1
+          weight: 1
 
 - !area
   id: pirate_ship_south
-  name: The Pirate Ship: South Deck
+  name: "The Pirate Ship: South Deck"
   description: The upper deck of the pirate ship.
+  movement_cost: 15
   exits:
     north: pirate_ship
     south: captains_chamber
@@ -212,34 +213,45 @@
     - dual_wielding_pirate
     - pirate
   items:
-  - !container
-    name: Pirate Booty Chest
-    description: Yay, pirate booty.
-    storage_volume: 200
-    random_items: !rnd 5,15
+    - !container
+      name: Pirate Booty Chest
+      description: Yay, pirate booty.
+      storage_volume: 200
+      random_items: !rnd 5,15
 
 - !area
   id: captains_chamber
   name: The Pirate Captain's Private Chamber
   description: There are a lot of empty rum bottles here...
+  movement_cost: 15
   exits:
     north: pirate_ship_south
   npcs:
     - pirate_captain
   items:
-  - !container
-    name: Pirate Booty Chest
-    description: Yay, pirate booty.
-    storage_volume: 200
-    random_items: !rnd 5,15
-    prefix_probability:
-      - 150
-      - 80
-      - 10
-      - 5
+    - !container
+      name: Pirate Booty Chest
+      description: Yay, pirate booty.
+      storage_volume: 200
+      random_items: !rnd 5,15
+      prefix_probability:
+        - 150
+        - 80
+        - 10
+        - 5
 
 
+# THE POND #
 
+- !area
+  id: the_forest_pond
+  name: The Forest Pond
+  description: A still pond in the middle of the forest.
+  movement_cost: 5
+  exits:
+    west: path_to_the_pond
+  items:
+    - fish
 
 
 

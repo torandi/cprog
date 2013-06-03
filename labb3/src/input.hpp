@@ -20,6 +20,8 @@ namespace game {
 
 			static ParseNode parse_trees[];
 
+      static void describe_area();
+
 	};
 };
 

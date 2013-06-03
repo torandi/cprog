@@ -180,7 +180,7 @@ items:
     description: It's a weird map for the Darkwood.
     volume: 0
     weight: 0
-  captains_hook:
+  captains_hook: !unique
     id: captains_hook
     name: The Pirate Captain's Hook
     description: There's still some blood left on it.

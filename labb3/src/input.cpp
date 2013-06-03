@@ -228,18 +228,22 @@ namespace game {
 		}
 	}
 
+  void Input::describe_area() {
+    Area * location =Game::player()->location();
+    std::cout << "You are standing in " << location->name() << ". " << location->description() << "." << std::endl;
+    print_exits();
+    if(location->items().size() > 0) {
+      std::cout << std::endl << "You can see the following item" << (location->items().size() > 1 ? "s" : "") << ": " << std::endl;
+      print_items(location->items());
+    }
+    if(location->characters().size() > 1) {
+      std::cout << std::endl << "You can see the following person" << (location->characters().size() > 2 ? "s" : "") << ": " << std::endl;
+      print_characters(npcs());
+    }
+  }
+
 	static void cmd_look_around(ParseData &d) {
-		Area * location =Game::player()->location();
-		std::cout << "You are standing in " << location->name() << ". " << location->description() << "." << std::endl;
-		print_exits();
-		if(location->items().size() > 0) {
-			std::cout << std::endl << "You can see the following item" << (location->items().size() > 1 ? "s" : "") << ": " << std::endl;
-			print_items(location->items());
-		}
-		if(location->characters().size() > 1) {
-			std::cout << std::endl << "You can see the following person" << (location->characters().size() > 2 ? "s" : "") << ": " << std::endl;
-			print_characters(npcs());
-		}
+    Input::describe_area();
 	}
 
 	static void cmd_inspect(ParseData &d) {
@@ -512,6 +516,7 @@ namespace game {
 		ParseNode("", nullptr, {
 			ParseNode("inventory", cmd_inventory, { }),
 			ParseNode("show attributes", cmd_attributes, { }),
+      ParseNode("stats", cmd_attributes, { }),
 			ParseNode("equipment", cmd_equipment, { }),
 			ParseNode("help", cmd_help_default, { }),
 			ParseNode("look around", cmd_look_around, { }),

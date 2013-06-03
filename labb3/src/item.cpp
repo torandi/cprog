@@ -40,7 +40,11 @@ namespace game {
     auto it = tag_map.find(node->tag());
     if(it == tag_map.end()) {
 			node->print();
-			Logging::fatal("Unknown item tag %s\n", node->tag().c_str());
+			if(node->has_tag()) {
+				Logging::fatal("Unknown item tag %s\n", node->tag().c_str());
+			} else {
+				Logging::fatal("Node lacks item tag.\n");
+			}
 		}
     return (it->second)(node);
   }
