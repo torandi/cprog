@@ -58,12 +58,12 @@ namespace game {
 		Game::out(location());
 		UniqueItem * item = character->have_unique(m_required_item);
 		if(m_given_item) {
-			Game::out(location())  << "\""<< m_no_more_dialog << "\"" << std::endl;
+			Game::out(location())  << m_no_more_dialog << std::endl;
 		} else if(item == nullptr) {
-			Game::out(location())  << "\""<< m_require_dialog[m_next_dialog]  << "\"" << std::endl;
+			Game::out(location())  << m_require_dialog[m_next_dialog]  << std::endl;
 			m_next_dialog = (m_next_dialog + 1) % static_cast<int>(m_require_dialog.size());
 		} else {
-			Game::out(location()) << "\"" << m_give_dialog << "\"" << std::endl;
+			Game::out(location()) << m_give_dialog << std::endl;
 			Game::out(location()) << name() << " gave you " << m_give_item->name() << std::endl;
 			character->delete_item(item);
 			character->store(m_give_item);

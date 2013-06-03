@@ -65,7 +65,7 @@
 
 - !area
   id: backyard
-  name: Your backyard.
+  name: Your backyard
   description: Yuck! Trash everywhere.
   movement_cost: 5
   exits:
@@ -79,9 +79,10 @@
   description: The forest is light and the trees stand sparse. Two paths cross here.
   movement_cost: 5
   exits:
-    east: garden
     north: nw_forest_path
     south: sw_forest_path
+    west: darkwood_entrance
+    east: garden
   items:
     - !container
       name: Small Chest
@@ -547,3 +548,34 @@
         - 50
         - 20
         - 5
+
+# Darkwoods!
+
+- !darkwood
+  id: darkwood_entrance
+  name: Darkwood Entrance
+  description: This forest is much more menacing than the normal forest. You feel a presure over your chest.
+  movement_cost: 20
+  exits:
+    west: darkwood_path
+    east: forest_crossroad
+
+- !darkwood
+  id: darkwood_path
+  name: Darkwood Path
+  description: The path takes you deeper into the darkwoods. You are glad for the map, without it you would never be able to find your way out of here.
+  movement_cost: 20
+  exits:
+    west: ancient_stones
+    east: darkwood_entrance
+  npcs:
+    - spider
+
+- !darkwood
+  id: ancient_stones
+  name: Ancient Stones
+  description: There is a eerie feeling over this place, you would be glad to leave it.
+  movement_cost: 20
+  exits:
+    east: darkwood_path
+  # TODO: The final item, spawning an enemy

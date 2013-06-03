@@ -280,7 +280,7 @@ namespace game {
 	static void cmd_go(ParseData &d) {
 		if(d.line.empty()) return print("Go where?!");
 		if(Game::player()->go(d.line)) {
-			std::cout << "You go " << d.line << ". Your are now in " << Game::player()->location()->name() << ". " << std::endl;
+			std::cout << "You go " << d.line << ". Your are now in " << Game::player()->location()->name() << ". "  << Game::player()->location()->description() << std::endl;
       print_exits();
       if(Game::player()->location()->items().size() > 0) {
         std::cout << std::endl << "You can see the following item" << (Game::player()->location()->items().size() > 1 ? "s" : "") << ": " << std::endl;

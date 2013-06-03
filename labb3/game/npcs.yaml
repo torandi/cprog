@@ -186,6 +186,21 @@ badass_bandit: !human
 
 # Monsters
 
+spider: !monster
+  faction: monster
+  name: Spider
+  description: A hairy spider.
+  attributes:
+    action_points: 30
+    strength: !rnd 5,10
+    armor: !rnd 20,50
+    life: !rnd 20,30
+    damage_extra: !rnd 1,2
+    damage_overpower: 8
+  weapon_name: sharp fangs
+  loot:
+    random_count: !rnd 4,7
+
 cave_spider: !monster
   faction: monster
   name: Cave Spider
