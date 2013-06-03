@@ -24,6 +24,8 @@ namespace game {
 	static int default_attack = INT_MIN;
 	static int default_block = INT_MIN;
 
+	static std::string redo = "";
+
 	/* Helper mappings */
 
 	static std::string slot_names[Human::NUM_SLOTS] = { "Right hand", "Left hand", "Armor", "Ring", "Backpack" };
@@ -422,6 +424,7 @@ namespace game {
 		if(d.line.empty()) return print("Use what?!");
 		Item * i = detect_item(accessible_items(), d.line);
 		if(i != nullptr) {
+			Game::player()->do_action(5);
 			i->use(Game::player());
 		} else {
 			std::cout << "You are sure that you saw a " << d.line << " to use just a moment ago, but it seems to be totaly gone. Or you know, maybe you should learn to type." << std::endl;
@@ -642,17 +645,23 @@ namespace game {
 		bool res;
 		active_parse_tree = tree;
 		do {
-			line = readline(prompt);
+			std::string cmd;
+			if(Game::player()->state() != Character::IN_FIGHT && !redo.empty()) {
+				cmd = redo;
+				redo = "";
+			} else {
+				line = readline(prompt);
 
-			if(line == nullptr) {
-				Game::singleton->stop();
+				if(line == nullptr) {
+					Game::singleton->stop();
+					free(line);
+					return;
+				}
+				if(strlen(line) > 0) add_history(line);
+
+				cmd = std::string(line);
 				free(line);
-				return;
 			}
-			if(strlen(line) > 0) add_history(line);
-
-			std::string cmd = std::string(line);
-			free(line);
 
 			/* Fulhack alias för nswe */
 			if(cmd.length() == 1) {
@@ -682,6 +691,7 @@ namespace game {
 				if(Game::player()->state() != Character::IN_FIGHT) {
 					std::cout << std::endl;
 					Game::player()->next_turn();
+					redo = cmd;
 				} else {
 					std::cout << " Type next to end your turn." << std::endl;
 				}
