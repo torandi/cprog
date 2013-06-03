@@ -19,6 +19,7 @@ all items and characters are tab-completed.
 * stats/show attributes - show your attributes (named show attr.. and not just attributes due to completion collision with attack, which is far more common)
 * talk to [character]
 * pick up/take [item]
+* next - End your turn
 * look around - Describe surroundings
 * use [item] - use item, mostly with health potions
 * descripe/inspect [item] (if item is not given it's an alias for look around)
@@ -80,6 +81,9 @@ Action points are used for all (most) actions. Some common costs are:
 * equiping item: 5
 * using an item: 5
 * attack/block: Decided by player
+
+If you try a action that you don't have enough points for and you are not in a fight the game will automaticly end your turn,
+and retry the action next turn.
 
 ### The battle
 When a player attack (A) another player (B) , the following happens
