@@ -54,7 +54,7 @@ namespace game {
 		virtual void incoming_attack(Character * character, int damage, bool critical_hit);
 		virtual bool go(const std::string &direction);
 
-		virtual int attribute(const std::string &attr, int default_value = -1) const;
+		virtual int attribute(const std::string &attr, int default_value = 0) const;
 		virtual int extra_damage() const; /* extra damage from strength (and possibly other things) */
 
 		virtual void do_action(int cost);
