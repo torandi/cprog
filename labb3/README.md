@@ -120,3 +120,17 @@ you may then do one of the following:
 * Enter block [left/right] [action points]
 ** Just as action you can set default action points with defaultblock, and you don't need to specify a hand to use
 * You must have weapon actions left for the weapon to block
+
+
+Items
+=======
+
+Items are randomly generated. Some chests and enemies have higher chance of better items.
+Most item's base values are slightly random, but in a tight range. The importart part are the affixes.
+An item can have up to 3 affixes:
+* 0 affixes: Normal (white)
+* 1 affix: Magic (blue)
+* 2 affix: Rare (purple)
+* 3 affix: Legendary (orange)
+
+The prefixes adds different attributes, and the name of the prefix hint's at what it does.
