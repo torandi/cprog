@@ -48,6 +48,7 @@ namespace game {
       Keepable * item(const std::string &name);
 
       void add_character(Character * character);
+			void character_dies(Character * character);
 
       void start_simulation();
       void stop();
@@ -63,6 +64,10 @@ namespace game {
       Player * m_player;
 
       bool m_run = true;
+			bool m_won = false;
+			std::string game_name, intro, end_text, author;
+			Character * final_monster = nullptr;
+			std::string final_monster_name;
 
 			friend class WorldParser;
 

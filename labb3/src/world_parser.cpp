@@ -24,6 +24,13 @@ namespace game {
   const ConfigNode * WorldParser::current_prefix_probability = nullptr;
 
 	void WorldParser::parse(Game * game) {
+    Config game_config = Config::from_filename("game/game.yaml");
+    game->game_name = game_config["/game_name"].parse_string();
+    game->author = game_config["/author"].parse_string();
+    game->intro = game_config["/intro"].parse_string();
+    game->end_text = game_config["/end_text"].parse_string();
+    game->final_monster_name = game_config["/final_monster"].parse_string();
+
     Config items_config = Config::from_filename("game/items.yaml");
     for(auto eq_type : items_config["/equipment_prefixes"].map()) {
       /* Equipment type */

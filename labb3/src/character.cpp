@@ -254,6 +254,7 @@ namespace game {
 			m_life = 0;
 			m_state = DEAD;
 			die();
+      Game::singleton->character_dies(this);
 			m_in_fight->end_fight(this);
 			location()->remove_character(this);
 		}

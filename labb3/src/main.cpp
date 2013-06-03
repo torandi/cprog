@@ -13,7 +13,6 @@ int main(int argc, char* argv[]){
   Logging::add_destination(Logging::ERROR, stderr);
 	Input::init();
   Game::singleton = new Game();
-  Input::describe_area();
   Game::singleton->start_simulation();
 
 	Input::cleanup();

@@ -9,6 +9,7 @@
 #include "logging.hpp"
 #include "player.hpp"
 #include "string_utils.hpp"
+#include "input.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -36,10 +37,19 @@ namespace game {
 
 	void Game::start_simulation() {
 		using namespace std::placeholders;
+
+    std::cout << std::endl << game_name << std::endl;
+    std::cout << " --------------------- " << std::endl << std::endl;
+    std::cout << intro << std::endl;
+    std::cout << " --------------------- " << std::endl << std::endl;
+    Input::describe_area();
+    std::cout << std::endl;
+
 		while(m_run) {
 			//ROLL FOR INITIATIVE SUCKERS!
 			std::for_each(characters.begin(), characters.end(), std::bind(&Character::roll_initiative, _1));
-			std::sort(characters.begin(), characters.end(), [](Character * c1, Character * c2) { return c1->initiative() > c2->initiative(); } );
+			std::sort(characters.begin(), characters.end(),
+          [](Character * c1, Character * c2) { return c1->initiative() > c2->initiative(); } );
 
 			std::for_each(characters.begin(), characters.end(), std::bind(&Character::init_round, _1));
 
@@ -50,6 +60,9 @@ namespace game {
 
 			std::cout << std::endl;
 		}
+
+    std::cout << " --------------------- " << std::endl << std::endl;
+    std::cout << "Thanks for playing " << game_name << ". The game was created by " << author << ", and the engine written by Torandi." << std::endl;
 	}
 
 	Game::~Game() {
@@ -113,8 +126,19 @@ namespace game {
     }
   }
 
+  void Game::character_dies(Character * character) {
+    if(!m_won && final_monster != nullptr && character == final_monster) {
+      std::cout << std::endl << end_text << std::endl;
+      m_won = true;
+      //m_run = false;
+    }
+  }
+
 	void Game::add_character(Character * character) {
 		characters.push_back(character);
 		character->location()->m_characters.insert(character);
+    if(character->name() == final_monster_name) {
+      final_monster = character;
+    }
 	}
 }
