@@ -10,11 +10,11 @@ Mattias Mikkola, 880703-0237, mmikkola@kth.se
 /////////////////////////////////////////////////////////////////
 //
 // 1.2 a)
-// 
-// Vilket värde får variabeln w? 
+//
+// Vilket värde får variabeln w?
 w får värdet 28. (print w ger "$2 = 28" i gdb).
 
-// Hur många varv körs for-loopen i funktionen powerof? 
+// Hur många varv körs for-loopen i funktionen powerof?
 Den kör y varv. Men den gör ingenting förutom att inkrementera i p.g.a. semikolonet efter for-loop-deklarationen.
 
 // Varför blir det fel värde?
@@ -23,7 +23,7 @@ Rounding errors. z är 0.289999992, och z * x * x blir 28.999999165534973. När 
 
 // Dina tre testfall
 
-Testa att den räknar med absolut sista också 
+Testa att den räknar med absolut sista också
 char vek[] ={'a','a','a','b'};
 int result = must_follow_a(vek,4,'a','b');
 TS_ASSERT_EQUALS(result,1);
@@ -44,11 +44,11 @@ Det är oftast vid randerna som "off by one"-fel visar sig
 
 /////////////////////////////////////////////////////////////////
 //
-// 1.3 
-// 
+// 1.3
+//
 
 // Fyll i egen text i de streckade strängarna nedanför. Vad skriver
-// ditt program ut? Varför? När frigörs objekten?  När skapas 
+// ditt program ut? Varför? När frigörs objekten?  När skapas
 // temporära objekt?
 Se kod för strängarna.
 
@@ -58,13 +58,13 @@ Det som skrivs ut är:
     A c(a); // A(0x7fff5fbff1cf), Vi kör kopieringskonstruktorn.
     A d; // A(), default-konstruktorn körs när vi skapar ett nytt objekt.
     d = a; // operator=(0x7fff5fbff1cf), tilldelningsoperatorn körs här eftersom vi tilldelar ett redan instansierat onbjekt till ett annat.
-    
+
     A *aa = new A[5]; // 5xA(), varje A-objekt i arrayen körs default-konstruktor på.
     delete[] aa; // 5x~A(), dekonstruktorn körs på samtliga objekt i arrayen.
-    
+
     no_ref(a); // A(0x7fff5fbff1cf), eftersom det kommer skapas ett temporärt objekt som är en kopia av a.
     with_ref(a); // Ger ingen utskrift.
-    
+
     return 0; // 5x~A(), a,b,c,d och det temporära objektet i no_ref dekonstrueras, då de går out of scope.
 
 //   A b = a;         // vad är skillnaden

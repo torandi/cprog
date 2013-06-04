@@ -50,14 +50,16 @@ cprog09lab23: date.o ansi_date.o gregorian.o julian.o cprog09lab23.o kattistime.
 calendar_test: date.o ansi_date.o gregorian.o julian.o kattistime.o calendar_test.o
 	g++ $(CFLAGS) date.o ansi_date.o gregorian.o julian.o kattistime.o calendar_test.o -o calendar_test
 
-clean: 
+clean:
 	rm ansi_date.o date.o gregorian.o julian.o kattistime.o datetest.o datetest calendar_test.o calendar_test
 
+submit_all: submit_22a submit_22b submit_23
+
 submit_22a: cprog09lab22a.cpp date.cpp date.h gregorian.cpp gregorian.h julian.cpp julian.h kattistime.cpp kattistime.h ansi_date.cpp ansi_date.h 
-	kattis.py cprog09lab22a.cpp date.cpp date.h gregorian.cpp gregorian.h julian.cpp julian.h kattistime.cpp kattistime.h ansi_date.cpp ansi_date.h
+	kattis.py -p oldkattis:cprog09lab22a cprog09lab22a.cpp date.cpp date.h gregorian.cpp gregorian.h julian.cpp julian.h kattistime.cpp kattistime.h ansi_date.cpp ansi_date.h
 
 submit_22b: cprog09lab22b.cpp date.cpp date.h gregorian.cpp gregorian.h julian.cpp julian.h kattistime.cpp kattistime.h ansi_date.cpp ansi_date.h 
-	kattis.py cprog09lab22b.cpp date.cpp date.h gregorian.cpp gregorian.h julian.cpp julian.h kattistime.cpp kattistime.h ansi_date.cpp ansi_date.h
+	kattis.py -p oldkattis:cprog09lab22b cprog09lab22b.cpp date.cpp date.h gregorian.cpp gregorian.h julian.cpp julian.h kattistime.cpp kattistime.h ansi_date.cpp ansi_date.h
 
 submit_23: cprog09lab23.cpp date.cpp date.h gregorian.cpp gregorian.h julian.cpp julian.h kattistime.cpp kattistime.h ansi_date.cpp ansi_date.h 
-	kattis.py cprog09lab23.cpp date.cpp date.h gregorian.cpp gregorian.h julian.cpp julian.h kattistime.cpp kattistime.h ansi_date.cpp ansi_date.h calendar.h
+	kattis.py -p oldkattis:cprog09lab23 cprog09lab23.cpp date.cpp date.h gregorian.cpp gregorian.h julian.cpp julian.h kattistime.cpp kattistime.h ansi_date.cpp ansi_date.h calendar.h
