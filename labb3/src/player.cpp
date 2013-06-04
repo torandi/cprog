@@ -108,4 +108,11 @@ namespace game {
 		Game::singleton->stop();
 	}
 
+	bool Player::is_equipped(const Equipment * equipment) const {
+		for(Equipment * eq : m_equipments) {
+			if(eq == equipment) return true;
+		}
+		return false;
+	}
+
 }

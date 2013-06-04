@@ -6,6 +6,8 @@
 #include "logging.hpp"
 #include "world_parser.hpp"
 #include "color.hpp"
+#include "game.hpp"
+#include "player.hpp"
 
 #include <sstream>
 
@@ -135,7 +137,11 @@ namespace game {
 
 	std::string Equipment::description() const {
 		std::stringstream str;
-		str << name() << ": " << Keepable::description() << std::endl;
+		str << name();
+		if(Game::player()->is_equipped(this)) {
+			str << " [equipped]";
+		}
+		str << ": " << Keepable::description() << std::endl;
 		for(auto e : m_effects) {
 			str << "\t" << e.first << ": " << e.second << std::endl;
 		}

@@ -20,6 +20,8 @@ namespace game {
 			virtual std::string verb(const std::string &verb) const;
 			virtual std::string genitive() const;
 
+			virtual bool is_equipped(const Equipment * equipment) const;
+
 			void next_turn();
 		protected:
 			void store(Keepable * item);
