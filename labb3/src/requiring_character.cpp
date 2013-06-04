@@ -13,6 +13,7 @@
 namespace game {
 	void RequiringCharacter::incoming_attack(Character * character, int damage, bool critical_hit) {
 		Game::out(location()) << name() << " dodges " << character->genitive() << " attack." << std::endl;
+		Game::out(location()) << "It's almost as if you can't kill him. Maybe you should give up." << std::endl;
 	}
 
 	RequiringCharacter * RequiringCharacter::from_config(const ConfigNode * node, Area * location) {

@@ -1,5 +1,6 @@
 #include "health_potion.hpp"
 #include "character.hpp"
+#include "color.hpp"
 #include <sstream>
 
 namespace game {
@@ -20,7 +21,7 @@ namespace game {
 
 	std::string HealthPotion::name() const {
 		std::stringstream str;
-		str << Keepable::name() << " [ HP: " << m_hp << " ]";
+		str << lightred << Keepable::name() << " [ HP: " << m_hp << " ]" << normal;
 		return str.str();
 	}
 };

@@ -172,10 +172,7 @@ namespace game {
 	Game::try_result_t Character::try_do_action(int cost) {
 		do_action(cost);
 
-		m_action_mod += m_tmp_action_mod;
-
-		Game::try_result_t res = Game::try_action(cost + m_action_mod + attribute("action_mod"));
-		m_action_mod -= m_tmp_action_mod;
+		Game::try_result_t res = Game::try_action(cost + m_tmp_action_mod + attribute("action_mod"));
 		m_tmp_action_mod = 0;
 
 		return res;
@@ -340,7 +337,7 @@ namespace game {
 		start_fight(character);
 		character->start_fight(this);
 
-		Logging::verbose("%s (roll_attack) p: %d, mod: %d, tmpmod: %d\n", name().c_str(), points, m_action_mod, m_tmp_action_mod);
+		Logging::verbose("%s (roll_attack) p: %d, mod: %d, tmpmod: %d\n", name().c_str(), points, attribute("action_mod"), m_tmp_action_mod);
 		Game::try_result_t roll = try_do_action(points);
 
 		if(roll < Game::FAIL) {
@@ -375,6 +372,14 @@ namespace game {
 
 	Character * Character::in_fight_with() const {
 		return m_in_fight;
+	}
+
+	int Character::remaining_action_points() const {
+		return m_action_points;
+	}
+
+	int Character::tmp_action_mod() const {
+		return m_tmp_action_mod;
 	}
 
 	std::map<std::string, std::function<Character*(const ConfigNode*, Area*)> > Character::tag_map = {

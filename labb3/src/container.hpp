@@ -31,6 +31,8 @@ namespace game {
 
 			virtual ~Container() {};
 
+			virtual std::string name() const;
+
 			static Container * from_config(const ConfigNode * node);
 		protected:
 

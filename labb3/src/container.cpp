@@ -11,6 +11,7 @@
 #include "character.hpp"
 #include "player.hpp"
 #include "world_parser.hpp"
+#include "color.hpp"
 #include <sstream>
 
 namespace game {
@@ -32,6 +33,12 @@ namespace game {
 
 	const std::set<Keepable*> &Container::content() const {
 		return m_content;
+	}
+
+	std::string Container::name() const {
+		std::stringstream str;
+		str << yellow << Item::raw_name() << normal;
+		return str.str();
 	}
 
 	bool Container::put(Keepable * item) {

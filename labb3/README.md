@@ -54,6 +54,7 @@ for many weapons it is the individual stat per item that counts (marked with [it
 * durability [item specific]
 * weapon_actions [item specific]
 * passive_protection [item specific]
+* action_mod - added to each attack/block roll
 
 ## The dices
 The following dices are used in the game

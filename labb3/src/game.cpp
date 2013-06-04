@@ -44,7 +44,6 @@ namespace game {
     std::cout << intro << std::endl;
     std::cout << " --------------------- " << std::endl << std::endl;
     Input::describe_area();
-    std::cout << std::endl;
 
 		while(m_run) {
 			std::cout << "--" << std::endl << std::endl;
@@ -109,6 +108,7 @@ namespace game {
 	}
 
 	std::ostream &Game::output(const Area* area, const Area* area2) {
+		if(m_player == nullptr) return cnull;
 		if(area == m_player->location() || area2 == m_player->location()) return std::cout;
 		else return cnull;
 	}

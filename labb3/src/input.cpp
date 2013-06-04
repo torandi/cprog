@@ -7,6 +7,7 @@
 #include "string_utils.hpp"
 #include "area.hpp"
 #include "container.hpp"
+#include "color.hpp"
 
 #include <functional>
 #include <set>
@@ -242,6 +243,14 @@ namespace game {
 		std::cout << "Available commands: \n" << std::endl;
 		for(const ParseNode & n : Input::parse_trees[Input::DEFAULT].children()) {
 			if(n.cmd() == "make") continue;
+			std::cout << n.cmd() << std::endl;
+		}
+	}
+
+	static void cmd_help_block(ParseData &d) {
+		std::cout << "You are under attack, decide if you want to block or not. (Enter to not block, type block to block)" << std::endl;
+		std::cout << "Available commands: \n" << std::endl;
+		for(const ParseNode & n : Input::parse_trees[Input::DEFAULT].children()) {
 			std::cout << n.cmd() << std::endl;
 		}
 	}
@@ -529,6 +538,40 @@ namespace game {
 		std::cout << "You have " << Game::player()->life() << " / " << Game::player()->max_life() << "hp." << std::endl;
 	}
 
+	static void print_infoline() {
+		Player * p = Game::player();
+		std::cout << "[ AP: " << lightblue << p->remaining_action_points() << normal <<
+			" | HP: ";
+		if(p->life() < 10) std::cout << lightred;
+		else std::cout << lightgreen;
+		std::cout << p->life();
+		int action_mod = p->attribute("action_mod") + p->tmp_action_mod();
+		std::cout << normal << " | AM: ";
+		if(action_mod < 0) std::cout << red;
+		else if(action_mod > 0) std::cout << green;
+
+		std::cout << action_mod << normal << " | ARM: ";
+		if(p->armor_protection() < 3) std::cout << lightred;
+		else std::cout << lightblue;
+		std::cout << p->attribute("armor") << "/" << p->armor_protection() << normal;
+		Equipment * eq = nullptr;
+		if((eq = p->equipment(Human::RIGHT_HAND)) != nullptr) {
+			std::cout << " || RH - WA: " << lightblue << p->remaining_actions(Human::RIGHT_HAND) << normal << " | DUR: ";
+			if(eq->effect("durability") < 20) std::cout << lightred;
+			else std::cout << lightblue;
+			std::cout << eq->effect("durability") << "/" << std::max(1, eq->effect("durability") / 10) << normal;
+		}
+
+		if((eq = p->equipment(Human::LEFT_HAND)) != nullptr) {
+			std::cout << " || LH - WA: " << lightblue << p->remaining_actions(Human::LEFT_HAND) << normal << " | DUR: ";
+			if(eq->effect("durability") < 20) std::cout << lightred;
+			else std::cout << lightblue;
+			std::cout << eq->effect("durability") << "/" << std::max(1, eq->effect("durability") / 10) << normal;
+		}
+
+		std::cout << " ]" << std::endl;
+	}
+
 	/* Parse trees */
 
 	ParseNode Input::parse_trees[Input::NUM_PARSE_TREES] = {
@@ -585,6 +628,7 @@ namespace game {
 			ParseNode("look around", cmd_look_around, { }),
 			ParseNode("inspect", cmd_inspect, { }),
 			ParseNode("look at", cmd_inspect, { }),
+			ParseNode("help", cmd_help_block, { }),
 			ParseNode("", cmd_no_block, {}),
 		})
 	};
@@ -666,11 +710,13 @@ namespace game {
 		char * line = nullptr;
 		bool res;
 		active_parse_tree = tree;
+		std::cout << std::endl;
 		do {
 			std::string cmd;
 			if(Game::player()->state() != Character::IN_FIGHT && !redo.empty()) {
 				cmd = redo;
 			} else {
+				print_infoline();
 				line = readline(prompt);
 
 				if(line == nullptr) {

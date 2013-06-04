@@ -82,6 +82,8 @@ namespace game {
 		virtual std::string verb(const std::string &verb) const;
 
 		virtual int remaining_actions(int hand) const;
+		virtual int remaining_action_points() const;
+		virtual int tmp_action_mod() const;
 
 		Character * in_fight_with() const;
 
@@ -110,7 +112,6 @@ namespace game {
 
 		std::map<std::string, int> m_attributes;
 
-		int m_action_mod = 0;
 		int m_action_points = 0;
 		int m_remaining_actions[2] = {0, };
     int m_initiative = 0;

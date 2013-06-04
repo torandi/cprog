@@ -74,12 +74,12 @@ inline std::ostream &yellow (std::ostream &s) {
 }
 
 inline std::ostream &normal (std::ostream &s) {
-	s << "\e[0m";
+	s << "\033[0m";
 	return s;
 }
 
-inline std::ostream &bold (std::ostream &s) {
-	s << "\033[1;37m";
+inline std::ostream &show_colors(std::ostream &s) {
+	s << blue << "blue " << lightblue << " lightblue " << lightgreen << " lightgreen " << green << " green " << cyan << " cyan " << lightcyan << " lightcyan " << purple << " purple " << lightpurple << " lightpurple " << red << " red " << lightred << " lightred " << brown << " brown " << yellow << " yellow " << normal << std::endl;
 	return s;
 }
 
