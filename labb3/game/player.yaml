@@ -1,7 +1,7 @@
 faction: civilian
 location: hut
 attributes:
-  action_points: 5
+  action_points: 10
   strength: !rnd 1,3
   initiative: !rnd 1,3
   life: !rnd 20,25
