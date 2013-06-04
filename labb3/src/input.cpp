@@ -18,7 +18,6 @@
 
 using namespace std::placeholders;
 
-
 namespace game {
 
 	static int default_attack = INT_MIN;
@@ -215,8 +214,10 @@ namespace game {
 
 	static void cmd_attributes(ParseData &d) {
 		Character * c = Game::player();
-		/*c = detect_character(npcs(), d.line);
-		if(c == nullptr) c = Game::player();*/
+#ifdef ENABLE_DEBUG
+		c = detect_character(npcs(), d.line);
+		if(c == nullptr) c = Game::player();
+#endif
 
 
 		std::cout << "Your attributes (including effects from equipment): " << std::endl;
@@ -576,6 +577,14 @@ namespace game {
 				ParseNode("left", std::bind(cmd_block, Human::LEFT_HAND, _1), {}),
 				ParseNode("", std::bind(cmd_block, -1 , _1), {}),
 			}),
+			ParseNode("life", cmd_life, { } ),
+			ParseNode("show attributes", cmd_attributes, { }),
+			ParseNode("stats", cmd_attributes, { }),
+			ParseNode("equipment", cmd_equipment, { }),
+			ParseNode("describe", cmd_inspect, { }),
+			ParseNode("look around", cmd_look_around, { }),
+			ParseNode("inspect", cmd_inspect, { }),
+			ParseNode("look at", cmd_inspect, { }),
 			ParseNode("", cmd_no_block, {}),
 		})
 	};
@@ -703,6 +712,7 @@ namespace game {
 				std::cout << err;
 				if(Game::player()->state() != Character::IN_FIGHT) {
 					std::cout << std::endl;
+					res = true;
 					Game::player()->next_turn();
 					if(redo.empty()) redo = cmd;
 					else redo = "";

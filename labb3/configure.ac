@@ -21,6 +21,9 @@ AC_LANG_PUSH([C++])
 AX_CHECK_COMPILE_FLAG([-std=c++0x], [CXXFLAGS="$CXXFLAGS -std=c++0x"], [AC_MSG_ERROR([Support for C++11 is required])])
 AC_LANG_POP
 
+AC_ARG_ENABLE([debug], [AS_HELP_STRING([--enable-debug], [Enable debug mode. @<:@default=false@:>@])])
+AS_IF([test "x$enable_debug" = "xyes"], [ AC_DEFINE([ENABLE_DEBUG], [1], [Define to 1 to enable debuging]) ], [])
+
 
 AC_CHECK_HEADERS([getopt.h])
 

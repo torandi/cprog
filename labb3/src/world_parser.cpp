@@ -40,6 +40,7 @@ namespace game {
         pfx_prob.clear();
         int num_items = static_cast<int>(group_node->list().size());
         int index = 0;
+        int level = 1;
 
         item_prefix_t::type_t pfx_type;
         if(group_node->tag() == "!prefix") {
@@ -58,12 +59,14 @@ namespace game {
           for(auto attr : (*prefix_node)["/attributes"].map()) {
             prefix.attributes[attr.first] = attr.second->parse_int();
           }
-          prefixes.push_back(prefix);
           if(pfx_type == item_prefix_t::PREFIX) {
             pfx_prob.push_back(num_items - index++);
+            prefix.level = level++;
           } else {
             pfx_prob.push_back(1); /* Affixes have linear probability */
+            prefix.level = 1;
           }
+          prefixes.push_back(prefix);
         }
         prefix_table[type].push_back(prefixes);
         prefix_distribution_table[type].push_back(std::discrete_distribution<int>(pfx_prob.begin(), pfx_prob.end()));

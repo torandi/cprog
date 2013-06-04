@@ -77,9 +77,12 @@ namespace game {
     /* Generate prefixes */
     std::vector<WorldParser::item_prefix_t> prefixes = WorldParser::generate_prefixes(type);
 
-    rarity_t rarity = static_cast<rarity_t>(prefixes.size());
+    rarity_t rarity;
+    int rarity_level = 0;
 
     for(WorldParser::item_prefix_t & pfx : prefixes) {
+      rarity_level += pfx.level;
+
       if(pfx.type == WorldParser::item_prefix_t::PREFIX) {
         name = pfx.name + " " + name;
       } else {
@@ -88,6 +91,16 @@ namespace game {
       for(auto attr : pfx.attributes) {
         effects[attr.first] += attr.second;
       }
+    }
+
+    if(rarity_level > 15) {
+      rarity = LEGENDARY;
+    } else if(rarity_level > 6) {
+      rarity = RARE;
+    } else if(rarity_level > 0) {
+      rarity = MAGIC;
+    } else {
+      rarity = NORMAL;
     }
 
 		return new Equipment(

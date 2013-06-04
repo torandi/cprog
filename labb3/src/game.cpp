@@ -47,8 +47,10 @@ namespace game {
     std::cout << std::endl;
 
 		while(m_run) {
-			std::cout << "--" << std::endl;
+			std::cout << "--" << std::endl << std::endl;
 			//ROLL FOR INITIATIVE SUCKERS!
+
+			Logging::verbose("Round start\n");
 
 			std::for_each(characters.begin(), characters.end(), std::bind(&Character::roll_initiative, _1));
 			std::sort(characters.begin(), characters.end(),
@@ -57,6 +59,7 @@ namespace game {
 			std::for_each(characters.begin(), characters.end(), std::bind(&Character::init_round, _1));
 
 			for(Character * c : characters) {
+				Logging::verbose("%s, initiative: %d\n", c->name().c_str(), c->initiative());
 				if(c->state() != Character::DEAD) c->action();
         if(!m_run) break;
 			}

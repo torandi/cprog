@@ -54,7 +54,7 @@ namespace game {
 			} else {
 				valid_action = true;
 			}
-		} while(!valid_action);
+		} while(!valid_action && Game::singleton->run());
   }
 
 	void Player::next_turn() {

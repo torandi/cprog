@@ -48,6 +48,7 @@ namespace Logging {
 		virtual void write(Severity severity, const char* message){
 			if ( filtered(severity) ) return;
 			fputs(message, dst);
+			fflush(dst);
 		}
 
 		FILE* dst;
