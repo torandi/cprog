@@ -479,7 +479,7 @@
   description: There are torches on all walls and a mighty red carpet leads up the stairs.
   movement_cost: 20
   exits:
-    south: castle_entrance
+    south: castle_moat
     north: dragons_chamber
   npcs:
     - knight_champion
