@@ -13,12 +13,8 @@
 #include "keepable.hpp"
 #include "player.hpp"
 
-#include <chrono>
-
 
 namespace game {
-	std::default_random_engine WorldParser::generator(std::chrono::system_clock::now().time_since_epoch().count());
-
   std::vector< std::vector<WorldParser::item_prefix_t> > WorldParser::prefix_table[Equipment::NUM_TYPES];
   std::vector<std::discrete_distribution<int> > WorldParser::prefix_distribution_table[Equipment::NUM_TYPES];
   const ConfigNode * WorldParser::current_prefix_probability = nullptr;
@@ -158,7 +154,7 @@ namespace game {
       if(!it.second->m_no_random_items) {
         int item_count = items_config["/item_count"].parse_int();
         if(item_count > 0) {
-          Container * container = Container::from_config(containers[container_select(generator)]);
+          Container * container = Container::from_config(containers[container_select(Game::rng())]);
           for(Keepable * item : random_items(items_config["/random_items"].list(), item_count)) {
             if(!container->put(item)) delete item;
           }
@@ -174,7 +170,7 @@ namespace game {
 
     std::vector<Keepable*> result;
     for(int i=0; i < count; ++i) {
-      Item * item = Item::from_node(items[item_select(generator)]);
+      Item * item = Item::from_node(items[item_select(Game::rng())]);
       Keepable * keepable = dynamic_cast<Keepable*>(item);
       if(keepable == nullptr) delete item;
       else result.push_back(keepable);
@@ -213,15 +209,15 @@ namespace game {
     }
 
     std::discrete_distribution<int> num_prefixes_distr(prob_distribution.begin(), prob_distribution.end());
-    int num_prefixes = num_prefixes_distr(generator);
+    int num_prefixes = num_prefixes_distr(Game::rng());
     for(int i=0; i < num_prefixes; ++i) {
       std::uniform_int_distribution<unsigned int> rnd_group(0, static_cast<unsigned int>(groups.size()) - 1);
-      int g_index = rnd_group(generator);
+      int g_index = rnd_group(Game::rng());
       auto g_it = groups.begin() + g_index;
       int g = *g_it;
       groups.erase(g_it);
 
-      int pfx = prefix_distribution_table[type][g](generator);
+      int pfx = prefix_distribution_table[type][g](Game::rng());
       ret.push_back(prefix_table[type][g][pfx]);
     }
     return ret;

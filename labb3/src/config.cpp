@@ -16,8 +16,9 @@
 #include "config.hpp"
 #include "logging.hpp"
 #include "string_utils.hpp"
+#include "game.hpp"
 
-std::default_random_engine ConfigNode::generator(std::chrono::system_clock::now().time_since_epoch().count());
+//std::default_random_engine ConfigNode::generator(std::chrono::system_clock::now().time_since_epoch().count());
 
 struct error_info_t {
 	const std::string * context;
@@ -466,8 +467,7 @@ int ConfigNode::parse_int() const {
     r1 = atoi(parts[0].c_str());
     r2 = atoi(parts[1].c_str());
 		std::uniform_int_distribution<int> rnd(r1, r2);
-    //printf("RAND: %d, %d, %d, %d\n", rnd(generator), rnd(generator), rnd(generator), rnd(generator));
-    int r = rnd(generator);
+    int r = rnd(game::Game::rng());
 
 		return r;
 	} else {

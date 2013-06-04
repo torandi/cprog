@@ -68,6 +68,8 @@ class ConfigNode {
 
 		void set_tag(const std::string &tag);
 
+		
+
 		/* End emit methods */
 
 	private:
@@ -113,7 +115,7 @@ class ConfigNode {
 
 		bool is_reference;
 
-    static std::default_random_engine generator;
+    //static std::default_random_engine generator;
 
 		void emit(yaml_emitter_t * emitter) const;
 

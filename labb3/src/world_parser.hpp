@@ -32,7 +32,6 @@ namespace game {
 
 			static void parse_areas(Game * game);
 			static void parse_items(Game * game);
-      static std::default_random_engine generator;
 
       /* first lvl: type of equipment; 2nd: group; 3rd: prefixes */
       static std::vector<std::vector<item_prefix_t> > prefix_table[Equipment::NUM_TYPES];

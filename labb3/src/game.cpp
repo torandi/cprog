@@ -79,6 +79,14 @@ namespace game {
 		return rng(generator);
 	}
 
+	std::default_random_engine & Game::rng() {
+		return generator;
+	}
+
+	void Game::set_rng_seed(long seed) {
+		generator.seed(seed);
+	}
+
 	int Game::roll_dice(Game::dice_t dice, int op) {
 		int value = dices[dice](generator);
 		if(op != -1 && value >= op) {
@@ -149,5 +157,13 @@ namespace game {
     if(character->name() == final_monster_name) {
       final_monster = character;
     }
+	}
+
+	void Game::save(const std::string &filename) {
+
+	}
+
+	void Game::load(const std::string &filename) {
+
 	}
 }

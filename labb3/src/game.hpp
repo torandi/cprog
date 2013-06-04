@@ -59,9 +59,15 @@ namespace game {
 			bool get_prefix_mode() { return m_prefixes_enabled; };
 
 			bool run() const { return m_run; };
+			static std::default_random_engine &rng();
+
+			void save(const std::string &filename);
+			void load(const std::string &filename);
 		private:
 			static std::default_random_engine generator;
 			static std::vector<std::uniform_int_distribution<int> > dices;
+
+			static void set_rng_seed(long seed);
 
 			std::map<std::string,Area*> areas;
       std::map<std::string,Keepable*> items;
