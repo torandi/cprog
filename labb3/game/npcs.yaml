@@ -60,7 +60,7 @@ highwayman: !human
   attributes:
     action_points: 10
     strength: !rnd 1,2
-    initiative: !rnd 5,15
+    initiative: 5
     life: !rnd 15,20
     backpack_volume: 100
   equipment:
