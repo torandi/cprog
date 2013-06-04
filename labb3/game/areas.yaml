@@ -207,7 +207,7 @@
   description: A stable pier. There is a pirate ship anchored here.
   movement_cost: 15
   exits:
-    south: the_docks
+    north: the_docks
     west: pirate_ship
 
 - !area
@@ -418,7 +418,7 @@
       name: Glowing Chest
       description: It glows a bright purple.
       key: cave_key
-      random_count: !rnd 5,10
+      random_items: !rnd 5,10
       storage_volume: 400
       prefix_probability:
         - 100
@@ -441,7 +441,7 @@
     - !container
       name: Bandit Treasure Chest
       description: A treasure chest!
-      random_count: !rnd 10,20
+      random_items: !rnd 10,20
       storage_volume: 400
       prefix_probability:
         - 50
@@ -458,7 +458,7 @@
   movement_cost: 10
   exits:
     south: forest_fork
-#    north: castle_moat
+    north: castle_moat
   npcs:
     - bandit
 
@@ -519,9 +519,20 @@
     south: dragons_chamber
   items:
     - !container
-      name: Blue Treasure Chest
+      name: Treasure Chest
       description: A treasure chest!
-      random_count: !rnd 5,10
+      random_items: !rnd 5,10
+      storage_volume: 200
+      prefix_probability:
+        - 40
+        - 50
+        - 20
+        - 5
+
+    - !container
+      name: Treasure Chest
+      description: A treasure chest!
+      random_items: !rnd 5,10
       storage_volume: 200
       prefix_probability:
         - 40
@@ -529,19 +540,9 @@
         - 20
         - 5
     - !container
-      name: Red Treasure Chest
+      name: Treasure Chest
       description: A treasure chest!
-      random_count: !rnd 5,10
-      storage_volume: 200
-      prefix_probability:
-        - 40
-        - 50
-        - 20
-        - 5
-    - !container
-      name: Green Treasure Chest
-      description: A treasure chest!
-      random_count: !rnd 5,10
+      random_items: !rnd 5,10
       storage_volume: 200
       prefix_probability:
         - 40

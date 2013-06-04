@@ -10,6 +10,7 @@ namespace game {
 			virtual ~UniqueItem() { };
 
 			static UniqueItem * from_config(const ConfigNode * node);
+			virtual std::string name() const;
 		protected:
 			UniqueItem(const std::string &id, const std::string & name, const std::string & description, int volume, int weight);
 			const std::string m_id;

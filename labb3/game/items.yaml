@@ -90,7 +90,7 @@ items:
       initiative: !rnd -1,1
       action_points: !rnd 2,5
       weapon_actions: !rnd 3,5
-      durability: !rnd 90,120
+      durability: !rnd 80,90
       passive_protection: !rnd 3,4
   large_shield: !equipment
     type: off_hand
@@ -102,8 +102,8 @@ items:
       initiative: !rnd -5,0
       action_points: !rnd 0,5
       weapon_actions: !rnd 3,5
-      durability: !rnd 150,200
-      passive_protection: !rnd 5,8
+      durability: !rnd 100,150
+      passive_protection: !rnd 5,6
   pelt_armor: !equipment
     type: armor
     name: Pelt armor
@@ -118,7 +118,7 @@ items:
     name: Leather armor
     description:
     volume: !rnd 5,10
-    weight: !rnd 2,4
+    weight: !rnd 5,7
     effects:
       initiative: !rnd -2, 1
       armor: !rnd 30, 40
@@ -127,7 +127,7 @@ items:
     name: Metal Strengthed Leather armor
     description:
     volume: !rnd 5,10
-    weight: !rnd 4,6
+    weight: !rnd 10,15
     effects:
       initiative: !rnd -5, 1
       armor: !rnd 60, 80
@@ -136,7 +136,7 @@ items:
     name: Chainmail
     description:
     volume: !rnd 7,13
-    weight: !rnd 10,15
+    weight: !rnd 20,30
     effects:
       initiative: !rnd -10, 1
       armor: !rnd 120, 160
@@ -144,8 +144,8 @@ items:
     type: armor
     name: Plate armor
     description:
-    volume: !rnd 10,15
-    weight: !rnd 20,25
+    volume: !rnd 30,40
+    weight: !rnd 70,100
     effects:
       initiative: !rnd -15,1
       armor: !rnd 190,210
@@ -278,25 +278,25 @@ equipment_prefixes:
     - !prefix #durability
       - name: Sturdy
         attributes:
-          durability: 10
+          durability: 30
       - name: Strong
         attributes:
-          durability: 20
+          durability: 60
       - name: Glorious
         attributes:
-          durability: 30
+          durability: 90
       - name: Blessed
         attributes:
-          durability: 40
+          durability: 120
       - name: Saintly
         attributes:
-          durability: !rnd 50,60
+          durability: !rnd 130,150
       - name: Holy
         attributes:
-          durability: !rnd 70,80
+          durability: !rnd 150,200
       - name: Godly
         attributes:
-          durability: !rnd 90,110
+          durability: !rnd 210,300
     - !prefix #weapon_actions
       - name: Steel
         attributes:

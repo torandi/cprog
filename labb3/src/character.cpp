@@ -137,7 +137,7 @@ namespace game {
 
 		Area * new_location = m_location->neighbor(direction);
 		if(new_location != nullptr && m_location->leave(this)) {
-			do_action(location()->movement_cost());
+			do_action(new_location->movement_cost());
 			if(new_location->enter(this)) {
 				m_location = new_location;
 			} else {

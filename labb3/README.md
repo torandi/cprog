@@ -80,7 +80,7 @@ The game is turn based. The order in which the characters get to act is decided 
 Each turn the player have a number of _action points_ to use, decided by their attribute for that.
 
 Action points are used for all (most) actions. Some common costs are:
-* movement cost: Varies from area to area, the cost of moving from an area.
+* movement cost: Varies from area to area, the cost of moving into an area. This is the reason why you might get "need more action points" when you try go in a direction. If so you need to find items that boosts your AP.
 * picking up items: 5
 * equiping item: 5
 * using an item: 5
@@ -134,3 +134,5 @@ An item can have up to 3 affixes:
 * 3 affix: Legendary (orange)
 
 The prefixes adds different attributes, and the name of the prefix hint's at what it does.
+
+Some items are red, these are not better in any way, but are unique/quest items or

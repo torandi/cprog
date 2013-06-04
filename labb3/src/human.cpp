@@ -96,6 +96,11 @@ namespace game {
 			unequip(slot);
 		}
 
+
+		if(item->type() == Equipment::TWO_HAND) {
+			unequip(LEFT_HAND);
+		}
+
 		m_equipments[slot] = item;
 		m_inventory.erase(item);
 

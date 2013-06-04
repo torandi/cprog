@@ -84,11 +84,13 @@ namespace game {
 
 	void Monster::die() {
 		Game::out(location()) << name() << " dies in a pool of blood." << std::endl;
-    for(auto it = m_loot.begin(); it != m_loot.end(); ++it) {
+    for(auto it = m_loot.begin(); it != m_loot.end();) {
       if(location()->drop(this, *it)) {
         Game::out(location()) << name() << " " << verb("drop") << " " << (*it)->name() << std::endl;
-        m_loot.erase(it);
-      }
+        it = m_loot.erase(it);
+      } else {
+				++it;
+			}
 		}
 	}
 
