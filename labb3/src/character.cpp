@@ -371,7 +371,7 @@ namespace game {
 
 			character->incoming_attack(this, dmg, critical_hit);
 		} else if(roll == Game::FATAL) {
-			Game::out(location()) << name() << " " << verb("miss") << " " << character->name() << " fataly. " << genitive() << "  attack or block have -5 to succeed." << std::endl;
+			Game::out(location()) << name() << " " << verb("miss") << " " << character->name() << " fataly. " << genitive() << " next attack or block have -5 to succeed." << std::endl;
 			m_tmp_action_mod = -5;
 		} else {
 			Game::out(location()) << name() << " " << verb("miss") << " " << character->name() << "." << std::endl;
