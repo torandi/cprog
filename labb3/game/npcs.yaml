@@ -27,7 +27,7 @@ mysterius_man: !human
   dialog:
     - This place is CURSED I tell you!
     - Find the three stones in the corners and lift the curse.
-    - Do you have the stones?! Take them to the old altar beyond the Darkwoods!
+    - Do you have the stones?! Take them to the ancient stones beyond the Darkwoods!
 
 harbor_master: !requiring
   name: Harbor Master
@@ -125,7 +125,7 @@ pirate_captain: !human
       - 50
       - 80
       - 40
-      - 7
+      - 5
     items:
       - captains_hook
       - marine_magic_stone
@@ -185,7 +185,7 @@ badass_bandit: !human
       - 100
       - 50
       - 20
-      - 5
+      - 2
     random_count: !rnd 7,10
 
 # Monsters
@@ -310,7 +310,7 @@ knight: !human
       - 100
       - 50
       - 30
-      - 5
+      - 1
 
 knight_champion: !human
   faction: bandit
@@ -332,7 +332,7 @@ knight_champion: !human
       - 80
       - 50
       - 35
-      - 9
+      - 1
 
 ancient_monster: !monster
   name: Monster Of The Ancients

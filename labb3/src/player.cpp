@@ -40,8 +40,21 @@ namespace game {
 		sprintf(buffer, "[AP: %d] block? >> ", m_action_points);
 		std::cout << "You are being attacked by " << character->name() << "." << std::endl;
 
-		m_block_decision.first = -2;
-		while(Game::singleton->run() && m_block_decision.first == -2) Input::read(Input::DEFEND, buffer, (void*)&m_block_decision);
+		bool valid_action = false;
+		do {
+			m_block_decision.first = -2;
+			while(Game::singleton->run() && m_block_decision.first == -2) Input::read(Input::DEFEND, buffer, (void*)&m_block_decision);
+			if(m_block_decision.first == -1) valid_action = true;
+			else if(m_remaining_actions[m_block_decision.first] == 0) {
+				std::cout << "You can't block with " << slot_names[m_block_decision.first] << ", you don't have any actions left." << std::endl;
+			} else if(m_action_points < m_block_decision.second) {
+				std::cout << "You only have "  << m_action_points << " left, only blocking for them." << std::endl;
+				m_block_decision.second = m_action_points;
+				valid_action = true;
+			} else {
+				valid_action = true;
+			}
+		} while(!valid_action);
   }
 
 	void Player::next_turn() {

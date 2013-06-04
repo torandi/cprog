@@ -84,6 +84,7 @@ Action points are used for all (most) actions. Some common costs are:
 * picking up items: 5
 * equiping item: 5
 * using an item: 5
+* opening an chest: 5
 * attack/block: Decided by player
 
 If you try a action that you don't have enough points for and you are not in a fight the game will automaticly end your turn,

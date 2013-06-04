@@ -156,7 +156,7 @@
   description: It's a clearing in the forest. The trees open up and let's the sunlight in.
   movement_cost: 5
   exits:
-    north: forest_crossroad
+    north: sw_forest_path
     south: path_to_the_docks
     east: path_to_the_pond
   items:
@@ -279,7 +279,7 @@
         - 150
         - 80
         - 10
-        - 5
+        - 1
 
 
 # THE POND #
@@ -424,7 +424,7 @@
         - 100
         - 50
         - 20
-        - 5
+        - 1
       content:
         - purple_magic_stone
 
@@ -447,7 +447,7 @@
         - 50
         - 50
         - 20
-        - 5
+        - 1
 
 # The castle #
 
@@ -527,7 +527,7 @@
         - 40
         - 50
         - 20
-        - 5
+        - 1
 
     - !container
       name: Treasure Chest
@@ -538,7 +538,7 @@
         - 40
         - 50
         - 20
-        - 5
+        - 1
     - !container
       name: Treasure Chest
       description: A treasure chest!
@@ -548,7 +548,7 @@
         - 40
         - 50
         - 20
-        - 5
+        - 1
 
 # Darkwoods!
 

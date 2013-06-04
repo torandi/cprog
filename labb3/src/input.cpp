@@ -347,6 +347,7 @@ namespace game {
 		Item * i = detect_item(Game::player()->location()->items(), d.line);
 		Container * c = dynamic_cast<Container*>(i);
 		if(c != nullptr) {
+			if(!c->is_open()) Game::player()->do_action(5);
 			if(c->open(Game::player())) {
 				std::cout << "You open " << c->name() << ". Inside you see: " << std::endl;
 				print_items(c->content());
@@ -569,12 +570,12 @@ namespace game {
 			ParseNode("make", cmd_make, { }),
 		}),
 		ParseNode("", nullptr, {
+			ParseNode("defaultblock", cmd_set_default_block, { } ),
 			ParseNode("block", nullptr, {
 				ParseNode("right", std::bind(cmd_block, Human::RIGHT_HAND, _1), {}),
 				ParseNode("left", std::bind(cmd_block, Human::LEFT_HAND, _1), {}),
 				ParseNode("", std::bind(cmd_block, -1 , _1), {}),
 			}),
-			ParseNode("defaultblock", cmd_set_default_block, { } ),
 			ParseNode("", cmd_no_block, {}),
 		})
 	};

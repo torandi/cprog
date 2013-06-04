@@ -344,7 +344,7 @@ namespace game {
 				Game::out(location()) << name() << " " << verb("fail") << " to block the attack." << std::endl;
 				return false;
 			case Game::FATAL:
-				Game::out(location()) << name() << " " << verb("fail") << " misserably to block and have -5 on next attack or block." << std::endl;
+				Game::out(location()) << name() << " " << verb("fail") << " misserably to block, " << genitive() << " next attack or block have -5 to succeed." << std::endl;
 				m_tmp_action_mod = -5;
 				return false;
 		}

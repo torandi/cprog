@@ -678,7 +678,7 @@ default_prefix_probability:
   - 200
   - 80
   - 10
-  - 5
+  - 1
 
 random_items:
   - longsword
