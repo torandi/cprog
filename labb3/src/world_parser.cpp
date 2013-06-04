@@ -55,7 +55,9 @@ namespace game {
         for(const ConfigNode * prefix_node : group_node->list()) {
           /* Prefix */
 
-          item_prefix_t prefix = { (*prefix_node)["/name"].parse_string(), {}, pfx_type};
+          item_prefix_t prefix;
+          prefix.name = (*prefix_node)["/name"].parse_string();
+          prefix.type = pfx_type;
           for(auto attr : (*prefix_node)["/attributes"].map()) {
             prefix.attributes[attr.first] = attr.second->parse_int();
           }
