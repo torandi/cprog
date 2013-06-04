@@ -74,7 +74,7 @@ inline std::ostream &yellow (std::ostream &s) {
 }
 
 inline std::ostream &normal (std::ostream &s) {
-	s << "\033[0;37m";
+	s << "\e[0m";
 	return s;
 }
 
