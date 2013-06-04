@@ -136,7 +136,7 @@ namespace game {
 		Area * new_location = m_location->neighbor(direction);
 
 		if(attribute("action_points") < new_location->movement_cost()) {
-			Game::out(location()) << name() << " don't have enough action points to be able to go to " << new_location->name() << std::endl;
+			Game::out(location()) << name() << " " << verb("don't") << " have enough action points to go to " << new_location->name() << std::endl;
 			return false;
 		}
 		if(m_action_points < new_location->movement_cost()) throw "More action points needed.";
