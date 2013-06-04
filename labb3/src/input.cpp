@@ -561,11 +561,11 @@ namespace game {
 			" | HP: ";
 		if(p->life() < 10) std::cout << lightred;
 		else std::cout << lightgreen;
-		std::cout << p->life();
+		std::cout << p->life() << "/" << p->max_life();
 		int action_mod = p->attribute("action_mod") + p->tmp_action_mod();
 		std::cout << normal << " | AM: ";
 		if(action_mod < 0) std::cout << red;
-		else if(action_mod > 0) std::cout << green;
+		else if(action_mod > 0) std::cout << green << "+";
 
 		std::cout << action_mod << normal << " | ARM: ";
 		if(p->armor_protection() < 3) std::cout << lightred;

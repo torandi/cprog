@@ -55,6 +55,10 @@ namespace game {
 		m_remaining_actions[0] = m_base_actions[0];
 		m_remaining_actions[1] = m_base_actions[1];
 
+		if(life() > max_life()) {
+			m_life = max_life();
+		}
+
 		int life_regen = attribute("life_regen");
 		if(life_regen > 0) regain_life(life_regen);
 
@@ -104,6 +108,7 @@ namespace game {
 
 	void Character::regain_life(int life) {
 		int l = std::min(life, max_life() - m_life);
+		if(l < 0) return;
 		Game::out(location()) << name() << " " << verb("regain") << " " << l << " hp." << std::endl;
 		m_life += l;
 	}
