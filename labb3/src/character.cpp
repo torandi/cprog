@@ -12,6 +12,7 @@
 #include "monster.hpp"
 #include "requiring_character.hpp"
 #include "logging.hpp"
+#include "color.hpp"
 
 namespace game {
 	bool Character::faction_standings[Character::NUM_FACTIONS][Character::NUM_FACTIONS] = {

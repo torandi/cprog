@@ -1,3 +1,29 @@
+TL;DR
+===========
+* Turn based
+* Order of action in turns are decided by initiative and a D10(OP10)
+* Given a number of action points and weapon actions each turn
+* action points (AP) generic, used for all actions.
+* weapon actions (WA) are the number of actions (attacks & blocks) you can do with that weapon each turn.
+* For attacks and blocks you chose a number of AP to use. If a D20 is less or equal to that you succed
+** 1 is always critical hit/ perfect block
+** 20 is always fatal miss
+* When you are prompted to block you may only block or not block.
+** If you succed with the block damage are only applied on the weapon
+** If you chose not to block you have a chance for passive protection if you have a shield
+* Initiative is important! Hight initiative means you get to attack instead of using up all your WA on blocks
+
+The info line above the prompt looks like this:
+[ AP: 10 | HP: 24 | AM: 0 | ARM: 55/5 || RH - WA: 2 | DUR: 100/10 || LH - WA: 1 | DUR 15/1 ]
+AP: Action Points
+HP: Life
+AM: Action Mod (number added to all D20 rolls)
+ARM: Armor, first number is durability, second is damage reduction
+RH: Right Hand
+LH: Left Hand
+WH: Weapon Action
+DUR: Durability (works in same way as armor)
+
 Basic Commands
 =============
 The order of commands etc never matter, so you can write things in what order you want.

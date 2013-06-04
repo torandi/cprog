@@ -28,7 +28,7 @@ namespace game {
 
 	/* Helper mappings */
 
-	static std::string slot_names[Human::NUM_SLOTS] = { "Right hand", "Left hand", "Armor", "Ring", "Backpack" };
+	static std::string slot_names[Human::NUM_SLOTS] = { "Right hand (RH)", "Left hand (LH)", "Armor", "Ring", "Backpack" };
 
 	/* Helper functions */
 
@@ -205,37 +205,47 @@ namespace game {
 
 	/* Functions */
 
+	static void cmd_equipment(ParseData &d) {
+		std::cout << "Your equipment: " << std::endl;
+		for(int i=0; i<Human::NUM_SLOTS; ++i) {
+			Equipment * e = Game::player()->equipment(static_cast<Human::slot_t>(i));
+			std::cout << slot_names[i] << ": ";
+			if(e != nullptr) {
+				e->description();
+			} else {
+				std::cout << "Nothing equipped" << std::endl;
+			}
+		}
+	}
+
 	static void cmd_inventory(ParseData &d) {
 		std::cout << "Your inventory contains: " << std::endl;
 		print_items(Game::player()->inventory());
 		std::cout << "--------------------------" << std::endl;
 		std::cout << "Used space: " << Game::player()->used_backpack_volume()  << " / " << Game::player()->backpack_volume() << std::endl;
 		std::cout << "Used weight: " << Game::player()->used_carrying_capacity() << "kg / " << Game::player()->carrying_capacity() << "kg" << std::endl;
+		std::cout << std::endl;
+		cmd_equipment(d);
 	}
 
-	static void cmd_attributes(ParseData &d) {
+	static void cmd_stats(ParseData &d) {
 		Character * c = Game::player();
-#ifdef ENABLE_DEBUG
 		c = detect_character(npcs(), d.line);
-		if(c == nullptr) c = Game::player();
-#endif
 
 
-		std::cout << "Your attributes (including effects from equipment): " << std::endl;
-		for(const auto it : c->attributes()) {
-			std::cout << it.first << ": " << it.second << std::endl;
-		}
-		std::cout << "-----------" << std::endl <<
-			"Armor protection: " << Game::player()->armor_protection() << std::endl <<
-			"Damage bonus: " << Game::player()->extra_damage() << std::endl <<
-			"Carrying capacity: " << Game::player()->used_carrying_capacity() << "kg / " << Game::player()->carrying_capacity() <<  "kg" << std::endl;
-	}
-
-	static void cmd_equipment(ParseData &d) {
-		std::cout << "Your equipment: " << std::endl;
-		for(int i=0; i<Human::NUM_SLOTS; ++i) {
-			Equipment * e = Game::player()->equipment(static_cast<Human::slot_t>(i));
-			if(e != nullptr) std::cout << slot_names[i] << ": " << e->name() << std::endl;
+		if(c == nullptr) {
+			c = Game::player();
+			std::cout << "Your attributes (including effects from equipment): " << std::endl;
+			for(const auto it : c->attributes()) {
+				if(it.first == "weapon_actions" || it.first == "durability") continue;
+				std::cout << Game::attribute_name(it.first) << ": " << it.second << std::endl;
+			}
+			std::cout << "-----------" << std::endl <<
+				"Inventory space: " << Game::player()->used_backpack_volume()  << " / " << Game::player()->backpack_volume() << std::endl <<
+				"Carrying capacity: " << Game::player()->used_carrying_capacity() << "kg / " << Game::player()->carrying_capacity() <<  "kg" << std::endl <<std::endl;
+			cmd_equipment(d);
+		} else {
+			std::cout << c->name() << ": Life: " << c->life() << " / " << c->max_life() << std::endl;
 		}
 	}
 
@@ -278,6 +288,7 @@ namespace game {
 		Character * character = detect_character(npcs(), d.line);
 
 		if(character != nullptr) {
+			std::cout << character->name() << ": Life: " << character->life() << " / " << character->max_life() << std::endl;
 			std::cout << character->description() << std::endl;
 		} else {
 			Item * item = detect_item(accessible_items(), d.line);
@@ -577,8 +588,7 @@ namespace game {
 	ParseNode Input::parse_trees[Input::NUM_PARSE_TREES] = {
 		ParseNode("", nullptr, {
 			ParseNode("inventory", cmd_inventory, { }),
-			ParseNode("show attributes", cmd_attributes, { }),
-      ParseNode("stats", cmd_attributes, { }),
+      ParseNode("stats", cmd_stats, { }),
 			ParseNode("equipment", cmd_equipment, { }),
 			ParseNode("help", cmd_help_default, { }),
 			ParseNode("look around", cmd_look_around, { }),
@@ -621,8 +631,7 @@ namespace game {
 				ParseNode("", std::bind(cmd_block, -1 , _1), {}),
 			}),
 			ParseNode("life", cmd_life, { } ),
-			ParseNode("show attributes", cmd_attributes, { }),
-			ParseNode("stats", cmd_attributes, { }),
+			ParseNode("stats", cmd_stats, { }),
 			ParseNode("equipment", cmd_equipment, { }),
 			ParseNode("describe", cmd_inspect, { }),
 			ParseNode("look around", cmd_look_around, { }),

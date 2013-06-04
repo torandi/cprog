@@ -61,18 +61,21 @@ namespace game {
 			bool run() const { return m_run; };
 			static std::default_random_engine &rng();
 
+      static const std::string &attribute_name(const std::string &attr);
+
 			void save(const std::string &filename);
 			void load(const std::string &filename);
 		private:
 			static std::default_random_engine generator;
 			static std::vector<std::uniform_int_distribution<int> > dices;
+      static std::map<std::string, std::string> attribute_names;
 
 			static void set_rng_seed(long seed);
 
 			std::map<std::string,Area*> areas;
       std::map<std::string,Keepable*> items;
 			std::vector<Character*> characters;
-      Player * m_player;
+      Player * m_player = nullptr;
 
       bool m_run = true;
 			bool m_won = false;

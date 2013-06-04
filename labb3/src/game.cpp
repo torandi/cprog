@@ -169,4 +169,26 @@ namespace game {
 	void Game::load(const std::string &filename) {
 
 	}
+
+	const std::string &Game::attribute_name(const std::string &attr) {
+		auto it = attribute_names.find(attr);
+		if(it == attribute_names.end()) return attr;
+		else return it->second;
+	}
+
+	std::map<std::string, std::string> Game::attribute_names = {
+		{ "action_points", "Action Points (AP)" },
+		{ "action_mod", "Action Mod (AM)" },
+		{ "armor", "Armor (ARM)" },
+		{ "durability", "Durability (DUR)" },
+		{ "weapon_actions", "Weapon Actions (WA)" },
+		{ "initiative", "Initiative" },
+		{ "life", "Life (HP)" },
+		{ "damage_overpower", "Damage Overpower (OP)" },
+		{ "damage_extra", "Extra damage" },
+		{ "damage_dices", "Number of damage dices" },
+		{ "passive_protection", "Passive Protection" },
+		{ "strength", "Strength" },
+		{ "backpack_volume", "Backpack Volume" },
+	};
 }

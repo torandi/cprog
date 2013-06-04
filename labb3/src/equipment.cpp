@@ -143,7 +143,7 @@ namespace game {
 		}
 		str << ": " << Keepable::description() << std::endl;
 		for(auto e : m_effects) {
-			str << "\t" << e.first << ": " << e.second << std::endl;
+			str << "\t" << Game::attribute_name(e.first) << ": " << e.second << std::endl;
 		}
 		return str.str();
 	}
