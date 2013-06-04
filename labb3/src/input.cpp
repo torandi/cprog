@@ -549,7 +549,10 @@ namespace game {
 	}
 
 	static void cmd_life(ParseData &d) {
-		std::cout << "You have " << Game::player()->life() << " / " << Game::player()->max_life() << "hp." << std::endl;
+		Character * c;
+		c = detect_character(npcs(), d.line);
+		if(c == nullptr) c = Game::player();
+		std::cout << c->name() << " " << c->verb("have") << " " << c->life() << " / " << c->max_life() << "hp." << std::endl;
 	}
 
 	static void print_infoline() {
