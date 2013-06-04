@@ -56,6 +56,7 @@ namespace game {
 		m_remaining_actions[1] = m_base_actions[1];
 
 		if(life() > max_life()) {
+			Game::out(location()) << genitive() << " max life decresed" << std::endl;
 			m_life = max_life();
 		}
 
