@@ -22,6 +22,7 @@ class ConfigNode {
 
 		const std::string &parse_string() const;
 		int parse_int() const;
+		long parse_long() const;
 		float parse_float() const;
 
 		bool parse_bool() const;
@@ -63,12 +64,17 @@ class ConfigNode {
 		ConfigNode(const std::string &str);
 		ConfigNode(const char * str);
 		ConfigNode(int i);
+		ConfigNode(long i);
 		ConfigNode(float f);
 		ConfigNode(bool b);
 
-		void set_tag(const std::string &tag);
 
-		
+		/* Add to sequence */
+		void add(ConfigNode * node);
+		/* Add to mapping */
+		void add(const std::string &str, ConfigNode * node);
+
+		void set_tag(const std::string &tag);
 
 		/* End emit methods */
 

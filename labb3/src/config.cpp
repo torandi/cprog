@@ -479,6 +479,14 @@ int ConfigNode::parse_int() const {
 	}
 }
 
+long ConfigNode::parse_long() const {
+	if(type != NODE_SCALAR) {
+		print();
+		Logging::fatal("[ConfigNode] Trying to read a non-scalar node as long\n");
+	}
+	return atol(scalar.c_str());
+}
+
 bool ConfigNode::parse_bool() const {
 	if(type != NODE_SCALAR) {
     print();
@@ -618,6 +626,9 @@ void Config::emit(ConfigNode * root_node, const std::string &filename) {
 	emit_event(&emitter, &event);
 
 	yaml_stream_end_event_initialize(&event);
+	if(!yaml_emitter_emit(&emitter, &event)) {
+		Logging::fatal("Failed to emit: %s\n", emitter.problem);
+	}
 
 	fclose(out);
 
@@ -683,5 +694,13 @@ void Config::emit_event(yaml_emitter_t * emitter, yaml_event_t * event) {
 	if(!yaml_emitter_emit(emitter, event)) {
 		Logging::fatal("Failed to emit: %s\n", emitter->problem);
 	}
-	//yaml_event_delete(event);
+	yaml_event_delete(event);
+}
+
+void ConfigNode::add(ConfigNode * node) {
+	sequence.push_back(node);
+}
+/* Add to mapping */
+void ConfigNode::add(const std::string &str, ConfigNode * node) {
+	mapping[str] = node;
 }
