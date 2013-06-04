@@ -133,9 +133,14 @@ namespace game {
 	}
 
 	bool Character::go(const std::string &direction) {
-		if(m_action_points < location()->movement_cost()) throw "More action points needed.";
-
 		Area * new_location = m_location->neighbor(direction);
+
+		if(attribute("action_points") < new_location->movement_cost()) {
+			Game::out(location()) << name() << " don't have enough action points to be able to go to " << new_location->name() << std::endl;
+			return false;
+		}
+		if(m_action_points < new_location->movement_cost()) throw "More action points needed.";
+
 		if(new_location != nullptr && m_location->leave(this)) {
 			do_action(new_location->movement_cost());
 			if(new_location->enter(this)) {
@@ -241,10 +246,10 @@ namespace game {
 			Game::out(location()) << genitive() << " armor absorbs all damage." << std::endl;
 			return;
 		} else if(armor_protection() > 0) {
-			Game::out(location()) << genitive() << " armor absorbs " << armor_protection() << " damage." << std::endl;
+			Game::out(location()) << genitive() << " armor absorbs " << lightcyan <<  armor_protection() << normal << " damage." << std::endl;
 		}
 
-		Game::out(location()) << name() << " " << verb("take") << " " << damage << " damage." << std::endl;
+		Game::out(location()) << name() << " " << verb("take") << " " << lightred <<  damage << normal << " damage." << std::endl;
 
 		reduce_armor(damage);
 		m_life -= damage;
@@ -355,7 +360,7 @@ namespace game {
 			}
 			character->pre_damage(this);
 
-			Game::out(location()) << name() << " " << verb("attack") << " "<< character->name() << weapon_text << " for " << dmg << " damage." << extra << std::endl;
+			Game::out(location()) << name() << " " << verb("attack") << " "<< character->name() << weapon_text << " for " << lightred << dmg << normal << " damage." << extra << std::endl;
 
 			character->incoming_attack(this, dmg, critical_hit);
 		} else if(roll == Game::FATAL) {

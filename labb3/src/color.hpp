@@ -73,6 +73,11 @@ inline std::ostream &yellow (std::ostream &s) {
 	return s;
 }
 
+inline std::ostream &bold (std::ostream &s) {
+	s << "\033[1m";
+	return s;
+}
+
 inline std::ostream &normal (std::ostream &s) {
 	s << "\033[0m";
 	return s;

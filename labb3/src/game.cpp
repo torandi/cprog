@@ -46,7 +46,7 @@ namespace game {
     Input::describe_area();
 
 		while(m_run) {
-			std::cout << "--" << std::endl << std::endl;
+			std::cout << "--" << std::endl;
 			//ROLL FOR INITIATIVE SUCKERS!
 
 			Logging::verbose("Round start\n");

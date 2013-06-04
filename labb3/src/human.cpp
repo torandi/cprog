@@ -9,6 +9,7 @@
 #include "game.hpp"
 #include "unique_item.hpp"
 #include "logging.hpp"
+#include "color.hpp"
 
 #include <algorithm>
 #include <sstream>
@@ -327,10 +328,10 @@ namespace game {
         if(weapon != nullptr) {
           int dmg;
           if((dmg = apply_block_damage(slot, damage, weapon)) > 0) {
-            Game::out(location()) << ". " << weapon_name << " takes " << dmg << " damage." << std::endl;
+            Game::out(location()) << ". " << weapon_name << " takes " << lightred << dmg << normal << " damage." << std::endl;
             if(m_equipments[slot] == nullptr) {
-              Game::out(location()) << genitive() << " " << weapon_name <<
-                " have taken too much damage and falls apart." << std::endl;
+              Game::out(location()) << lightred << genitive() << " " << weapon_name <<
+                " have taken too much damage and falls apart." << normal << std::endl;
 							delete weapon;
             }
           } else {
@@ -391,8 +392,8 @@ namespace game {
         if((dmg = apply_block_damage(slot, damage, weapon)) > 0) {
           Game::out(location()) << weapon->name() << " takes " << dmg << " damage." << std::endl;
           if(m_equipments[slot] == nullptr) {
-            Game::out(location()) << genitive() << " " << weapon->name() <<
-              " have taken too much damage and falls apart." << std::endl;
+						Game::out(location()) << lightred << genitive() << " " << weapon->name() <<
+							" have taken too much damage and falls apart." << normal << std::endl;
 						delete weapon;
           }
         } else {
@@ -463,7 +464,7 @@ namespace game {
 			int protection_prev = armor_protection();
 			m_equipments[ARMOR]->reduce("armor", amount);
 			int diff = protection_prev - armor_protection();
-			if(diff > 0) Game::out(location()) << genitive() << " armor lost " << diff << " point" <<
+			if(diff > 0) Game::out(location()) << genitive() << " armor lost " << lightred <<  diff << normal << " point" <<
 				(diff > 1 ? "s" : "")
 				<< " of armor protection." << std::endl;
 		}

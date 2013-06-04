@@ -208,10 +208,13 @@ namespace game {
 	static void cmd_equipment(ParseData &d) {
 		std::cout << "Your equipment: " << std::endl;
 		for(int i=0; i<Human::NUM_SLOTS; ++i) {
-			Equipment * e = Game::player()->equipment(static_cast<Human::slot_t>(i));
-			std::cout << slot_names[i] << ": ";
-			if(e != nullptr) {
-				e->description();
+			Equipment * eq = Game::player()->equipment(static_cast<Human::slot_t>(i));
+			std::cout << bold << slot_names[i]  << normal << ": ";
+			if(eq != nullptr) {
+				std::cout << eq->name() << std::endl;
+				for(auto e : eq->effects()) {
+					std::cout << "\t" << Game::attribute_name(e.first) << ": " << e.second << std::endl;
+				}
 			} else {
 				std::cout << "Nothing equipped" << std::endl;
 			}
