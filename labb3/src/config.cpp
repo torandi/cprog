@@ -10,6 +10,8 @@
 #include <fstream>
 #include <random>
 #include <chrono>
+#include <algorithm>
+#include <sstream>
 
 #include "config.hpp"
 #include "logging.hpp"
@@ -97,12 +99,76 @@ ConfigNode &ConfigNode::operator=(const ConfigNode &node) {
 }
 
 
+/* Emit constructors */
+
+ConfigNode::ConfigNode(const char * str)
+	: type(NODE_SCALAR)
+	, scalar(str)
+	, node_has_tag(false)
+	, node_has_anchor(false)
+	, is_reference(false) {
+}
+
+ConfigNode::ConfigNode(const std::string &str)
+	: type(NODE_SCALAR)
+	, scalar(str)
+	, node_has_tag(false)
+	, node_has_anchor(false)
+	, is_reference(false) {
+}
+ConfigNode::ConfigNode(int i)
+	: type(NODE_SCALAR)
+	, node_has_tag(false)
+	, node_has_anchor(false)
+	, is_reference(false) {
+		std::ostringstream o;
+		o << i;
+		scalar = o.str();
+}
+
+ConfigNode::ConfigNode(float f)
+	: type(NODE_SCALAR)
+	, node_has_tag(false)
+	, node_has_anchor(false)
+	, is_reference(false) {
+		std::ostringstream o;
+		o << f;
+		scalar = o.str();
+}
+
+ConfigNode::ConfigNode(bool b)
+	: type(NODE_SCALAR)
+	, scalar(b ? "true" : "false")
+	, node_has_tag(false)
+	, node_has_anchor(false)
+	, is_reference(false) {
+}
+
+ConfigNode::ConfigNode(const std::map<std::string, ConfigNode *> &mapping)
+	: type(NODE_MAPPING)
+	, mapping(mapping)
+	, node_has_tag(false)
+	, node_has_anchor(false)
+	, is_reference(false) {
+}
+
+ConfigNode::ConfigNode(const std::vector<ConfigNode *> &sequence)
+	: type(NODE_SEQUENCE)
+	, sequence(sequence)
+	, node_has_tag(false)
+	, node_has_anchor(false)
+	, is_reference(false) {
+}
+
+/* End emit constructors */
+
 ConfigNode::ConfigNode(ConfigNode::type_t type_)
 	: type(type_)
 	, node_has_tag(false)
 	, node_has_anchor(false)
 	, is_reference(false)
 {};
+
 
 ConfigNode::~ConfigNode() {
 	if(!is_reference) {
@@ -265,7 +331,7 @@ Config Config::parse(const std::string &context, const char * data, size_t size)
 			case YAML_MAPPING_START_EVENT:
 				node = new ConfigNode(ConfigNode::NODE_MAPPING);
 				node->node_has_anchor = event.data.mapping_start.anchor != nullptr;
-				if(node->has_anchor()) node->node_anchor = std::string((char*)event.data.mapping_start.anchor);
+			if(node->has_anchor()) node->node_anchor = std::string((char*)event.data.mapping_start.anchor);
 
 				node->node_has_tag = event.data.mapping_start.tag != nullptr;
 				if(node->has_tag()) node->node_tag = std::string((char*)event.data.mapping_start.tag);
@@ -519,4 +585,103 @@ void Config::print() const {
 
 const ConfigNode &Config::root() const {
 	return *root_;
+}
+
+void ConfigNode::set_tag(const std::string &tag) {
+	node_tag = tag;
+	node_has_tag = true;
+}
+
+void Config::emit(ConfigNode * root_node, const std::string &filename) {
+	char buffer[256];
+	sprintf(buffer, "%s/%s", srcdir, filename.c_str());
+
+	yaml_emitter_t emitter;
+	yaml_event_t event;
+
+	yaml_emitter_initialize(&emitter);
+
+	FILE * out = fopen(buffer, "wb");
+
+	yaml_emitter_set_output_file(&emitter, out);
+
+	yaml_stream_start_event_initialize(&event, YAML_UTF8_ENCODING);
+	emit_event(&emitter, &event);
+
+
+	yaml_document_start_event_initialize(&event, NULL, NULL, NULL, 1);
+	emit_event(&emitter, &event);
+
+	root_node->emit(&emitter);
+
+	yaml_document_end_event_initialize(&event, 0);
+	emit_event(&emitter, &event);
+
+	yaml_stream_end_event_initialize(&event);
+
+	fclose(out);
+
+	yaml_emitter_delete(&emitter);
+}
+
+void ConfigNode::emit_scalar(yaml_emitter_t * emitter, yaml_event_t * event, const std::string &scalar, yaml_char_t * tag) {
+	yaml_char_t * str = new yaml_char_t[scalar.length()];
+	strncpy((char*)(str), scalar.c_str(), scalar.length());
+	yaml_scalar_event_initialize(event, NULL,
+			tag,
+			str, static_cast<int>(scalar.length()),1,1,
+			YAML_ANY_SCALAR_STYLE);
+	Config::emit_event(emitter, event);
+	delete[] str;
+}
+
+void ConfigNode::emit(yaml_emitter_t * emitter) const {
+	yaml_event_t event;
+	yaml_char_t * tag = NULL;
+	if(node_has_tag) {
+		tag = new yaml_char_t[node_tag.length() + 1];
+		strcpy((char*)(tag), node_tag.c_str());
+	}
+	switch(type) {
+		case NODE_SCALAR:
+			emit_scalar(emitter, &event, scalar, tag);
+			break;
+		case NODE_SEQUENCE:
+			yaml_sequence_start_event_initialize(&event, NULL,
+					tag, 1,
+					YAML_ANY_SEQUENCE_STYLE);
+			Config::emit_event(emitter, &event);
+
+			std::for_each(sequence.begin(), sequence.end(), std::bind(&ConfigNode::emit, std::placeholders::_1, emitter));
+
+			yaml_sequence_end_event_initialize(&event);
+			Config::emit_event(emitter, &event);
+			break;
+		case NODE_MAPPING:
+			yaml_mapping_start_event_initialize(&event, NULL,
+					tag, 1,
+					YAML_ANY_MAPPING_STYLE);
+			Config::emit_event(emitter, &event);
+
+			for(auto entry : mapping) {
+				emit_scalar(emitter, &event, entry.first);
+				entry.second->emit(emitter);
+			}
+
+			yaml_mapping_end_event_initialize(&event);
+			Config::emit_event(emitter, &event);
+			break;
+
+
+	}
+	if(tag != NULL) {
+		delete[] tag;
+	}
+}
+
+void Config::emit_event(yaml_emitter_t * emitter, yaml_event_t * event) {
+	if(!yaml_emitter_emit(emitter, event)) {
+		Logging::fatal("Failed to emit: %s\n", emitter->problem);
+	}
+	//yaml_event_delete(event);
 }

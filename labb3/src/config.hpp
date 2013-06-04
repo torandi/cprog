@@ -6,6 +6,7 @@
 #include <string>
 #include <memory>
 #include <random>
+#include <yaml.h>
 
 class Config;
 
@@ -54,6 +55,21 @@ class ConfigNode {
 
 
 		~ConfigNode();
+
+		/* Methods for creating nodes for emmiting */
+
+		ConfigNode (const std::map<std::string, ConfigNode*> &_mapping);
+		ConfigNode(const std::vector<ConfigNode*> &_sequence);
+		ConfigNode(const std::string &str);
+		ConfigNode(const char * str);
+		ConfigNode(int i);
+		ConfigNode(float f);
+		ConfigNode(bool b);
+
+		void set_tag(const std::string &tag);
+
+		/* End emit methods */
+
 	private:
 		ConfigNode(type_t type_);
 
@@ -99,6 +115,10 @@ class ConfigNode {
 
     static std::default_random_engine generator;
 
+		void emit(yaml_emitter_t * emitter) const;
+
+		static void emit_scalar(yaml_emitter_t * emitter, yaml_event_t * event, const std::string &scalar, yaml_char_t * tag = NULL);
+
 		friend class Config;
 };
 
@@ -108,6 +128,7 @@ class Config {
 	public:
 		static Config from_filename(const std::string &file);
 		static Config from_string(const std::string &str);
+		static void emit(ConfigNode * root_node, const std::string &filename);
 		~Config();
 
 		/*
@@ -129,6 +150,8 @@ class Config {
 		static std::vector<std::string> split(const std::string &str, const std::string &search, bool keep=false);
 	private:
 		static Config parse(const std::string &context, const char * data, size_t size);
+		static void emit_event(yaml_emitter_t * emitter, yaml_event_t * event);
+		friend class ConfigNode;
 };
 
 
