@@ -27,7 +27,10 @@ namespace game {
       Game::out(character->location()) << "When you place the last magic stone on the standing stone the ground opens beyond it and a huge monster appears." << std::endl;
       Character * monster = Character::from_id(m_spawn_enemy, character->location());
       Game::singleton->add_character(monster);
-    }
+			m_spawned_enemy = true;
+    } else {
+			Game::out(character->location()) << "Nothing happens." << std::endl;
+		}
     return false;
 	}
 

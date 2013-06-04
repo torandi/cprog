@@ -103,7 +103,6 @@ namespace game {
 
 	void Character::regain_life(int life) {
 		int l = std::min(life, max_life() - m_life);
-		printf("add: %d, max: %d, cur: %d\n", life, max_life(), m_life);
 		Game::out(location()) << name() << " " << verb("regain") << " " << l << " hp." << std::endl;
 		m_life += l;
 	}

@@ -289,7 +289,7 @@ namespace game {
 				std::cout << character->name() << " refuses to talk to you!" << std::endl;
 			}
 		} else {
-			std::cout << "You would really like to talk to" << d.line << ", but since you can't find him/her/it you simply have to give up." << std::endl;
+			std::cout << "You would really like to talk to " << d.line << ", but since you can't find him/her/it you simply have to give up." << std::endl;
 		}
 	}
 

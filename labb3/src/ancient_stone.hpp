@@ -26,7 +26,7 @@ namespace game {
       };
 
       std::string m_spawn_enemy;
-      bool m_spawned_enemy;
+      mutable bool m_spawned_enemy;
       mutable bool m_placed_stones[3] = {false, };
       mutable int m_stone_count;
 

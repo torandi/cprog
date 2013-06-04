@@ -9,7 +9,7 @@ namespace game {
 
 	bool Darkwood::enter(Character * character) {
 		if(character->have_unique("darkwood_map") != nullptr) {
-			return true;
+			return Area::enter(character);
 		} else {
 			std::cout << "Entering the Darkwoods without a map is a garanteed death sentence. Find a map before you enter." << std::endl;
 			return false;
