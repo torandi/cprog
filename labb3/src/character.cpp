@@ -135,13 +135,15 @@ namespace game {
 	bool Character::go(const std::string &direction) {
 		Area * new_location = m_location->neighbor(direction);
 
+		if(new_location == nullptr) return false;
+
 		if(attribute("action_points") < new_location->movement_cost()) {
 			Game::out(location()) << name() << " " << verb("don't") << " have enough action points to go to " << new_location->name() << std::endl;
 			return false;
 		}
 		if(m_action_points < new_location->movement_cost()) throw "More action points needed.";
 
-		if(new_location != nullptr && m_location->leave(this)) {
+		if(m_location->leave(this)) {
 			do_action(new_location->movement_cost());
 			if(new_location->enter(this)) {
 				m_location = new_location;
