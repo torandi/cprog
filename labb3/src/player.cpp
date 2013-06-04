@@ -43,6 +43,7 @@ namespace game {
 		bool valid_action = false;
 		do {
 			m_block_decision.first = -2;
+			if(m_action_points == 0 || (m_remaining_actions[LEFT_HAND] == 0 && m_remaining_actions[RIGHT_HAND] == 0)) break;
 			while(Game::singleton->run() && m_block_decision.first == -2) Input::read(Input::DEFEND, buffer, (void*)&m_block_decision);
 			if(m_block_decision.first == -1) valid_action = true;
 			else if(m_remaining_actions[m_block_decision.first] == 0) {

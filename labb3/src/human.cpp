@@ -331,6 +331,7 @@ namespace game {
             if(m_equipments[slot] == nullptr) {
               Game::out(location()) << genitive() << " " << weapon_name <<
                 " have taken too much damage and falls apart." << std::endl;
+							delete weapon;
             }
           } else {
             Game::out(location()) << ". " << weapon_name << " absorbs all damage." << std::endl;
@@ -358,7 +359,6 @@ namespace game {
         if(weapon->effect("durability") <= 0) {
           m_inventory_weight -= weapon->weight();
           m_equipments[slot] = nullptr;
-          delete weapon;
         }
       }
       return dmg;
@@ -393,6 +393,7 @@ namespace game {
           if(m_equipments[slot] == nullptr) {
             Game::out(location()) << genitive() << " " << weapon->name() <<
               " have taken too much damage and falls apart." << std::endl;
+						delete weapon;
           }
         } else {
           Game::out(location()) << weapon->name() << " absorbs all damage." << std::endl;
