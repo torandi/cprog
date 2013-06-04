@@ -16,7 +16,7 @@
 #include <random>
 
 namespace game {
-	std::default_random_engine Game::generator(std::chrono::system_clock::now().time_since_epoch().count());
+	std::default_random_engine Game::generator(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
 	std::vector<std::uniform_int_distribution<int> > Game::dices;
 
 	Game * Game::singleton = nullptr;
