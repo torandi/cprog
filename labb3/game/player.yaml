@@ -1,18 +1,11 @@
 faction: civilian
-#location: hut
-location: dragons_chamber
+location: hut
 attributes:
-  #action_points: 5
-  action_points: 500
-  #strength: !rnd 1,3
-  strength: 50000
+  action_points: 5
+  strength: !rnd 1,3
   initiative: !rnd 1,3
-  #life: !rnd 20,25
-  life: 5000
+  life: !rnd 20,25
 equipment:
-  - longsword
-  - plate_armor
-  - large_shield
   - !equipment
     type: backpack
     name: Tiny Backpack
@@ -21,6 +14,3 @@ equipment:
     weight: 1
     effects:
       backpack_volume: 10
-inventory:
-  items:
-    - marine_magic_stone
